@@ -1,0 +1,82 @@
+<mvc:View
+    controllerName="sap.ui.demo.wt.controller.TicketList"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc">
+    
+    <Toolbar>
+        <SearchField
+            liveChange="onFilterTickets"/>
+    </Toolbar>
+    
+    <ScrollContainer vertical="true" height="100%">
+        <layoutData>
+            <FlexItemData growFactor="1"/>
+        </layoutData>
+        <Table id="ticketsTable"
+            mode="SingleSelectMaster"
+            items="{ticket>/d/results}"
+            growing="true"
+            growingThreshold="10"
+            selectionChange="onTicketListItemPress"
+            noDataText="No Open Tickets">
+            <!--  Column definitions and table header labels -->
+            <columns>
+                <Column width="6em">
+                    <Text text="Ticket No."/>
+                </Column>
+                <Column minScreenWidth="400px">
+                    <Text text="Title"/>
+                </Column>
+                <Column minScreenWidth="300px">
+                    <Text text="Functional Area"/>
+                </Column>
+                <Column minScreenWidth="1200px">
+                    <Text text="Description"/>
+                </Column>
+                <Column minScreenWidth="300px">
+                    <Text text="Creator"/>
+                </Column>
+                <Column minScreenWidth="300px">
+                    <Text text="Assignee"/>
+                </Column>
+                <Column minScreenWidth="150px">
+                    <Text text="Priority"/>
+                </Column>
+                <Column minScreenWidth="150px">
+                    <Text text="Status"/>
+                </Column>
+                <Column minScreenWidth="600px">
+                    <Text text="Created"/>
+                </Column>
+                <Column minScreenWidth="600px">
+                    <Text text="Started"/>
+                </Column>
+                <Column minScreenWidth="600px">
+                    <Text text="Closed"/>
+                </Column>
+            </columns>
+            
+            <!-- Define table field value relationships -->
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <ObjectIdentifier title="{ticket>ticketId}"/>
+                        <ObjectIdentifier title="{ticket>ticketTitle}"/>
+                        <ObjectIdentifier text="{ticket>description_functionalArea}"/>
+                        <ObjectIdentifier text="{ticket>ticketDescription}"/>
+                        <ObjectIdentifier text="{ticket>firstName_creator} {ticket>lastName_creator}"/>
+                        <ObjectIdentifier text="{ticket>firstName_assignee} {ticket>lastName_assignee}"/>
+                        <ObjectIdentifier title="{ticket>description_priority}"/>
+                        <ObjectIdentifier title="{ticket>description_status}"/>
+                        <ObjectNumber number="{ticket>dateCreated}"/>
+                        <ObjectNumber number="{ticket>dateStarted}"/>
+                        <ObjectIdentifier text="{ticket>dateClosed}"
+                            type="sap.ui.model.type.Date"
+                            displayFormat="medium"
+                        />
+                    </cells>
+                </ColumnListItem>
+            </items>    
+        </Table>
+    </ScrollContainer>
+</mvc:View>

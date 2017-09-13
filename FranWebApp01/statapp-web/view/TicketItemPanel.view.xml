@@ -1,0 +1,38 @@
+<mvc:View
+    controllerName="sap.ui.demo.wt.controller.TicketItemPanel"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc">
+    <Panel
+        headerText="{i18n>ticketItemPanelTitle}"
+        class="sapUiResponsiveMargin"
+        width="auto" >
+        <content>
+            <!-- STUFF THAT GETS DISPLAYED: -->
+            
+            <!-- <Text text="Hello from App.view.xml"/> -->
+            <!-- BUTTON WITH DIALOG -->
+            <Button
+                text="{i18n>openDialogButtonText}"
+                press="onOpenDialog"
+                class="sapUiSmallMarginEnd"/>
+            
+            <!-- BUTTON -->
+            <Button
+                text="{i18n>onShowTestButton}"
+                press="onShowTestResult"
+                class="sapUiSmallMarginEnd"/>
+                
+            <!-- INPUT TEXT FIELD -->
+            <Input
+                value="{/ticketItem/ticketTitle}"
+                description="Content of input field = {/ticketItem/ticketTitle}"
+                valueLiveUpdat4e="true"
+                width="60%"/>
+            
+            <!-- TEXT DISPLAY FIELD -->
+            <Text
+                text="Ticket is: {/ticketItem/ticketTitle}"
+                class="sapUiSmallMargin"/>
+        </content>
+    </Panel>
+</mvc:View>
