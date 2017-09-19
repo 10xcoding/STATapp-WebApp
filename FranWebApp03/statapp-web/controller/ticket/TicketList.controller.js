@@ -33,20 +33,12 @@ sap.ui.define([
 		    oBinding.filter(aFilters, "Application");
 		},
 		onTicketListItemPress : function(oEvent) {
-            // var oSelectedItem = oEvent.getParameter("listItem").getId();
-            // var bindingContext = oSelectedItem.getBindingContext();
-            // var ticketIdFromTable = bindingContext.getProperty('ticketId');
-			this.getRouter().navTo("ticketDetail",{
-				// ticketId : oSelectedItem
-				// ticketId : ticketIdFromTable
-				ticketId : "STT00000111"
+			var oItem, oCtx;
+			oItem = oEvent.getSource();
+			oCtx = oItem.getBindingContext();
+			this.getRouter().navTo("ticket",{
+				ticketId : oCtx.getProperty("ticketId")
 			});
 		}
-		
-		/*
-		
-		
-		*/
-		
 	});
 });

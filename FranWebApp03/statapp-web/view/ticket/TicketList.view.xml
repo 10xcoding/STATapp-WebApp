@@ -13,7 +13,7 @@
                 liveChange="onFilterTickets"/>
         </Toolbar>
         
-        <ScrollContainer vertical="true" height="100%">
+        <ScrollContainer vertical="true" getParent="true">
             <layoutData>
                 <FlexItemData growFactor="1"/>
             </layoutData>
@@ -22,71 +22,49 @@
                 items="{ticket>/d/results/}"
                 growing="true"
                 growingThreshold="10"
+                type="navigation"
                 selectionChange="onTicketListItemPress"
                 noDataText="No Open Tickets">
-            <!--  Column definitions and table header labels -->
-            <columns>
-                <Column width="6em">
-                    <Text text="Ticket No."/>
-                </Column>
-                <Column minScreenWidth="400px">
-                    <Text text="Title"/>
-                </Column>
-                <Column minScreenWidth="300px">
-                    <Text text="Functional Area"/>
-                </Column>
-                <Column minScreenWidth="1200px">
-                    <Text text="Description"/>
-                </Column>
-                <Column minScreenWidth="300px">
-                    <Text text="Creator"/>
-                </Column>
-                <Column minScreenWidth="300px">
-                    <Text text="Assignee"/>
-                </Column>
-                <Column minScreenWidth="150px">
-                    <Text text="Priority"/>
-                </Column>
-                <Column minScreenWidth="150px">
-                    <Text text="Status"/>
-                </Column>
-                <Column minScreenWidth="600px">
-                    <Text text="Created"/>
-                </Column>
-                <Column minScreenWidth="600px">
-                    <Text text="Started"/>
-                </Column>
-                <Column minScreenWidth="600px">
-                    <Text text="Closed"/>
-                </Column>
-            </columns>
+                <!--  Column definitions and table header labels -->
+                <columns>
+                    <Column width="15%">
+                        <Text text="Title"/>
+                    </Column>
+                    <Column width="14%">
+                        <Text text="Functional Area"/>
+                    </Column>
+                    <Column width="23%">
+                        <Text text="Description"/>
+                    </Column>
+                    <Column width="14%">
+                        <Text text="Creator"/>
+                    </Column>
+                    <Column width="14%">
+                        <Text text="Assignee"/>
+                    </Column>
+                    <Column width="8%">
+                        <Text text="Priority"/>
+                    </Column>
+                    <Column width="12%">
+                        <Text text="Status"/>
+                    </Column>
+                </columns>
             
-            <!-- Define table field value relationships -->
-            <items>
-                <ColumnListItem>
-                    <cells>
-                        <ObjectIdentifier title="{ticket>ticketId}"/>
-                        <ObjectIdentifier title="{ticket>ticketTitle}"/>
-                        <ObjectIdentifier text="{ticket>description_functionalArea}"/>
-                        <ObjectIdentifier text="{ticket>ticketDescription}"/>
-                        <ObjectIdentifier text="{ticket>firstName_creator} {ticket>lastName_creator}"/>
-                        <ObjectIdentifier text="{ticket>firstName_assignee} {ticket>lastName_assignee}"/>
-                        <ObjectIdentifier title="{ticket>description_priority}"/>
-                        <ObjectIdentifier title="{ticket>description_status}"/>
-                        <ObjectNumber number="{
-                            path: 'dateCreated',
-                            type: 'sap.ui.model.type.Date',
-                            formatOptions: { style: 'medium' }
-                        }"/>
-                        <ObjectNumber number="{ticket>dateStarted}"/>
-                        <ObjectIdentifier text="{ticket>dateClosed}"
-                            type="sap.ui.model.type.Date"
-                            displayFormat="medium"
-                        />
-                    </cells>
-                </ColumnListItem>
-            </items>    
-        </Table>
+                <!-- Define table field value relationships -->
+                <items> 
+                    <ColumnListItem>
+                        <cells height="32">
+                            <ObjectIdentifier text="{ticket>ticketTitle}"/>
+                            <ObjectIdentifier text="{ticket>description_functionalArea}"/>
+                            <ObjectIdentifier text="{ticket>ticketDescription}"/>
+                            <ObjectIdentifier text="{ticket>firstName_creator} {ticket>lastName_creator}"/>
+                            <ObjectIdentifier text="{ticket>firstName_assignee} {ticket>lastName_assignee}"/>
+                            <ObjectIdentifier title="{ticket>description_priority}"/>
+                            <ObjectIdentifier title="{ticket>description_status}"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>    
+            </Table>
         </ScrollContainer>
     </Page>
 </mvc:View>

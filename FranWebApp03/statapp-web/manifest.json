@@ -20,7 +20,7 @@
             "phone": true
         },
         "supportedThemes": [
-            "sap_bluecrystal"
+            "sap_belize"
         ]
     },
     "sap.ui5": {
@@ -66,8 +66,8 @@
 				"target": "tickets"
 			}, {
 				"pattern": "tickets/{ticketId}",
-				"name": "ticketDetail",
-				"target": "ticketDetail"
+				"name": "ticket",
+				"target": "ticket"
 			}],
             "targets": {
                 "home": {
@@ -84,7 +84,7 @@
 					"viewLevel" : 2
 				},
 				"ticketDetail": {
-					"viewName": "ticket.TicketDetail",
+					"viewName": "ticket.Ticket",
 					"viewLevel" : 3
 				}
             }
