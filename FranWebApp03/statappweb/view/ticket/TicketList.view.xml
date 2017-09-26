@@ -1,0 +1,70 @@
+<mvc:View
+    controllerName="sap.ui.demo.nav.controller.ticket.TicketList"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc">
+    
+    <Page id="ticketListPage" title="{i18n>TicketList}"
+		showNavButton="true"
+		navButtonPress="onNavBack"
+		class="sapUiResponsiveContentPadding">
+		
+        <Toolbar>
+            <SearchField
+                liveChange="onFilterTickets"/>
+        </Toolbar>
+        
+        <ScrollContainer vertical="true" getParent="true">
+            <layoutData>
+                <FlexItemData growFactor="1"/>
+            </layoutData>
+            <Table id="ticketsTable"
+                mode="SingleSelectMaster"
+                items="{ticket>/Tickets}"
+                growing="true"
+                growingThreshold="10"
+                type="navigation"
+                selectionChange="onTicketListItemPress"
+                noDataText="No Open Tickets">
+                <!--  Column definitions and table header labels -->
+                <columns>
+                    <Column width="15%">
+                        <Text text="Title"/>
+                    </Column>
+                    <Column width="14%">
+                        <Text text="Functional Area"/>
+                    </Column>
+                    <Column width="23%">
+                        <Text text="Description"/>
+                    </Column>
+                    <Column width="14%">
+                        <Text text="Creator"/>
+                    </Column>
+                    <Column width="14%">
+                        <Text text="Assignee"/>
+                    </Column>
+                    <Column width="8%">
+                        <Text text="Priority"/>
+                    </Column>
+                    <Column width="12%">
+                        <Text text="Status"/>
+                    </Column>
+                </columns>
+            
+                <!-- Define table field value relationships -->
+                <items> 
+                    <ColumnListItem>
+                        <cells height="32">
+                            <ObjectIdentifier text="{ticket>ticketTitle}"/>
+                            <ObjectIdentifier text="{ticket>description_functionalArea}"/>
+                            <ObjectIdentifier text="{ticket>ticketDescription}"/>
+                            <ObjectIdentifier text="{ticket>firstName_creator} {ticket>lastName_creator}"/>
+                            <ObjectIdentifier text="{ticket>firstName_assignee} {ticket>lastName_assignee}"/>
+                            <ObjectIdentifier title="{ticket>description_priority}"/>
+                            <ObjectIdentifier title="{ticket>description_status}"/>
+                        </cells>
+                    </ColumnListItem>
+                </items>    
+            </Table>
+        </ScrollContainer>
+    </Page>
+</mvc:View>
