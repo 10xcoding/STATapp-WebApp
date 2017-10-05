@@ -9,38 +9,38 @@ sap.ui.define([
         formatter: formatter,
 		onInit : function () {
 		},
+		onAfterRendering : function() {
+		},
 		onFilterTickets : function(oEvent) {
 		    //build filter array
 		    var aFilters = [];
 		    var sQuery = oEvent.getSource().getValue();
 		    if (sQuery && sQuery.length > 0) {
 		        var filters = [new sap.ui.model.Filter("ticketTitle", sap.ui.model.FilterOperator.Contains, sQuery),
-                      new sap.ui.model.Filter("ticketId", sap.ui.model.FilterOperator.Contains, sQuery),
-                      new sap.ui.model.Filter("firstName_creator", sap.ui.model.FilterOperator.Contains, sQuery),
-                      new sap.ui.model.Filter("lastName_creator", sap.ui.model.FilterOperator.Contains, sQuery),
-                      new sap.ui.model.Filter("firstName_assignee", sap.ui.model.FilterOperator.Contains, sQuery),
-                      new sap.ui.model.Filter("lastName_assignee", sap.ui.model.FilterOperator.Contains, sQuery),
-                      new sap.ui.model.Filter("ticketDesciption",sap.ui.model.FilterOperator.Contains, sQuery)
-                      ]; 
-                var oFilter = new sap.ui.model.Filter(filters, false);
-                aFilters.push(oFilter);
-                //aFilters.push(new sap.ui.model.Filter("openShipmentFlg", sap.ui.model.FilterOperator.EQ, 'X'));
-                //^^for add'l filter
+                    new sap.ui.model.Filter("ticketId", sap.ui.model.FilterOperator.Contains, sQuery),
+                    new sap.ui.model.Filter("firstName_creator", sap.ui.model.FilterOperator.Contains, sQuery),
+                    new sap.ui.model.Filter("lastName_creator", sap.ui.model.FilterOperator.Contains, sQuery),
+                    new sap.ui.model.Filter("firstName_assignee", sap.ui.model.FilterOperator.Contains, sQuery),
+                    new sap.ui.model.Filter("lastName_assignee", sap.ui.model.FilterOperator.Contains, sQuery),
+                    new sap.ui.model.Filter("ticketDescription",sap.ui.model.FilterOperator.Contains, sQuery)
+                ]; 
+                var orFilter = new sap.ui.model.Filter(filters, false);
+                aFilters.push(orFilter);
             }
-		    //filter binding
-		    var oList = this.getView().byId("ticketsTable");
-		    var oBinding = oList.getBinding("items");
-		    oBinding.filter(aFilters, "Application");
+            if (sQuery.length === 0) {
+                aFilters.push(new sap.ui.model.Filter("description_status", sap.ui.model.FilterOperator.NE, 'Closed'));
+            }
+            
+		    //bind filter
+		    var ticketTable = this.getView().byId("ticketsTable");
+		    var tableItems = ticketTable.getBinding("items");
+		    tableItems.filter(aFilters, "Application");
 		},
 		onTicketListItemPress : function(oEvent){
-			var oItem;//, oCtx; //per tutorial
-			oItem = oEvent.getSource();
-// 			oCtx = oItem.getBindingContext(); //per tutorial
-			var ticketLink = oItem.getSelectedContextPaths()[0];
+			var selectedPath = oEvent.getSource()._aSelectedPaths[0]; // selectedPath = "/Tickets('STT0001111')"
+			var ticketId = selectedPath.slice(10,20);
 			this.getRouter().navTo("ticket",{
-				// ticketId : oCtx.getProperty("ticketId") //per routing/nav tutorial
-				ticketId : ticketLink.slice(10,20)
-				// ticketId : "STT0001114" //hard-code
+				ticketId : ticketId
 			});
 		}
 	});

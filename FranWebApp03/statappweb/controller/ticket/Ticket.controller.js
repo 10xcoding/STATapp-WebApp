@@ -14,6 +14,8 @@ sap.ui.define([
 
 			oView.bindElement({
 				path : "/Tickets('" + oArgs.ticketId + "')",
+				// path : "/Tickets('STT0001111')"
+				// path : ticketPath,
 				events : {
 					change: this._onBindingChange.bind(this),
 					dataRequested: function (oEvent) {

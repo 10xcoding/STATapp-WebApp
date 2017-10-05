@@ -7,19 +7,26 @@
 		showNavButton="true"
 		navButtonPress="onNavBack"
 		class="sapUiResponsiveContentPadding">
-		
-        <Toolbar>
-            <SearchField
-                liveChange="onFilterTickets"/>
-        </Toolbar>
-        
+		<subHeader>
+            <Toolbar>
+                <SearchField
+                    liveChange="onFilterTickets"/>
+            </Toolbar>
+        </subHeader>
         <ScrollContainer vertical="true" getParent="true">
             <layoutData>
                 <FlexItemData growFactor="1"/>
             </layoutData>
             <Table id="ticketsTable"
                 mode="SingleSelectMaster"
-                items="{ticket>/Tickets}"
+                items="{
+                    path: '/Tickets',
+                    filters: [{
+                        path: 'description_status',
+                        operator: 'NE',
+                        value1: 'Closed'
+                    }]
+                }"
                 growing="true"
                 growingThreshold="10"
                 type="navigation"
@@ -52,18 +59,21 @@
             
                 <!-- Define table field value relationships -->
                 <items> 
-                    <ColumnListItem>
-                        <cells height="32">
-                            <ObjectIdentifier text="{ticket>ticketTitle}"/>
-                            <ObjectIdentifier text="{ticket>description_functionalArea}"/>
-                            <ObjectIdentifier text="{ticket>ticketDescription}"/>
-                            <ObjectIdentifier text="{ticket>firstName_creator} {ticket>lastName_creator}"/>
-                            <ObjectIdentifier text="{ticket>firstName_assignee} {ticket>lastName_assignee}"/>
-                            <ObjectIdentifier title="{ticket>description_priority}"/>
-                            <ObjectIdentifier title="{ticket>description_status}"/>
+                    <ColumnListItem type="sap.m.ListType.Navigation">
+                        <cells>
+                            <ObjectIdentifier text="{ticketTitle}"/>
+                            <ObjectIdentifier text="{description_functionalArea}"/>
+                            <ObjectIdentifier text="{ticketDescription}"/>
+                            <ObjectIdentifier text="{firstName_creator} {lastName_creator}"/>
+                            <ObjectIdentifier text="{firstName_assignee} {lastName_assignee}"/>
+                            <ObjectNumber
+                                number="{description_priority}"
+        	                    property="{= ${description_priority} === 'High' ? 'error' : 'None' }"
+                            />
+                            <ObjectIdentifier title="{description_status}"/>
                         </cells>
                     </ColumnListItem>
-                </items>    
+                </items>
             </Table>
         </ScrollContainer>
     </Page>

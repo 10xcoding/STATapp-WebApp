@@ -39,9 +39,9 @@
                     "bundleName": "sap.ui.demo.nav.i18n.i18n"
                 }
             },
-            "ticket": {
-                "type": "sap.ui.model.json.JSONModel",
-                "uri": "https://stats0017130098trial.hanatrial.ondemand.com/dev/dev01/statapp/services/ticket.xsodata/Tickets/?$format=json"
+            "": {
+                "type": "sap.ui.model.odata.ODataModel",
+                "uri": "https://stats0017130098trial.hanatrial.ondemand.com/dev/dev01/statapp/services/ticket.xsodata"
             }
         },
         "routing": {

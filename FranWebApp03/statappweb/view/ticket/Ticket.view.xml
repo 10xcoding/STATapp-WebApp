@@ -1,0 +1,75 @@
+<mvc:View
+	controllerName="sap.ui.demo.nav.controller.ticket.Ticket"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.ui.layout.form"
+	busyIndicatorDelay="0">
+	<Page
+		id="ticketPage"
+		title="{i18n>TicketDetailsOf} {ticketId}"
+		showNavButton="true"
+		navButtonPress="onNavBack"
+		class="sapUiResponsiveContentPadding">
+		<content>
+			<Panel
+				id="ticketPanel"
+				width="auto"
+				class="sapUiResponsiveMargin sapUiNoContentPadding">
+				<headerToolbar>
+					<Toolbar>
+						<Title text="{i18n>TicketDetailsToolbar}" level="H2"/>
+						<ToolbarSpacer />
+					</Toolbar>
+				</headerToolbar>
+				<content>
+					<f:SimpleForm
+						minWidth="1024"
+						editable="false"
+						layout="ResponsiveGridLayout"
+						labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
+						<f:content>
+							<Label text="{i18n>TicketTitle}" />
+							<Text text="{ticketTitle}" />
+							<Label text="{i18n>TicketDescription}" />
+							<Text text="{ticketDescription}" />
+							<Label text="{i18n>FunctionalArea}" />
+							<Text text="{description_functionalArea}" />
+							<Label text="{i18n>Creator}" />
+							<Text text="{firstName_creator} {lastName_creator}" />
+							<Label text="{i18n>Assignee}" />
+							<Text text="{firstName_assignee} {lastName_assignee}" />
+							<Label text="{i18n>DateCreated}" />
+							<Text text="{
+                                path: 'dateCreated',
+                                type: 'sap.ui.model.type.Date',
+                                formatOptions: {
+                                    style: 'medium'
+                                }
+                            }" />
+							<Label text="{i18n>DateStarted}" />
+							<Text text="{
+                                path: 'dateStarted',
+                                type: 'sap.ui.model.type.Date',
+                                formatOptions: {
+                                    style: 'medium'
+                                }
+                            }" />
+							<Label text="{i18n>DateClosed}" />
+							<Text text="{
+                                path: 'dateClosed',
+                                type: 'sap.ui.model.type.Date',
+                                formatOptions: {
+                                    style: 'medium'
+                                }
+                            }" />
+							<Label text="{i18n>TicketStatus}" />
+							<Text text="{description_status}" />
+							<Label text="{i18n>TicketPriority}" />
+							<Text text="{description_priority}" />
+						</f:content>
+					</f:SimpleForm>
+				</content>
+			</Panel>
+		</content>
+	</Page>
+</mvc:View>
