@@ -17,8 +17,7 @@
             <layoutData>
                 <FlexItemData growFactor="1"/>
             </layoutData>
-            <Table id="ticketsTable"
-                mode="SingleSelectMaster"
+            <List id="ticketsList"
                 items="{
                     path: '/Tickets',
                     filters: [{
@@ -26,55 +25,27 @@
                         operator: 'NE',
                         value1: 'Closed'
                     }]
-                }"
-                growing="true"
-                growingThreshold="10"
-                type="navigation"
-                selectionChange="onTicketListItemPress"
-                noDataText="No Open Tickets">
-                <!--  Column definitions and table header labels -->
-                <columns>
-                    <Column width="15%">
-                        <Text text="Title"/>
-                    </Column>
-                    <Column width="14%">
-                        <Text text="Functional Area"/>
-                    </Column>
-                    <Column width="23%">
-                        <Text text="Description"/>
-                    </Column>
-                    <Column width="14%">
-                        <Text text="Creator"/>
-                    </Column>
-                    <Column width="14%">
-                        <Text text="Assignee"/>
-                    </Column>
-                    <Column width="8%">
-                        <Text text="Priority"/>
-                    </Column>
-                    <Column width="12%">
-                        <Text text="Status"/>
-                    </Column>
-                </columns>
-            
-                <!-- Define table field value relationships -->
+                }">
                 <items> 
-                    <ColumnListItem type="sap.m.ListType.Navigation">
-                        <cells>
-                            <ObjectIdentifier text="{ticketTitle}"/>
-                            <ObjectIdentifier text="{description_functionalArea}"/>
-                            <ObjectIdentifier text="{ticketDescription}"/>
-                            <ObjectIdentifier text="{firstName_creator} {lastName_creator}"/>
-                            <ObjectIdentifier text="{firstName_assignee} {lastName_assignee}"/>
-                            <ObjectNumber
-                                number="{description_priority}"
-        	                    property="{= ${description_priority} === 'High' ? 'error' : 'None' }"
+                    <ObjectListItem
+                        title="{ticketTitle} - {description_functionalArea}"
+                        type="Active"
+                        press="onTicketListItemPress"
+                        number="{
+                            parts:[{path:'description_priority'}]
+                        }">
+                        <firstStatus>
+                            <ObjectStatus
+                                text="{description_status}"
                             />
-                            <ObjectIdentifier title="{description_status}"/>
-                        </cells>
-                    </ColumnListItem>
+                        </firstStatus>
+                        <attributes>
+            				<ObjectAttribute text="Ticket creator:  {firstName_creator} {lastName_creator}" />
+            				<ObjectAttribute text="Ticket assignee: {firstName_assignee} {lastName_assignee}" />
+                        </attributes>
+                    </ObjectListItem>
                 </items>
-            </Table>
+            </List>
         </ScrollContainer>
     </Page>
 </mvc:View>

@@ -32,12 +32,12 @@ sap.ui.define([
             }
             
 		    //bind filter
-		    var ticketTable = this.getView().byId("ticketsTable");
-		    var tableItems = ticketTable.getBinding("items");
+		    var ticketList = this.getView().byId("ticketsList");
+		    var tableItems = ticketList.getBinding("items");
 		    tableItems.filter(aFilters, "Application");
 		},
 		onTicketListItemPress : function(oEvent){
-			var selectedPath = oEvent.getSource()._aSelectedPaths[0]; // selectedPath = "/Tickets('STT0001111')"
+			var selectedPath = oEvent.getSource().getBindingContext().sPath; // selectedPath = "/Tickets('STT0001111')"
 			var ticketId = selectedPath.slice(10,20);
 			this.getRouter().navTo("ticket",{
 				ticketId : ticketId
