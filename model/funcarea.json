@@ -1,9 +1,0 @@
-{
-    "mRoot" : [ {
-        "dkey" : "1",
-        "dtext" : "Male"
-    }, {
-        "dkey" : "2",
-        "dtext" : "Female"
-    } ]
-}
