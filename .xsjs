@@ -1,1 +1,1 @@
-var conn = $.db.getConnection("dev.STATWEBAPP.FranWebApp03.statappweb::Anonymous_Access");
+var conn = $.db.getConnection("dev.STATWEBAPP::Anonymous_Access");
