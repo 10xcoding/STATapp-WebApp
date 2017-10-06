@@ -1,1 +1,0 @@
-##Web app utilizing a table component of SAP UI5
