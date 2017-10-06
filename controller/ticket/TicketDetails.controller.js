@@ -2,7 +2,7 @@ sap.ui.define([
 	"sap/ui/demo/nav/controller/BaseController"
 ], function (BaseController) {
 	"use strict";
-	return BaseController.extend("sap.ui.demo.nav.controller.ticket.Ticket", {
+	return BaseController.extend("sap.ui.demo.nav.controller.ticket.TicketDetails", {
 		onInit: function () {
 			var oRouter = this.getRouter();
 			oRouter.getRoute("ticket").attachMatched(this._onRouteMatched, this);

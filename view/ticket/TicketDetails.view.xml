@@ -1,11 +1,11 @@
 <mvc:View
-	controllerName="sap.ui.demo.nav.controller.ticket.Ticket"
+	controllerName="sap.ui.demo.nav.controller.ticket.TicketDetails"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:f="sap.ui.layout.form"
 	busyIndicatorDelay="0">
 	<Page
-		id="ticketPage"
+		id="ticketDetailsPage"
 		title="{i18n>TicketDetailsOf} {ticketId}"
 		showNavButton="true"
 		navButtonPress="onNavBack"
@@ -19,7 +19,7 @@
 					<Toolbar>
 						<Title text="{i18n>TicketDetailsToolbar}" level="H2"/>
 						<ToolbarSpacer />
-						<Button 
+						<Button
 						    text="Edit"
 						    icon="sap-icon://edit"
 						    press="onClickEdit"

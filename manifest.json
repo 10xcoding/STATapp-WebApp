@@ -149,7 +149,7 @@
 			}, {
 				"pattern": "tickets/{ticketId}",
 				"name": "ticket",
-				"target": "ticket"
+				"target": "ticketDetails"
 			}, {
 			    "pattern": "tickets/{ticketId}/edit",
 				"name": "ticketEdit",
@@ -169,8 +169,8 @@
 					"viewName": "TicketList",
 					"viewLevel" : 2
 				},
-				"ticket": {
-					"viewName": "ticket.Ticket",
+				"ticketDetails": {
+					"viewName": "ticket.TicketDetails",
 					"viewLevel" : 3
 				},
 				"ticketEdit": {
