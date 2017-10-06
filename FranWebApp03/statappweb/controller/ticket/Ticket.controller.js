@@ -14,8 +14,6 @@ sap.ui.define([
 
 			oView.bindElement({
 				path : "/Tickets('" + oArgs.ticketId + "')",
-				// path : "/Tickets('STT0001111')"
-				// path : ticketPath,
 				events : {
 					change: this._onBindingChange.bind(this),
 					dataRequested: function (oEvent) {
@@ -32,6 +30,13 @@ sap.ui.define([
 			if (!this.getView().getBindingContext()) {
 				this.getRouter().getTargets().display("notFound");
 			}
+		},
+		onClickEdit : function (oEvent) {
+		    var selectedPath = oEvent.getSource().getBindingContext().sPath; // selectedPath = "/Tickets('STT0001111')"
+			var ticketId = selectedPath.slice(10,20);
+			this.getRouter().navTo("ticketEdit",{
+				ticketId : ticketId
+			});
 		}
 	});
 });

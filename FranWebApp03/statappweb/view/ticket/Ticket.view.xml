@@ -19,6 +19,11 @@
 					<Toolbar>
 						<Title text="{i18n>TicketDetailsToolbar}" level="H2"/>
 						<ToolbarSpacer />
+						<Button 
+						    text="Edit"
+						    icon="sap-icon://edit"
+						    press="onClickEdit"
+						/>
 					</Toolbar>
 				</headerToolbar>
 				<content>

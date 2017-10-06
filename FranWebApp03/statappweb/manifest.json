@@ -9,6 +9,48 @@
         "description": "{{appDescription}}",
         "applicationVersion": {
             "version": "1.0.03"
+        },
+        "dataSources" : {
+            "ticketService" : {
+                "uri" : "https://stats0017130098trial.hanatrial.ondemand.com/dev/dev01/statapp/services/ticket.xsodata",
+                "type" : "OData",
+                "settings" : {
+                    "odataVersion" : "2.0",
+                    "localUri" : "localService/metadata.xml"
+                }
+            },
+            "userService" : {
+                "uri" : "https://stats0017130098trial.hanatrial.ondemand.com/dev/dev01/statapp/services/user.xsodata",
+                "type" : "OData",
+                "settings" : {
+                    "odataVersion" : "2.0",
+                    "localUri" : "localService/metadata.xml"
+                }
+            },
+            "funcAreaService" : {
+                "uri" : "https://stats0017130098trial.hanatrial.ondemand.com/dev/dev01/statapp/services/functionalArea.xsodata",
+                "type" : "OData",
+                "settings" : {
+                    "odataVersion" : "2.0",
+                    "localUri" : "localService/metadata.xml"
+                }
+            },
+            "ticketPriorityService" : {
+                "uri" : "https://stats0017130098trial.hanatrial.ondemand.com/dev/dev01/statapp/services/ticketPriority.xsodata",
+                "type" : "OData",
+                "settings" : {
+                    "odataVersion" : "2.0",
+                    "localUri" : "localService/metadata.xml"
+                }
+            },
+            "ticketStatusService" : {
+                "uri" : "https://stats0017130098trial.hanatrial.ondemand.com/dev/dev01/statapp/services/ticketStatus.xsodata",
+                "type" : "OData",
+                "settings" : {
+                    "odataVersion" : "2.0",
+                    "localUri" : "localService/metadata.xml"
+                }
+            }
         }
     },
     "sap.ui": {
@@ -39,9 +81,49 @@
                     "bundleName": "sap.ui.demo.nav.i18n.i18n"
                 }
             },
-            "": {
-                "type": "sap.ui.model.odata.ODataModel",
-                "uri": "https://stats0017130098trial.hanatrial.ondemand.com/dev/dev01/statapp/services/ticket.xsodata"
+            "" : {
+                "dataSource" : "ticketService",
+                "preload": true
+            },
+            "UserModel" : {
+                "type" : "sap.ui.model.odata.v2.ODataModel",
+                "settings" : {
+                    "defaultOperationMode" : "Server",
+                    "defaultBindingMode" : "OneTime",
+                    "defaultCountMode" : "Request"
+                },
+                "dataSource" : "userService",
+                "preload" : true
+            },
+            "FuncAreaModel" : {
+                "type" : "sap.ui.model.odata.v2.ODataModel",
+                "settings" : {
+                    "defaultOperationMode" : "Server",
+                    "defaultBindingMode" : "OneTime",
+                    "defaultCountMode" : "Request"
+                },
+                "dataSource" : "funcAreaService",
+                "preload" : true
+            },
+            "TicketPriorityModel" : {
+                "type" : "sap.ui.model.odata.v2.ODataModel",
+                "settings" : {
+                    "defaultOperationMode" : "Server",
+                    "defaultBindingMode" : "OneTime",
+                    "defaultCountMode" : "Request"
+                },
+                "dataSource" : "ticketPriorityService",
+                "preload" : true
+            },
+            "ticketStatusModel" : {
+                "type" : "sap.ui.model.odata.v2.ODataModel",
+                "settings" : {
+                    "defaultOperationMode" : "Server",
+                    "defaultBindingMode" : "OneTime",
+                    "defaultCountMode" : "Request"
+                },
+                "dataSource" : "ticketStatusService",
+                "preload" : true
             }
         },
         "routing": {
@@ -68,6 +150,10 @@
 				"pattern": "tickets/{ticketId}",
 				"name": "ticket",
 				"target": "ticket"
+			}, {
+			    "pattern": "tickets/{ticketId}/edit",
+				"name": "ticketEdit",
+				"target": "ticketEdit"
 			}],
             "targets": {
                 "home": {
@@ -86,6 +172,9 @@
 				"ticket": {
 					"viewName": "ticket.Ticket",
 					"viewLevel" : 3
+				},
+				"ticketEdit": {
+					"viewName": "ticket.TicketEdit"
 				}
             }
         }
