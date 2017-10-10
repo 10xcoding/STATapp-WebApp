@@ -42,6 +42,9 @@ sap.ui.define([
 			this.getRouter().navTo("ticket",{
 				ticketId : ticketId
 			});
+		},
+		onNavToNewTicket : function(){
+			this.getRouter().navTo("newTicket");
 		}
 	});
 });

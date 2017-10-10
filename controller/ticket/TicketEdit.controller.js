@@ -7,19 +7,6 @@ sap.ui.define([
 		onInit: function () {
 			var oRouter = this.getRouter();
 			oRouter.getRoute("ticketEdit").attachMatched(this._onRouteMatched, this);
-			
-// 			var funcAreaSelectModel = new sap.ui.model.odata.ODataModel(
-// 			    "https://stats0017130098trial.hanatrial.ondemand.com/dev/dev01/statapp/services/functionalArea.xsodata");
-// 			var funcAreaSelectMenu = this.getView().byId("funcAreaSelect");
-// 			funcAreaSelectMenu.setModel(funcAreaSelectModel);
-//             sap.ui.getCore().setModel(funcAreaSelectModel, "funcAreaSelectModel");
-//             var oFuncAreaSelectTemplate = new sap.ui.core.Item({
-//                 key : "{value}",
-//                 text : "{description}"
-//             });
-//             funcAreaSelectMenu.setModel(sap.ui.getCore().getModel("funcAreaSelectModel"));
-//             funcAreaSelectMenu.bindAggregation("items","/", oFuncAreaSelectTemplate);
-
 		},
 		_onRouteMatched : function (oEvent) {
 			var oArgs, oView;

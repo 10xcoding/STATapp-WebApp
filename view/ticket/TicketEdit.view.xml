@@ -7,131 +7,152 @@
 	busyIndicatorDelay="0">
 	<Page
 		id="ticketEditPage"
-		title="{i18n>EditTicketTitle} {ticketId}"
+		title="{i18n>TicketEdit.Title} {ticketId}"
 		showNavButton="true"
 		navButtonPress="onNavBack"
 		class="sapUiResponsiveContentPadding">
-		<content>
-			<Panel
-				id="ticketPanel"
-				width="auto"
-				class="sapUiResponsiveMargin sapUiNoContentPadding">
-				<headerToolbar>
-					<Toolbar>
-						<Title text="{i18n>TicketDetailsToolbar}" level="H2"/>
-						<ToolbarSpacer />
-					</Toolbar>
-				</headerToolbar>
-				<content>
-					<f:SimpleForm
-						minWidth="1024"
-						editable="false"
-						layout="ResponsiveGridLayout"
-						labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
-						<f:content>
-							<Label text="{i18n>Creator}" />
-							<Text text="{firstName_creator} {lastName_creator}" />
-							<Label text="{i18n>DateCreated}" />
-							<Text text="{
-                                path: 'dateCreated',
-                                type: 'sap.ui.model.type.Date',
-                                formatOptions: {
-                                    style: 'medium'
-                                }
-                            }" />
-							<Label text="{i18n>DateStarted}" />
-							<Text text="{
-                                path: 'dateStarted',
-                                type: 'sap.ui.model.type.Date',
-                                formatOptions: {
-                                    style: 'medium'
-                                }
-                            }" />
-							<Label text="{i18n>DateClosed}" />
-							<Text text="{
-                                path: 'dateClosed',
-                                type: 'sap.ui.model.type.Date',
-                                formatOptions: {
-                                    style: 'medium'
-                                }
-                            }" />
-						</f:content>
-					</f:SimpleForm>
-					<f:SimpleForm
-						minWidth="1024"
-						editable="true"
-						layout="ResponsiveGridLayout"
-						labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
-						<f:content>
-							<Label text="{i18n>TicketTitle}" />
-							<TextArea value="{ticketTitle}" />
-							
-							<Label text="{i18n>TicketDescription}" />
-							<TextArea value="{ticketDescription}" />
-							
-							<Label text="{i18n>FunctionalArea}" />
-							<Select
-                        		id="funcAreaSelect"
-                        		items="{
-                        			path: 'FuncAreaModel>/FuncAreas'
-                        		}">
-                        		<items>
-                        			<core:Item key="{FuncAreaModel>value}" text="{FuncAreaModel>description}" />
-                        		</items>
-                        	</Select>
-							
-							<Label text="{i18n>Assignee}" />
-							<Select
-                        		id="assigneeSelect"
-                        		items="{
-                        			path: 'UserModel>/Users'
-                        		}">
-                        		<items>
-                        			<core:Item key="{UserModel>userId}" text="{UserModel>firstName} {UserModel>lastName}" />
-                        		</items>
-                        	</Select>
-							
-							<Label text="{i18n>TicketStatus}" />
-							<Select
-                        		id="ticketStatusSelect"
-                        		items="{
-                        			path: 'ticketStatusModel>/TicketStatuses'
-                        		}">
-                        		<items>
-                        			<core:Item key="{ticketStatusModel>value}" text="{ticketStatusModel>description}" />
-                        		</items>
-                        	</Select>
-							
-							<Label text="{i18n>TicketPriority}" />
-							<Select
-                        		id="ticketPrioritySelect"
-                        		items="{
-                        			path: 'TicketPriorityModel>/TicketPriorities'
-                        		}">
-                        		<items>
-                        			<core:Item key="{TicketPriorityModel>value}" text="{TicketPriorityModel>description}" />
-                        		</items>
-                        	</Select>
-						</f:content>
-					</f:SimpleForm>
-				</content>
-			</Panel>
-			<Toolbar design="Transparent">
-    			<ToolbarSpacer />
-    			<Button 
+		<Panel
+			id="editTicketPanel"
+			width="auto"
+			class="sapUiResponsiveMargin sapUiNoContentPadding">
+			<headerToolbar>
+				<Toolbar>
+					<Title text="{i18n>TicketEdit.ToolbarTitle}" level="H2"/>
+					<ToolbarSpacer />
+				</Toolbar>
+			</headerToolbar>
+			<content>
+				<f:SimpleForm
+					minWidth="1024"
+					layout="ResponsiveGridLayout"
+					labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
+					<f:content>
+						<Label text="{i18n>Ticket.Creator}" />
+						<Input value="{firstName_creator} {lastName_creator}" editable="false" />
+						<Label text="{i18n>Ticket.DateCreated}" />
+						<Input value="{
+                            path: 'dateCreated',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: {
+                                style: 'medium'
+                            }
+                        }" editable="false" />
+						<Label text="{i18n>Ticket.DateStarted}" />
+						<Input value="{
+                            path: 'dateStarted',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: {
+                                style: 'medium'
+                            }
+                        }" editable="false" />
+						<Label text="{i18n>Ticket.DateClosed}" />
+						<Input value="{
+                            path: 'dateClosed',
+                            type: 'sap.ui.model.type.Date',
+                            formatOptions: {
+                                style: 'medium'
+                            }
+                        }" editable="false" />
+					</f:content>
+				</f:SimpleForm>
+				<f:SimpleForm
+					minWidth="1024"
+					editable="true"
+					layout="ResponsiveGridLayout"
+					labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
+					<f:content>
+						<Label text="{i18n>Ticket.TicketTitle}" required="true" />
+						<Input value="{ticketTitle}" id="editTicketTitle" />
+						
+						<Label text="{i18n>Ticket.TicketDescription}" required="true" />
+						<TextArea value="{ticketDescription}" id="editTicketDescription" />
+						
+						<Label text="{i18n>Ticket.FunctionalArea}" required="true" />
+						<Select
+                    		id="funcAreaSelect"
+                    		items="{
+                    			path: 'FuncAreaModel>/FuncAreas'
+                    		}">
+                    		<items>
+                    			<core:Item
+                    			    selectedKey="{functionalArea_value}"
+                    			    key="{FuncAreaModel>value}"
+                    			    text="{FuncAreaModel>description}" />
+                    		</items>
+                    	</Select>
+						
+						<Label text="{i18n>Ticket.Assignee}" required="true" />
+						<Input
+            				id="assigneeInput"
+            				type="Text"
+            				placeholder="Enter Name ..."
+            				showSuggestion="true"
+            				suggestionItems="{
+                    			path: 'UserModel>/Users'
+                    		}">
+            				<suggestionItems>
+            					<core:ListItem
+            					    selectedKey="{assignee_userId}"
+                    			    key="{UserModel>userId}"
+            					    text="{UserModel>firstName} {UserModel>lastName}"
+            					    additionalText="{UserModel>userId}" />
+            				</suggestionItems>
+            			</Input>
+						
+						<Label text="{i18n>Ticket.TicketStatus}" required="true" />
+						<Select
+                    		id="ticketStatusSelect"
+                    		items="{
+                    			path: 'ticketStatusModel>/TicketStatuses'
+                    		}">
+                    		<items>
+                    			<core:Item
+                    			    selectedKey="{ticketStatus_value}"
+                    			    key="{ticketStatusModel>value}"
+                    			    text="{ticketStatusModel>description}" />
+                    		</items>
+                    	</Select>
+						
+						<Label text="{i18n>Ticket.TicketPriority}" required="true" />
+						<Select
+                    		id="ticketPrioritySelect"
+                    		items="{
+                    			path: 'TicketPriorityModel>/TicketPriorities'
+                    		}">
+                    		<items>
+                    			<core:Item
+                    			    selectedKey="ticketPriority_value"
+                    			    key="{TicketPriorityModel>value}"
+                    			    text="{TicketPriorityModel>description}" />
+                    		</items>
+                    	</Select>
+					</f:content>
+				</f:SimpleForm>
+			</content>
+		</Panel>
+		<footer>
+			<OverflowToolbar id="TicketListFooter">
+			    <ToolbarSpacer/>
+			    <Button id="newTicketButton" text="{i18n>TicketList.NewTicketButton}" press="onNavToNewTicket" icon="sap-icon://add"/>
+		    </OverflowToolbar>
+        </footer>
+		<footer>
+			<OverflowToolbar id="TicketEditFooter">
+			    <ToolbarSpacer/>
+			    <Button 
     			    type="Reject"
-    			    text="Cancel"
+    			    text="{i18n>Cancel}"
     			    icon="sap-icon://cancel"
     			    press="onPressCancel"
     			/>
     			<ToolbarSpacer width="0.1em"/>
     			<Button
     			    type="Accept"
-    			    text="Save"
+    			    text="{i18n>Save}"
     			    icon="sap-icon://save"
     			    press="onPressSave"
     			/>
-			</Toolbar>
-		</content>
+		    </OverflowToolbar>
+		</footer>
 	</Page>
 </mvc:View>

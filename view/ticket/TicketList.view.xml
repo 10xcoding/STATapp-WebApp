@@ -3,7 +3,7 @@
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc">
     
-    <Page id="ticketListPage" title="{i18n>TicketList}"
+    <Page id="ticketListPage" title="{i18n>TicketList.Title}"
 		showNavButton="true"
 		navButtonPress="onNavBack"
 		class="sapUiResponsiveContentPadding">
@@ -40,12 +40,18 @@
                             />
                         </firstStatus>
                         <attributes>
-            				<ObjectAttribute text="Ticket creator:  {firstName_creator} {lastName_creator}" />
-            				<ObjectAttribute text="Ticket assignee: {firstName_assignee} {lastName_assignee}" />
+            				<ObjectAttribute text="{i18n>Ticket.Creator}:  {firstName_creator} {lastName_creator}" />
+            				<ObjectAttribute text="{i18n>Ticket.Assignee}: {firstName_assignee} {lastName_assignee}" />
                         </attributes>
                     </ObjectListItem>
                 </items>
             </List>
         </ScrollContainer>
+        <footer>
+			<OverflowToolbar id="TicketListFooter">
+			    <ToolbarSpacer/>
+			    <Button id="newTicketButton" text="{i18n>TicketList.NewTicketButton}" press="onNavToNewTicket" icon="sap-icon://add"/>
+		    </OverflowToolbar>
+        </footer>
     </Page>
 </mvc:View>

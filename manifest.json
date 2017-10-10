@@ -154,6 +154,10 @@
 			    "pattern": "tickets/{ticketId}/edit",
 				"name": "ticketEdit",
 				"target": "ticketEdit"
+			}, {
+			    "pattern": "new",
+			    "name": "newTicket",
+			    "target": "newTicket"
 			}],
             "targets": {
                 "home": {
@@ -175,6 +179,9 @@
 				},
 				"ticketEdit": {
 					"viewName": "ticket.TicketEdit"
+				},
+				"newTicket": {
+				    "viewName": "ticket.NewTicket"
 				}
             }
         }
