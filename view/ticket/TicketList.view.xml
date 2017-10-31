@@ -26,8 +26,7 @@
                         operator: 'NE',
                         value1: 'Closed'
                     }],
-                    sort: 'dateCreated',
-                    rerender
+                    sort: 'dateCreated'
                 }">
                 <items> 
                     <ObjectListItem
