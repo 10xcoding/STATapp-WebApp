@@ -69,90 +69,92 @@
 						
 						<Label text="{i18n>Ticket.FunctionalArea}" required="true" />
 						<Select
-                    		id="funcAreaSelect"
-                    		items="{
-                    			path: 'FuncAreaModel>/FuncAreas'
-                    		}">
-                    		<items>
-                    			<core:Item
-                    			    selectedKey="{functionalArea_value}"
-                    			    key="{FuncAreaModel>value}"
-                    			    text="{FuncAreaModel>description}" />
-                    		</items>
-                    	</Select>
+                            id="editFuncAreaSelect"
+                            items="{
+                                path: 'FuncAreaModel>/FuncAreas'
+                            }">
+                            <items>
+                                <core:Item
+                                    key="{FuncAreaModel>value}"
+                                    text="{FuncAreaModel>description}"
+                                    selectedKey="{functionalArea_value}"
+                                />
+                            </items>
+                        </Select>
 						
 						<Label text="{i18n>Ticket.Assignee}" required="true" />
-						<Input
-            				id="assigneeInput"
-            				type="Text"
-            				placeholder="Enter Name ..."
-            				showSuggestion="true"
-            				suggestionItems="{
-                    			path: 'UserModel>/Users'
-                    		}">
-            				<suggestionItems>
-            					<core:ListItem
-            					    selectedKey="{assignee_userId}"
-                    			    key="{UserModel>userId}"
-            					    text="{UserModel>firstName} {UserModel>lastName}"
-            					    additionalText="{UserModel>userId}" />
-            				</suggestionItems>
-            			</Input>
+                        <Input
+                            id="editAssigneeInput"
+                            type="Text"
+                            showSuggestion="true"
+                            suggestionItems="{
+                                path: 'UserModel>/Users'
+                            }"
+                            selectedKey="{assignee_userId}" >
+                            <suggestionItems>
+                                <core:ListItem
+                                    selectedKey="{assignee_userId}"
+                                    key="{UserModel>userId}"
+                                    text="{UserModel>firstName} {UserModel>lastName}"
+                                    additionalText="{UserModel>userId}" />
+                            </suggestionItems>
+                        </Input>
 						
 						<Label text="{i18n>Ticket.TicketStatus}" required="true" />
 						<Select
-                    		id="ticketStatusSelect"
-                    		items="{
-                    			path: 'ticketStatusModel>/TicketStatuses'
-                    		}">
-                    		<items>
-                    			<core:Item
-                    			    selectedKey="{ticketStatus_value}"
-                    			    key="{ticketStatusModel>value}"
-                    			    text="{ticketStatusModel>description}" />
-                    		</items>
-                    	</Select>
+                            id="editTicketStatusSelect"
+                            items="{
+                                path: 'ticketStatusModel>/TicketStatuses'
+                            }">
+                            <items>
+                                <core:Item
+                                    key="{ticketStatusModel>value}"
+                                    text="{ticketStatusModel>description}"
+                                    selectedKey="{ticketStatus_value}" />
+                            </items>
+                        </Select>
 						
 						<Label text="{i18n>Ticket.TicketPriority}" required="true" />
 						<Select
-                    		id="ticketPrioritySelect"
-                    		items="{
-                    			path: 'TicketPriorityModel>/TicketPriorities'
-                    		}">
-                    		<items>
-                    			<core:Item
-                    			    selectedKey="ticketPriority_value"
-                    			    key="{TicketPriorityModel>value}"
-                    			    text="{TicketPriorityModel>description}" />
-                    		</items>
-                    	</Select>
+                            id="editTicketPrioritySelect"
+                            items="{
+                                path: 'TicketPriorityModel>/TicketPriorities'
+                            }">
+                            <items>
+                                <core:Item
+                                    key="{TicketPriorityModel>value}"
+                                    text="{TicketPriorityModel>description}"
+                                    selectedKey="ticketPriority_value"
+                                />
+                            </items>
+                        </Select>
 					</f:content>
 				</f:SimpleForm>
 			</content>
 		</Panel>
 		<footer>
 			<OverflowToolbar id="TicketListFooter">
-			    <ToolbarSpacer/>
-			    <Button id="newTicketButton" text="{i18n>TicketList.NewTicketButton}" press="onNavToNewTicket" icon="sap-icon://add"/>
-		    </OverflowToolbar>
+                <ToolbarSpacer/>
+                <Button id="newTicketButton" text="{i18n>TicketList.NewTicketButton}" press="onNavToNewTicket" icon="sap-icon://add"/>
+            </OverflowToolbar>
         </footer>
 		<footer>
 			<OverflowToolbar id="TicketEditFooter">
-			    <ToolbarSpacer/>
-			    <Button 
-    			    type="Reject"
-    			    text="{i18n>Cancel}"
-    			    icon="sap-icon://cancel"
-    			    press="onPressCancel"
-    			/>
-    			<ToolbarSpacer width="0.1em"/>
-    			<Button
-    			    type="Accept"
-    			    text="{i18n>Save}"
-    			    icon="sap-icon://save"
-    			    press="onPressSave"
-    			/>
-		    </OverflowToolbar>
+                <ToolbarSpacer/>
+                <Button 
+                    type="Reject"
+                    text="{i18n>Cancel}"
+                    icon="sap-icon://cancel"
+                    press="onPressCancel"
+                />
+                <ToolbarSpacer width="0.1em"/>
+                <Button
+                    type="Accept"
+                    text="{i18n>Save}"
+                    icon="sap-icon://save"
+                    press="onPressSave"
+                />
+            </OverflowToolbar>
 		</footer>
 	</Page>
 </mvc:View>

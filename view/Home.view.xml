@@ -4,7 +4,40 @@
 	xmlns:mvc="sap.ui.core.mvc">
 	<Page title="{i18n>Home.Title}" class="sapUiResponsiveContentPadding">
 		<content>
-			<Button id="ticketListBtn" text="{i18n>Home.ShowOpenTicketList}" press="onNavToTickets" class="sapUiTinyMarginEnd"/>
+            
+            <GenericTile
+                class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+                header="{i18n>Home.TicketListTileHeader}"
+                subheader="{i18n>Home.TicketListTileSubheader}"
+                press="onNavToTickets">
+                <tileContent>
+                    <TileContent unit="{i18n>Home.TicketListTileUnit}">
+                        <content>
+                            <NumericContent id="ticketCount"
+                                value="{
+                                    
+                                }"
+                            />
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+            
+            <GenericTile
+                class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+                header="{i18n>Home.SettingsTileHeader}"
+                subheader="{i18n>Home.SettingsTileSubheader}"
+                press="onNavToSettings">
+                <tileContent>
+                    <TileContent>
+                        <content>
+                            <ImageContent src="sap-icon://settings">
+                            </ImageContent>
+                        </content>
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+            
 		</content>
 	</Page>
 </mvc:View>

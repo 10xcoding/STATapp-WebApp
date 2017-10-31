@@ -1,15 +1,26 @@
 {
     "exposed": true,
-    "authentication": null,
+    "authentication": {
+        "method": "Basic"
+    },
     "mime_mapping": [{
         "extension": "jpg",
         "mimetype": "image/jpeg"
     }],
     "force_ssl": false,
-    "enable_etags": true,
-    "prevent_xsrf": true,
+    "enable_etags": false,
+    "prevent_xsrf": false,
+    "allowMethods": [
+        "GET",
+        "POST",
+        "HEAD",
+        "OPTIONS"
+    ],
+    "allowOrigin": [
+        "*"
+    ],
     "anonymous_connection": "dev.STATWEBAPP::Anonymous_Access",
-    "cors": [{ "enabled": false }],
+    "cors": [{ "enabled": true }],
     "cache_control": "no-cache, no-store",
     "default_file": "index.html"
 }

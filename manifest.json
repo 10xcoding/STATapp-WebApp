@@ -158,6 +158,10 @@
 			    "pattern": "new",
 			    "name": "newTicket",
 			    "target": "newTicket"
+			}, {
+			    "pattern": "settings",
+			    "name": "settingsHome",
+			    "target": "settingsHome"
 			}],
             "targets": {
                 "home": {
@@ -182,6 +186,10 @@
 				},
 				"newTicket": {
 				    "viewName": "ticket.NewTicket"
+				},
+				"settingsHome": {
+				    "viewName": "SettingsHome",
+				    "viewLevel": 2
 				}
             }
         }

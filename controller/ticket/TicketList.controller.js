@@ -1,22 +1,22 @@
 sap.ui.define([
-	"sap/ui/demo/nav/controller/BaseController",
-	"sap/ui/demo/nav/model/formatter"
-], function (BaseController, formatter) {
+	"sap/ui/demo/nav/controller/BaseController"
+], function (BaseController) {
     
 	"use strict";
-
+	
 	return BaseController.extend("sap.ui.demo.nav.controller.ticket.TicketList", {
-        formatter: formatter,
 		onInit : function () {
+            // var ticketList = this.getView().byId("ticketsList");
+            // ticketList.getBinding("items").refresh();
 		},
 		onAfterRendering : function() {
 		},
 		onFilterTickets : function(oEvent) {
-		    //build filter array
-		    var aFilters = [];
-		    var sQuery = oEvent.getSource().getValue();
-		    if (sQuery && sQuery.length > 0) {
-		        var filters = [new sap.ui.model.Filter("ticketTitle", sap.ui.model.FilterOperator.Contains, sQuery),
+            //build filter array
+            var aFilters = [];
+            var sQuery = oEvent.getSource().getValue();
+            if (sQuery && sQuery.length > 0) {
+                var filters = [new sap.ui.model.Filter("ticketTitle", sap.ui.model.FilterOperator.Contains, sQuery),
                     new sap.ui.model.Filter("ticketId", sap.ui.model.FilterOperator.Contains, sQuery),
                     new sap.ui.model.Filter("firstName_creator", sap.ui.model.FilterOperator.Contains, sQuery),
                     new sap.ui.model.Filter("lastName_creator", sap.ui.model.FilterOperator.Contains, sQuery),
@@ -31,14 +31,14 @@ sap.ui.define([
                 aFilters.push(new sap.ui.model.Filter("description_status", sap.ui.model.FilterOperator.NE, 'Closed'));
             }
             
-		    //bind filter
-		    var ticketList = this.getView().byId("ticketsList");
-		    var tableItems = ticketList.getBinding("items");
-		    tableItems.filter(aFilters, "Application");
+            //bind filter
+            var ticketList = this.getView().byId("ticketsList");
+            var tableItems = ticketList.getBinding("items");
+            tableItems.filter(aFilters, "Application");
 		},
 		onTicketListItemPress : function(oEvent){
 			var selectedPath = oEvent.getSource().getBindingContext().sPath; // selectedPath = "/Tickets('STT0001111')"
-			var ticketId = selectedPath.slice(10,20);
+			var ticketId = selectedPath.slice(10,-2);
 			this.getRouter().navTo("ticket",{
 				ticketId : ticketId
 			});

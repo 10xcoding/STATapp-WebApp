@@ -6,7 +6,7 @@
 	busyIndicatorDelay="0">
 	<Page
 		id="ticketDetailsPage"
-		title="{i18n>TicketDetailsOf} {ticketId}"
+		title="{i18n>TicketDetails.Title} {ticketId}"
 		showNavButton="true"
 		navButtonPress="onNavBack"
 		class="sapUiResponsiveContentPadding">
@@ -17,12 +17,12 @@
 				class="sapUiResponsiveMargin sapUiNoContentPadding">
 				<headerToolbar>
 					<Toolbar>
-						<Title text="{i18n>TicketDetailsToolbar}" level="H2"/>
+						<Title text="{i18n>TicketDetails.ToolbarTitle}" level="H2"/>
 						<ToolbarSpacer />
 						<Button
-						    text="Edit"
-						    icon="sap-icon://edit"
-						    press="onClickEdit"
+                            text="Edit"
+                            icon="sap-icon://edit"
+                            press="onClickEdit"
 						/>
 					</Toolbar>
 				</headerToolbar>
@@ -33,17 +33,17 @@
 						layout="ResponsiveGridLayout"
 						labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
 						<f:content>
-							<Label text="{i18n>TicketTitle}" />
+							<Label text="{i18n>Ticket.TicketTitle}" />
 							<Text text="{ticketTitle}" />
-							<Label text="{i18n>TicketDescription}" />
+							<Label text="{i18n>Ticket.TicketDescription}" />
 							<Text text="{ticketDescription}" />
-							<Label text="{i18n>FunctionalArea}" />
+							<Label text="{i18n>Ticket.FunctionalArea}" />
 							<Text text="{description_functionalArea}" />
-							<Label text="{i18n>Creator}" />
+							<Label text="{i18n>Ticket.Creator}" />
 							<Text text="{firstName_creator} {lastName_creator}" />
-							<Label text="{i18n>Assignee}" />
+							<Label text="{i18n>Ticket.Assignee}" />
 							<Text text="{firstName_assignee} {lastName_assignee}" />
-							<Label text="{i18n>DateCreated}" />
+							<Label text="{i18n>Ticket.DateCreated}" />
 							<Text text="{
                                 path: 'dateCreated',
                                 type: 'sap.ui.model.type.Date',
@@ -51,7 +51,7 @@
                                     style: 'medium'
                                 }
                             }" />
-							<Label text="{i18n>DateStarted}" />
+							<Label text="{i18n>Ticket.DateStarted}" />
 							<Text text="{
                                 path: 'dateStarted',
                                 type: 'sap.ui.model.type.Date',
@@ -59,7 +59,7 @@
                                     style: 'medium'
                                 }
                             }" />
-							<Label text="{i18n>DateClosed}" />
+							<Label text="{i18n>Ticket.DateClosed}" />
 							<Text text="{
                                 path: 'dateClosed',
                                 type: 'sap.ui.model.type.Date',
@@ -67,14 +67,32 @@
                                     style: 'medium'
                                 }
                             }" />
-							<Label text="{i18n>TicketStatus}" />
+							<Label text="{i18n>Ticket.TicketStatus}" />
 							<Text text="{description_status}" />
-							<Label text="{i18n>TicketPriority}" />
+							<Label text="{i18n>Ticket.TicketPriority}" />
 							<Text text="{description_priority}" />
 						</f:content>
 					</f:SimpleForm>
 				</content>
 			</Panel>
 		</content>
+        <footer>
+			<OverflowToolbar id="TicketDetailsFooter">
+                <ToolbarSpacer/>
+                <Button
+                    id="startTicketButton"
+                    text="{i18n>TicketDetails.StartTicketButton}"
+                    press="onPressStartTicket"
+                    enabled="{= ${dateStarted} === null}"
+                />
+                <ToolbarSpacer width="0.1em"/>
+                <Button
+                    id="closeTicketButton"
+                    text="{i18n>TicketDetails.CloseTicketButton}"
+                    press="onPressCloseTicket"
+                    enabled="{= ${dateClosed} === null}"
+                />
+            </OverflowToolbar>
+        </footer>
 	</Page>
 </mvc:View>

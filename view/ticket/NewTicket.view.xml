@@ -1,0 +1,87 @@
+<mvc:View
+	controllerName="sap.ui.demo.nav.controller.ticket.NewTicket"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:f="sap.ui.layout.form"
+	xmlns:core="sap.ui.core">
+	<Page
+		id="newTicketPage"
+		title="{i18n>NewTicket.Title}"
+		showNavButton="true"
+		navButtonPress="onNavBack"
+		class="sapUiResponsiveContentPadding">
+		<Panel
+			id="newTicketPanel"
+			width="auto"
+			class="sapUiResponsiveMargin sapUiNoContentPadding">
+			<headerToolbar>
+				<Toolbar>
+					<Title text="{i18n>NewTicket.ToolbarTitle}" level="H2"/>
+					<ToolbarSpacer />
+				</Toolbar>
+			</headerToolbar>
+			<content>
+				<f:SimpleForm
+					minWidth="1024"
+					editable="true"
+					layout="ResponsiveGridLayout"
+					labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
+					<f:content>
+						
+						<Label text="{i18n>Ticket.TicketTitle}" required="true" />
+						<TextArea id="newTicketTitle" tag="newTicketTitle" />
+						
+						<Label text="{i18n>Ticket.TicketDescription}" required="true" />
+						<TextArea id="newTicketDescription" />
+						
+						<Label text="{i18n>Ticket.FunctionalArea}" />
+						<Select
+                            id="newFuncAreaSelect"
+                            items="{
+                                path: 'FuncAreaModel>/FuncAreas'
+                            }">
+                            <items>
+                                <core:Item
+                                    key="{FuncAreaModel>value}"
+                                    text="{FuncAreaModel>description}"
+                                />
+                            </items>
+                        </Select>
+						
+						<Label text="{i18n>Ticket.TicketPriority}" />
+						<Select
+                            id="newTicketPrioritySelect"
+                            items="{
+                                path: 'TicketPriorityModel>/TicketPriorities'
+                            }">
+                            <items>
+                                <core:Item
+                                    key="{TicketPriorityModel>value}"
+                                    text="{TicketPriorityModel>description}"
+                                />
+                            </items>
+                        </Select>
+                    </f:content>
+				</f:SimpleForm>
+			</content>
+		</Panel>
+		<footer>
+			<OverflowToolbar id="TicketEditFooter">
+                <ToolbarSpacer/>
+                <Button 
+                    type="Reject"
+                    text="{i18n>Cancel}"
+                    icon="sap-icon://cancel"
+                    press="onPressCancel"
+                />
+                <ToolbarSpacer width="0.1em"/>
+                <Button
+                    type="Accept"
+                    text="{i18n>Save}"
+                    icon="sap-icon://save"
+                    press="onPressSave"
+                />
+            </OverflowToolbar>
+		</footer>
+	</Page>
+</mvc:View>
