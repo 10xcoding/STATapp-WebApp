@@ -2,7 +2,7 @@
     "_version": "1.1.0",
     "sap.app": {
         "_version": "1.1.0",
-        "id": "sap.ui.demo.nav",
+        "id": "statapp",
         "type": "application",
         "i18n": "i18n/i18n.properties",
         "title": "{{appTitle}}",
@@ -16,7 +16,9 @@
                 "type" : "OData",
                 "settings" : {
                     "odataVersion" : "2.0",
-                    "localUri" : "localService/metadata.xml"
+                    "localUri" : "localService/metadata.xml",
+                    "refreshAfterChange" : "true",
+                    "cache" : "false"
                 }
             },
             "userService" : {
@@ -67,7 +69,7 @@
     },
     "sap.ui5": {
         "_version": "1.1.0",
-        "rootView": "sap.ui.demo.nav.view.App",
+        "rootView": "statapp.view.App",
         "dependencies": {
             "minUI5Version": "1.30",
             "libs": {
@@ -78,12 +80,16 @@
             "i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
-                    "bundleName": "sap.ui.demo.nav.i18n.i18n"
+                    "bundleName": "statapp.i18n.i18n"
                 }
             },
             "" : {
+                "type" : "sap.ui.model.odata.v2.ODataModel",
                 "dataSource" : "ticketService",
-                "preload": true
+                "preload": true,
+                "settings" : {
+                    "setDefaultBindingMode": "TwoWay"
+                }
             },
             "UserModel" : {
                 "type" : "sap.ui.model.odata.v2.ODataModel",
@@ -115,7 +121,7 @@
                 "dataSource" : "ticketPriorityService",
                 "preload" : true
             },
-            "ticketStatusModel" : {
+            "TicketStatusModel" : {
                 "type" : "sap.ui.model.odata.v2.ODataModel",
                 "settings" : {
                     "defaultOperationMode" : "Server",
@@ -130,10 +136,11 @@
             "config": {
                 "routerClass": "sap.m.routing.Router",
                 "viewType": "XML",
-                "viewPath": "sap.ui.demo.nav.view",
+                "viewPath": "statapp.view",
                 "controlId": "app",
                 "controlAggregation": "pages",
                 "transition": "slide",
+                "clearTarget" : "true",
                 "bypassed": {
                     "target": "notFound"
                 }
@@ -145,23 +152,24 @@
             }, {
 				"pattern": "tickets",
 				"name": "ticketList",
+				"greedy": "true",
 				"target": "tickets"
 			}, {
 				"pattern": "tickets/{ticketId}",
 				"name": "ticket",
 				"target": "ticketDetails"
 			}, {
-			    "pattern": "tickets/{ticketId}/edit",
-				"name": "ticketEdit",
-				"target": "ticketEdit"
+                "pattern": "tickets/{ticketId}/edit",
+                "name": "ticketEdit",
+                "target": "ticketEdit"
 			}, {
-			    "pattern": "new",
-			    "name": "newTicket",
-			    "target": "newTicket"
+                "pattern": "new",
+                "name": "newTicket",
+                "target": "newTicket"
 			}, {
-			    "pattern": "settings",
-			    "name": "settingsHome",
-			    "target": "settingsHome"
+                "pattern": "settings",
+                "name": "settingsHome",
+                "target": "settingsHome"
 			}],
             "targets": {
                 "home": {
@@ -173,7 +181,7 @@
                     "transition": "show"
                 },
 				"tickets": {
-					"viewPath": "sap.ui.demo.nav.view.ticket",
+					"viewPath": "statapp.view.ticket",
 					"viewName": "TicketList",
 					"viewLevel" : 2
 				},
@@ -182,10 +190,12 @@
 					"viewLevel" : 3
 				},
 				"ticketEdit": {
-					"viewName": "ticket.TicketEdit"
+					"viewName": "ticket.TicketEdit",
+					"viewLevel" : 4
 				},
 				"newTicket": {
-				    "viewName": "ticket.NewTicket"
+				    "viewName": "ticket.NewTicket",
+					"viewLevel" : 3
 				},
 				"settingsHome": {
 				    "viewName": "SettingsHome",

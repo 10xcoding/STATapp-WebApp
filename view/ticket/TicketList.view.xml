@@ -1,5 +1,6 @@
 <mvc:View
-    controllerName="sap.ui.demo.nav.controller.ticket.TicketList"
+    id="ticketListView"
+    controllerName="statapp.controller.ticket.TicketList"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc">
     
@@ -18,7 +19,8 @@
             <layoutData>
                 <FlexItemData growFactor="1"/>
             </layoutData>
-            <List id="ticketsList"
+            <List
+                id="ticketsList"
                 items="{
                     path: '/Tickets',
                     filters: [{

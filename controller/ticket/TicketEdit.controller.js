@@ -1,17 +1,38 @@
 sap.ui.define([
-    "sap/m/MessageToast",
-	"sap/ui/demo/nav/controller/BaseController"
+    "sap/m/MessageToast"
+	,"statapp/controller/BaseController"
 ], function (MessageToast, BaseController) {
 	"use strict";
-	return BaseController.extend("sap.ui.demo.nav.controller.ticket.TicketEdit", {
+	return BaseController.extend("statapp.controller.ticket.TicketEdit", {
 		onInit: function () {
+		    // Router
 			var oRouter = this.getRouter();
 			oRouter.getRoute("ticketEdit").attachMatched(this._onRouteMatched, this);
+			
+            // Subscribe to event buses
+            var oEventBus = sap.ui.getCore().getEventBus();
+            oEventBus.subscribe("ticketEditChannel", "updateFields", this.resetFields, this);
 		},
+        updateFields : function() {
+            var ticketEditFixedForm = this.getView().byId("ticketEditFixedForm");
+            ticketEditFixedForm.getModel().updateBindings(true);
+            var ticketEditEditForm = this.getView().byId("ticketEditEditForm");
+            ticketEditEditForm.getModel().updateBindings(true);
+        },
 		_onRouteMatched : function (oEvent) {
 			var oArgs, oView;
 			oArgs = oEvent.getParameter("arguments");
 			oView = this.getView();
+			
+			var dataRemaining = {
+                    "tid" : false,
+                    "desc" : false,
+                    "func" : false,
+                    "assn" : false,
+                    "status" : false,
+                    "priority" : false
+                };
+            
             
 			oView.bindElement({
 				path : "/Tickets('" + oArgs.ticketId + "')",
@@ -21,16 +42,27 @@ sap.ui.define([
 						oView.setBusy(true);
 					},
 					dataReceived: function () {
-						oView.setBusy(false);
+				// 		oView.setBusy(false);
 					}
 				}
 			});
+			
+// 			oView.byId("editAssigneeInput").bindElement({
+//                 path : "UserModel",
+//                 events : {
+// 					gotAssigneeList: function() {
+// 						oView.setBusy(false);
+// 					}
+//                 }
+// 			});
 		},
 		_onBindingChange : function () {
 			// No data for the binding
 			if (!this.getView().getBindingContext()) {
 				this.getRouter().getTargets().display("notFound");
 			}
+		},
+		onAfterRendering : function() {
 		},
 		onPressSave : function () {
             //Get ticketId from context
@@ -76,7 +108,12 @@ sap.ui.define([
                 MessageToast.show("Changes saved!", {
                     closeOnBrowserNavigation: false }
                 );
-                this.onNavBack();
+                var oEventBus = sap.ui.getCore().getEventBus();
+                oEventBus.publish("ticketListChannel", "updateTicketList");
+                oEventBus.publish("ticketDetailsChannel", "setStartTicketButton");
+                oEventBus.publish("ticketDetailsChannel", "setCloseTicketButton");
+                oEventBus.publish("ticketDetailsChannel", "updateFields");
+                oEventBus.publish("ticketEditChannel", "updateFields");
             };
             oParams.error = function(){
                 MessageToast.show("Error occured when updating ticket,\nno changes saved", {

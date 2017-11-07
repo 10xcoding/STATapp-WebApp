@@ -1,10 +1,14 @@
 sap.ui.define([
-    "sap/m/MessageToast",
-	"sap/ui/demo/nav/controller/BaseController"
+    "sap/m/MessageToast"
+	,"statapp/controller/BaseController"
 ], function (MessageToast, BaseController) {
 	"use strict";
-	return BaseController.extend("sap.ui.demo.nav.controller.ticket.NewTicket", {
+	return BaseController.extend("statapp.controller.ticket.NewTicket", {
         onInit : function() {
+            // Subscribe to event buses
+            var oEventBus = sap.ui.getCore().getEventBus();
+            oEventBus.subscribe("newTicketChannel", "clearFields", this.clearFields, this);
+            
             // sOrigin = "https://stats0017130098trial.hanatrial.ondemand.com"
             var sOrigin = window.location.protocol + "//" + window.location.hostname
                             + (window.location.port ? ":" + window.location.port : "");
@@ -55,6 +59,7 @@ sap.ui.define([
                 //Nav to ticketList
                 this.getRouter().navTo("ticketList");
             }
+            
         },
 		onPressCancel : function () {
 			this.onNavBack();
@@ -62,9 +67,12 @@ sap.ui.define([
         addNewTicket : function(ticketJSO) {
             var oParams = {};
             oParams.success = function(){
-                MessageToast.show("New ticket has been successfully created\nPlease refresh page", {
+                MessageToast.show("New ticket has been successfully created", {
                     closeOnBrowserNavigation: false }
                 );
+                var oEventBus = sap.ui.getCore().getEventBus();
+                oEventBus.publish("ticketListChannel", "updateTicketList");
+                oEventBus.publish("newTicketChannel", "clearFields");
             };
             oParams.error = function(){
                 MessageToast.show("Error occured when creating ticket", {
@@ -73,6 +81,12 @@ sap.ui.define([
             };
             oParams.bMerge = true;
             this.getView().getModel().create("/CreateTicket", ticketJSO, oParams );
+        },
+        clearFields : function() {
+            this.getView().byId("newTicketTitle").setValue("");
+            this.getView().byId("newTicketDescription").setValue("");
+            this.getView().byId("newFuncAreaSelect").setSelectedKey("");
+            this.getView().byId("newTicketPrioritySelect").setSelectedKey("");
         }
 	});
 });

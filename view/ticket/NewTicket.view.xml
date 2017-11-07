@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="sap.ui.demo.nav.controller.ticket.NewTicket"
+	controllerName="statapp.controller.ticket.NewTicket"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:f="sap.ui.layout.form"
@@ -28,13 +28,13 @@
 					labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
 					<f:content>
 						
-						<Label text="{i18n>Ticket.TicketTitle}" required="true" />
+						<Label text="{i18n>Ticket.TicketTitle}" required="true" labelFor="newTicketTitle" />
 						<TextArea id="newTicketTitle" tag="newTicketTitle" />
 						
-						<Label text="{i18n>Ticket.TicketDescription}" required="true" />
+						<Label text="{i18n>Ticket.TicketDescription}" required="true" labelFor="newTicketDescription" />
 						<TextArea id="newTicketDescription" />
 						
-						<Label text="{i18n>Ticket.FunctionalArea}" />
+						<Label text="{i18n>Ticket.FunctionalArea}" labelFor="newFuncAreaSelect" />
 						<Select
                             id="newFuncAreaSelect"
                             items="{
@@ -48,7 +48,7 @@
                             </items>
                         </Select>
 						
-						<Label text="{i18n>Ticket.TicketPriority}" />
+						<Label text="{i18n>Ticket.TicketPriority}" labelFor="newTicketPrioritySelect" />
 						<Select
                             id="newTicketPrioritySelect"
                             items="{

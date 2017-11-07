@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="sap.ui.demo.nav.controller.Home"
+	controllerName="statapp.controller.Home"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc">
 	<Page title="{i18n>Home.Title}" class="sapUiResponsiveContentPadding">
@@ -13,9 +13,10 @@
                 <tileContent>
                     <TileContent unit="{i18n>Home.TicketListTileUnit}">
                         <content>
-                            <NumericContent id="ticketCount"
+                            <NumericContent
+                                id="ticketCount"
                                 value="{
-                                    
+                                    path: 'https://stats0017130098trial.hanatrial.ondemand.com/dev/dev01/statapp/services/ticket.xsodata/Tickets/$count?$filter=ticketStatus_value%20ne%204'
                                 }"
                             />
                         </content>
