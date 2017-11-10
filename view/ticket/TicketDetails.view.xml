@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="sap.ui.demo.nav.controller.ticket.TicketDetails"
+	controllerName="statapp.controller.ticket.TicketDetails"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:f="sap.ui.layout.form"
@@ -28,23 +28,24 @@
 				</headerToolbar>
 				<content>
 					<f:SimpleForm
+					    id="ticketDetailSimpleForm"
 						minWidth="1024"
 						editable="false"
 						layout="ResponsiveGridLayout"
 						labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
 						<f:content>
 							<Label text="{i18n>Ticket.TicketTitle}" />
-							<Text text="{ticketTitle}" />
+							<Text id="ticketDetailsTitle" text="{ticketTitle}" />
 							<Label text="{i18n>Ticket.TicketDescription}" />
-							<Text text="{ticketDescription}" />
+							<Text id="ticketDetailsDescription" text="{ticketDescription}" />
 							<Label text="{i18n>Ticket.FunctionalArea}" />
-							<Text text="{description_functionalArea}" />
+							<Text id="ticketDetailsFunctionalArea" text="{description_functionalArea}" />
 							<Label text="{i18n>Ticket.Creator}" />
-							<Text text="{firstName_creator} {lastName_creator}" />
+							<Text id="ticketDetailsCreator" text="{firstName_creator} {lastName_creator}" />
 							<Label text="{i18n>Ticket.Assignee}" />
-							<Text text="{firstName_assignee} {lastName_assignee}" />
+							<Text id="ticketDetailsAssignee" text="{firstName_assignee} {lastName_assignee}" />
 							<Label text="{i18n>Ticket.DateCreated}" />
-							<Text text="{
+							<Text id="ticketDetailsDateCreated" text="{
                                 path: 'dateCreated',
                                 type: 'sap.ui.model.type.Date',
                                 formatOptions: {
@@ -52,7 +53,7 @@
                                 }
                             }" />
 							<Label text="{i18n>Ticket.DateStarted}" />
-							<Text text="{
+							<Text id="ticketDetailsDateStarted" text="{
                                 path: 'dateStarted',
                                 type: 'sap.ui.model.type.Date',
                                 formatOptions: {
@@ -60,7 +61,7 @@
                                 }
                             }" />
 							<Label text="{i18n>Ticket.DateClosed}" />
-							<Text text="{
+							<Text id="ticketDetailsDateClosed" text="{
                                 path: 'dateClosed',
                                 type: 'sap.ui.model.type.Date',
                                 formatOptions: {
@@ -68,9 +69,9 @@
                                 }
                             }" />
 							<Label text="{i18n>Ticket.TicketStatus}" />
-							<Text text="{description_status}" />
+							<Text id="ticketDetailsStatus" text="{description_status}" />
 							<Label text="{i18n>Ticket.TicketPriority}" />
-							<Text text="{description_priority}" />
+							<Text id="ticketDetailsPriority" text="{description_priority}" />
 						</f:content>
 					</f:SimpleForm>
 				</content>

@@ -4,36 +4,10 @@ sap.ui.define([
 ], function (MessageToast, BaseController) {
 	"use strict";
 	return BaseController.extend("statapp.controller.ticket.TicketEdit", {
-		onInit: function () {
-		    // Router
-			var oRouter = this.getRouter();
-			oRouter.getRoute("ticketEdit").attachMatched(this._onRouteMatched, this);
-			
-            // Subscribe to event buses
-            var oEventBus = sap.ui.getCore().getEventBus();
-            oEventBus.subscribe("ticketEditChannel", "updateFields", this.resetFields, this);
-		},
-        updateFields : function() {
-            var ticketEditFixedForm = this.getView().byId("ticketEditFixedForm");
-            ticketEditFixedForm.getModel().updateBindings(true);
-            var ticketEditEditForm = this.getView().byId("ticketEditEditForm");
-            ticketEditEditForm.getModel().updateBindings(true);
-        },
 		_onRouteMatched : function (oEvent) {
 			var oArgs, oView;
 			oArgs = oEvent.getParameter("arguments");
 			oView = this.getView();
-			
-			var dataRemaining = {
-                    "tid" : false,
-                    "desc" : false,
-                    "func" : false,
-                    "assn" : false,
-                    "status" : false,
-                    "priority" : false
-                };
-            
-            
 			oView.bindElement({
 				path : "/Tickets('" + oArgs.ticketId + "')",
 				events : {
@@ -42,28 +16,41 @@ sap.ui.define([
 						oView.setBusy(true);
 					},
 					dataReceived: function () {
-				// 		oView.setBusy(false);
+                            oView.setBusy(false);
 					}
 				}
 			});
-			
-// 			oView.byId("editAssigneeInput").bindElement({
-//                 path : "UserModel",
-//                 events : {
-// 					gotAssigneeList: function() {
-// 						oView.setBusy(false);
-// 					}
-//                 }
-// 			});
 		},
+		onInit: function () {
+            // Router
+			var oRouter = this.getRouter();
+			oRouter.getRoute("ticketEdit").attachMatched(this._onRouteMatched, this);
+			
+            // Subscribe to event buses
+            var oEventBus = sap.ui.getCore().getEventBus();
+            oEventBus.subscribe("ticketEditChannel", "updateFields", this.updateFields, this);
+		},
+		onBeforeRendering : function() {
+            var ticketEditEditForm = this.getView().byId("ticketEditEditForm");
+            ticketEditEditForm.getModel().updateBindings(true);
+		},
+        updateFields : function() {
+            var ticketEditFixedForm = this.getView().byId("ticketEditFixedForm");
+            ticketEditFixedForm.getModel().updateBindings(true);
+            var ticketEditEditForm = this.getView().byId("ticketEditEditForm");
+            ticketEditEditForm.getModel().updateBindings(true);
+        },
 		_onBindingChange : function () {
 			// No data for the binding
 			if (!this.getView().getBindingContext()) {
 				this.getRouter().getTargets().display("notFound");
 			}
 		},
-		onAfterRendering : function() {
-		},
+// 		setSelectedKey : function () {
+//             var ticketModel = sap.ui.getCore().getModel();
+//             var inputField = this.byId("editAssigneeInput").getItems();
+//             inputField.setProperty({"selectedKey" : });
+// 		},
 		onPressSave : function () {
             //Get ticketId from context
             //var editTicketId = this.getView()
@@ -78,10 +65,9 @@ sap.ui.define([
             
             if (userTicketTitle === "" || userTicketDescription === "" || userTicketAssigneeId === "") {
                 MessageToast.show("Please fill in all required fields!", {
-                    closeOnBrowserNavigation: false }
-                );
+                    closeOnBrowserNavigation: false });
             } else {
-                //Create json object
+                //Create JS object
                 var ticketsJSO =
                     {
                         "ticketId":  currTicketId,

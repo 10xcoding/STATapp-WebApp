@@ -5,6 +5,23 @@ sap.ui.define([
 ], function (MessageBox, MessageToast, BaseController) {
 	"use strict";
 	return BaseController.extend("statapp.controller.ticket.TicketDetails", {
+		_onRouteMatched : function (oEvent) {
+			var oArgs, oView;
+			oArgs = oEvent.getParameter("arguments");
+			oView = this.getView();
+			oView.bindElement({
+				path : "/Tickets('" + oArgs.ticketId + "')",
+				events : {
+					change: this._onBindingChange.bind(this),
+					dataRequested: function (oEvent) {
+						oView.setBusy(true);
+					},
+					dataReceived: function (oEvent) {
+						oView.setBusy(false);
+					}
+				}
+			});
+		},
         onInit: function () {
             // Set router
 			var oRouter = this.getRouter();
@@ -15,6 +32,9 @@ sap.ui.define([
             oEventBus.subscribe("ticketDetailsChannel", "setStartTicketButton", this.setStartTicketButton, this);
             oEventBus.subscribe("ticketDetailsChannel", "setCloseTicketButton", this.setCloseTicketButton, this);
             oEventBus.subscribe("ticketDetailsChannel", "updateFields", this.updateFields, this);
+		},
+		onAfterRendering : function(oEvent) {
+		    var userModel = this.getView().getModel("UserModel");
 		},
         setStartTicketButton : function() {
             // Check ticket status, set start ticket button as needed
@@ -36,30 +56,11 @@ sap.ui.define([
             var ticketDetailsForm = this.getView().byId("ticketDetailSimpleForm");
             ticketDetailsForm.getModel().updateBindings(true);
         },
-		_onRouteMatched : function (oEvent) {
-			var oArgs, oView;
-			oArgs = oEvent.getParameter("arguments");
-			oView = this.getView();
-			oView.bindElement({
-				path : "/Tickets('" + oArgs.ticketId + "')",
-				events : {
-					change: this._onBindingChange.bind(this),
-					dataRequested: function (oEvent) {
-						oView.setBusy(true);
-					},
-					dataReceived: function (oEvent) {
-						oView.setBusy(false);
-					}
-				}
-			});
-		},
 		_onBindingChange : function () {
 			// No data for the binding
 			if (!this.getView().getBindingContext()) {
 				this.getRouter().getTargets().display("notFound");
 			}
-		},
-		onAfterRendering : function(oEvent) {
 		},
 		onClickEdit : function (oEvent) {
             var selectedPath = oEvent.getSource().getBindingContext().sPath;

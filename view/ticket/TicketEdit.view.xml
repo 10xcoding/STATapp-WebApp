@@ -1,5 +1,5 @@
 <mvc:View
-	controllerName="sap.ui.demo.nav.controller.ticket.TicketEdit"
+	controllerName="statapp.controller.ticket.TicketEdit"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:f="sap.ui.layout.form"
@@ -23,108 +23,116 @@
 			</headerToolbar>
 			<content>
 				<f:SimpleForm
+                    id="ticketEditFixedForm"
 					minWidth="1024"
 					layout="ResponsiveGridLayout"
 					labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
 					<f:content>
-						<Label text="{i18n>Ticket.Creator}" />
-						<Input value="{firstName_creator} {lastName_creator}" editable="false" />
-						<Label text="{i18n>Ticket.DateCreated}" />
-						<Input value="{
-                            path: 'dateCreated',
-                            type: 'sap.ui.model.type.Date',
-                            formatOptions: {
-                                style: 'medium'
-                            }
-                        }" editable="false" />
-						<Label text="{i18n>Ticket.DateStarted}" />
-						<Input value="{
-                            path: 'dateStarted',
-                            type: 'sap.ui.model.type.Date',
-                            formatOptions: {
-                                style: 'medium'
-                            }
-                        }" editable="false" />
-						<Label text="{i18n>Ticket.DateClosed}" />
-						<Input value="{
-                            path: 'dateClosed',
-                            type: 'sap.ui.model.type.Date',
-                            formatOptions: {
-                                style: 'medium'
-                            }
-                        }" editable="false" />
+						<Label text="{i18n>Ticket.Creator}" labelFor="editTicketCreatorInput" />
+						<Input id="editTicketCreatorInput" value="{firstName_creator} {lastName_creator}" editable="false" />
+						<Label text="{i18n>Ticket.DateCreated}" labelFor="editTicketDateCreatedInput" />
+						<Input
+                            id="editTicketDateCreatedInput"
+                            value="{
+                                path: 'dateCreated',
+                                type: 'sap.ui.model.type.Date',
+                                formatOptions: {
+                                    style: 'medium'
+                                }
+                            }"
+                            editable="false" />
+						<Label text="{i18n>Ticket.DateStarted}" labelFor="editTicketDateStartedInput" />
+						<Input
+                            id="editTicketDateStartedInput"
+                            value="{
+                                path: 'dateStarted',
+                                type: 'sap.ui.model.type.Date',
+                                formatOptions: {
+                                    style: 'medium'
+                                }
+                            }"
+                            editable="false" />
+						<Label text="{i18n>Ticket.DateClosed}" labelFor="editTicketDateClosedInput" />
+						<Input
+                            id="editTicketDateClosedInput"
+                            value="{
+                                path: 'dateClosed',
+                                type: 'sap.ui.model.type.Date',
+                                formatOptions: {
+                                    style: 'medium'
+                                }
+                            }"
+                            editable="false" />
 					</f:content>
 				</f:SimpleForm>
 				<f:SimpleForm
+				    id="ticketEditEditForm"
 					minWidth="1024"
 					editable="true"
 					layout="ResponsiveGridLayout"
 					labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
 					<f:content>
-						<Label text="{i18n>Ticket.TicketTitle}" required="true" />
-						<Input value="{ticketTitle}" id="editTicketTitle" />
+						<Label text="{i18n>Ticket.TicketTitle}" required="true" labelFor="editTicketTitle"/>
+						<Input
+                            value="{ticketTitle}"
+                            id="editTicketTitle" />
 						
-						<Label text="{i18n>Ticket.TicketDescription}" required="true" />
-						<TextArea value="{ticketDescription}" id="editTicketDescription" />
+						<Label text="{i18n>Ticket.TicketDescription}" required="true" labelFor="editTicketDescription"/>
+						<TextArea
+                            value="{ticketDescription}"
+                            id="editTicketDescription" />
 						
-						<Label text="{i18n>Ticket.FunctionalArea}" required="true" />
+						<Label text="{i18n>Ticket.FunctionalArea}" required="true" labelFor="editFuncAreaSelect"/>
 						<Select
                             id="editFuncAreaSelect"
-                            items="{
-                                path: 'FuncAreaModel>/FuncAreas'
-                            }">
+                            items="{FuncAreaModel>/FuncAreas}"
+                            selectedKey="{functionalArea_value}" >
                             <items>
                                 <core:Item
                                     key="{FuncAreaModel>value}"
                                     text="{FuncAreaModel>description}"
-                                    selectedKey="{functionalArea_value}"
                                 />
                             </items>
                         </Select>
 						
-						<Label text="{i18n>Ticket.Assignee}" required="true" />
-                        <Input
+						<Label text="{i18n>Ticket.Assignee}" required="true" labelFor="editAssigneeInput" />
+                        <Select
                             id="editAssigneeInput"
                             type="Text"
                             showSuggestion="true"
-                            suggestionItems="{
-                                path: 'UserModel>/Users'
-                            }"
-                            selectedKey="{assignee_userId}" >
-                            <suggestionItems>
+                            items="{UserModel>/Users}"
+                            selectedKey="{assignee_userId}"
+                            updateFinished="setSelectedKey" >
+                            <items>
                                 <core:ListItem
-                                    selectedKey="{assignee_userId}"
                                     key="{UserModel>userId}"
                                     text="{UserModel>firstName} {UserModel>lastName}"
-                                    additionalText="{UserModel>userId}" />
-                            </suggestionItems>
-                        </Input>
-						
-						<Label text="{i18n>Ticket.TicketStatus}" required="true" />
-						<Select
-                            id="editTicketStatusSelect"
-                            items="{
-                                path: 'ticketStatusModel>/TicketStatuses'
-                            }">
-                            <items>
-                                <core:Item
-                                    key="{ticketStatusModel>value}"
-                                    text="{ticketStatusModel>description}"
-                                    selectedKey="{ticketStatus_value}" />
+                                    additionalText="{UserModel>userId}"
+                                    />
                             </items>
                         </Select>
 						
-						<Label text="{i18n>Ticket.TicketPriority}" required="true" />
+						<Label text="{i18n>Ticket.TicketStatus}" required="true" labelFor="editTicketStatusSelect"/>
+						<Select
+                            id="editTicketStatusSelect"
+                            items="{TicketStatusModel>/TicketStatuses}"
+                            selectedKey="{ticketStatus_value}" >
+                            <items>
+                                <core:Item
+                                    key="{TicketStatusModel>value}"
+                                    text="{TicketStatusModel>description}" />
+                            </items>
+                        </Select>
+						
+						<Label text="{i18n>Ticket.TicketPriority}" required="true" labelFor="editTicketPrioritySelect" />
 						<Select
                             id="editTicketPrioritySelect"
-                            items="{
-                                path: 'TicketPriorityModel>/TicketPriorities'
-                            }">
+                            items="{TicketPriorityModel>/TicketPriorities}"
+                            selectedKey="{ticketPriority_value}" >
                             <items>
                                 <core:Item
                                     key="{TicketPriorityModel>value}"
                                     text="{TicketPriorityModel>description}"
-                                    selectedKey="ticketPriority_value"
                                 />
                             </items>
                         </Select>

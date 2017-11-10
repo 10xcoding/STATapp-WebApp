@@ -18,7 +18,7 @@
                     "odataVersion" : "2.0",
                     "localUri" : "localService/metadata.xml",
                     "refreshAfterChange" : "true",
-                    "cache" : "false"
+                    "cache" : "true"
                 }
             },
             "userService" : {
@@ -64,6 +64,12 @@
             "phone": true
         },
         "supportedThemes": [
+            "base",
+            "sap_hcb",
+            "sap_ux",
+            "sap_platinum",
+            "sap_bluecrystal",
+            "sap_goldreflection",
             "sap_belize"
         ]
     },
@@ -71,7 +77,7 @@
         "_version": "1.1.0",
         "rootView": "statapp.view.App",
         "dependencies": {
-            "minUI5Version": "1.30",
+            "minUI5Version": "1.44",
             "libs": {
                 "sap.m": {}
             }

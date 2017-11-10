@@ -16,7 +16,8 @@
                             <NumericContent
                                 id="ticketCount"
                                 value="{
-                                    path: 'https://stats0017130098trial.hanatrial.ondemand.com/dev/dev01/statapp/services/ticket.xsodata/Tickets/$count?$filter=ticketStatus_value%20ne%204'
+                                    path: '/Tickets',
+                                    formatter: '.formatter.getOpenTicketCount'
                                 }"
                             />
                         </content>

@@ -1,18 +1,17 @@
 sap.ui.define([], function () {
 	"use strict";
 	return {
-		priorityText: function (sPriority) {
-			var resourceBundle = this.getView().getModel("i18n").getResourceBundle();
-			switch (sPriority) {
-				case "1":
-					return resourceBundle.getText("TicketPriority1");
-				case "2":
-					return resourceBundle.getText("TicketPriority2");
-				case "3":
-					return resourceBundle.getText("TicketPriority3");
-				default:
-					return sPriority;
-			}
-		}
-	};
+        // getOpenTicketCount : function () {
+        //     var sPath = this.getBindingContext().getPath() + '/Tickets';
+        //     var oBindings = this.getModel().bindList(sPath);
+        //     return oBindings.getLength();
+        // }
+        // ,
+        getOpenTicketCount: function() {
+            // var countPage = jQuery.get("https://stats0017130098trial.hanatrial.ondemand.com/dev/dev01/statapp/services/ticket.xsodata/Tickets/$count?$filter=ticketStatus_value%20ne%204");
+            // var count = parseInt(countPage.responseText,10);
+            // "/$count?$filter=ticketStatus_value%20ne%204";
+            return 5;
+        }
+    };
 });
