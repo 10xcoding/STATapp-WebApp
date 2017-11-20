@@ -3,6 +3,7 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:f="sap.ui.layout.form"
+	xmlns:t="sap.suite.ui.commons"
 	busyIndicatorDelay="0">
 	<Page
 		id="ticketDetailsPage"
@@ -74,6 +75,31 @@
 							<Text id="ticketDetailsPriority" text="{description_priority}" />
 						</f:content>
 					</f:SimpleForm>
+					<t:Timeline
+                        id="ticketEditComments"
+                        enableBackendFilter="true"
+                        enableScroll="false"
+                        growingThreshold="10"
+                        content="{
+                            path:'CommentModel>/Comments',
+                            filters: [{
+                                path: 'ticket_ticketId',
+                                operator: 'EQ',
+                                value1: 'T100000094'
+                            }],
+                            sort: 'CommentModel>/dateTime'
+                        }"
+                        layout="ResponsiveGridLayout"
+                        showIcons="true" >
+                        <t:content>
+                            <t:TimelineItem
+                                icon="sap-icon://post"
+                                dateTime="{CommentModel>dateTime}"
+                                text="{CommentModel>text}"
+                                userName="{CommentModel>firstName} {CommentModel>lastName}" >
+                            </t:TimelineItem>
+                        </t:content>
+                    </t:Timeline>
 				</content>
 			</Panel>
 		</content>

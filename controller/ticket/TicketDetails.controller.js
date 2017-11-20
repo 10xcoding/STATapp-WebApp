@@ -13,10 +13,10 @@ sap.ui.define([
 				path : "/Tickets('" + oArgs.ticketId + "')",
 				events : {
 					change: this._onBindingChange.bind(this),
-					dataRequested: function (oEvent) {
+					dataRequested: function () {
 						oView.setBusy(true);
 					},
-					dataReceived: function (oEvent) {
+					dataReceived: function () {
 						oView.setBusy(false);
 					}
 				}
@@ -33,8 +33,7 @@ sap.ui.define([
             oEventBus.subscribe("ticketDetailsChannel", "setCloseTicketButton", this.setCloseTicketButton, this);
             oEventBus.subscribe("ticketDetailsChannel", "updateFields", this.updateFields, this);
 		},
-		onAfterRendering : function(oEvent) {
-		    var userModel = this.getView().getModel("UserModel");
+		onAfterRendering : function() {
 		},
         setStartTicketButton : function() {
             // Check ticket status, set start ticket button as needed
@@ -55,12 +54,17 @@ sap.ui.define([
         updateFields : function() {
             var ticketDetailsForm = this.getView().byId("ticketDetailSimpleForm");
             ticketDetailsForm.getModel().updateBindings(true);
+            var ticketEditComments = this.getView().byId("ticketDetailsComments");
+            ticketEditComments.getModel().updateBindings(true);
         },
 		_onBindingChange : function () {
 			// No data for the binding
 			if (!this.getView().getBindingContext()) {
 				this.getRouter().getTargets().display("notFound");
 			}
+		},
+		onHitTimelineRefresh : function() {
+		    MessageToast.show("Clicked refresh, went to controller.");
 		},
 		onClickEdit : function (oEvent) {
             var selectedPath = oEvent.getSource().getBindingContext().sPath;
@@ -69,7 +73,7 @@ sap.ui.define([
 				ticketId : ticketId
 			});
 		},
-		onPressStartTicket : function (oEvent) {
+		onPressStartTicket : function () {
             //Set button as unclickable
             this.getView().byId("startTicketButton").setEnabled(false);
             //Confirm selection
@@ -98,7 +102,7 @@ sap.ui.define([
                 this.getView().getModel().update("/StartTicket('" + currTicketId + "')", {}, oParams );
             }
 		},
-		onPressCloseTicket : function (oEvent) {
+		onPressCloseTicket : function () {
             //Set button as unclickable
             this.getView().byId("closeTicketButton").setEnabled(false);
             //Confirm selection

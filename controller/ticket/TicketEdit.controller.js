@@ -16,7 +16,7 @@ sap.ui.define([
 						oView.setBusy(true);
 					},
 					dataReceived: function () {
-                            oView.setBusy(false);
+                        oView.setBusy(false);
 					}
 				}
 			});
@@ -46,11 +46,6 @@ sap.ui.define([
 				this.getRouter().getTargets().display("notFound");
 			}
 		},
-// 		setSelectedKey : function () {
-//             var ticketModel = sap.ui.getCore().getModel();
-//             var inputField = this.byId("editAssigneeInput").getItems();
-//             inputField.setProperty({"selectedKey" : });
-// 		},
 		onPressSave : function () {
             //Get ticketId from context
             //var editTicketId = this.getView()
@@ -87,6 +82,16 @@ sap.ui.define([
 		},
 		onPressCancel : function () {
 			this.onNavBack();
+		},
+		onPressEditForm : function (pressEvent) {
+            // Toggle edit on/off
+            var isEditable = pressEvent.getSource().getPressed();
+            this.getView().byId("editTicketTitle").setProperty("editable",isEditable);
+            this.getView().byId("editTicketDescription").setProperty("editable",isEditable);
+            this.getView().byId("editFuncAreaSelect").setProperty("enabled",isEditable);
+            this.getView().byId("editAssigneeInput").setProperty("editable",isEditable);
+            this.getView().byId("editTicketStatusSelect").setProperty("enabled",isEditable);
+            this.getView().byId("editTicketPrioritySelect").setProperty("enabled",isEditable);
 		},
         updateTicket : function(ticketJSO) {
             var oParams = {};

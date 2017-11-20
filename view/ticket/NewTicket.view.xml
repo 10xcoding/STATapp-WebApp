@@ -34,33 +34,47 @@
 						<Label text="{i18n>Ticket.TicketDescription}" required="true" labelFor="newTicketDescription" />
 						<TextArea id="newTicketDescription" />
 						
-						<Label text="{i18n>Ticket.FunctionalArea}" labelFor="newFuncAreaSelect" />
-						<Select
+						<Label text="{i18n>Ticket.FunctionalArea}" required="true" labelFor="newFuncAreaSelect" />
+						<ComboBox
                             id="newFuncAreaSelect"
-                            items="{
-                                path: 'FuncAreaModel>/FuncAreas'
-                            }">
+                            items="{FuncAreaModel>/FuncAreas}"
+                            change="onFuncAreaChange" >
                             <items>
                                 <core:Item
                                     key="{FuncAreaModel>value}"
                                     text="{FuncAreaModel>description}"
                                 />
                             </items>
-                        </Select>
+                        </ComboBox>
+                        
+                        <Label text="{i18n>Ticket.Assignee}" required="true" labelFor="editAssigneeInput" />
+                        <ComboBox
+                            id="newAssigneeSelect"
+                            type="Text"
+                            showSuggestion="true"
+                            items="{UserModel>/Users}"
+                            showSecondaryValues= "true"
+                            filterSecondaryValues= "true" >
+                            <items>
+                                <core:ListItem
+                                    key="{UserModel>userId}"
+                                    text="{UserModel>firstName} {UserModel>lastName}"
+                                    additionalText="{UserModel>userId}"
+                                    />
+                            </items>
+                        </ComboBox>
 						
-						<Label text="{i18n>Ticket.TicketPriority}" labelFor="newTicketPrioritySelect" />
-						<Select
+						<Label text="{i18n>Ticket.TicketPriority}" required="true" labelFor="newTicketPrioritySelect" />
+						<ComboBox
                             id="newTicketPrioritySelect"
-                            items="{
-                                path: 'TicketPriorityModel>/TicketPriorities'
-                            }">
+                            items="{TicketPriorityModel>/TicketPriorities}" >
                             <items>
                                 <core:Item
                                     key="{TicketPriorityModel>value}"
                                     text="{TicketPriorityModel>description}"
                                 />
                             </items>
-                        </Select>
+                        </ComboBox>
                     </f:content>
 				</f:SimpleForm>
 			</content>
