@@ -3,106 +3,30 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:f="sap.ui.layout.form"
-	xmlns:t="sap.suite.ui.commons"
-	busyIndicatorDelay="0">
+	busyIndicatorDelay="0" >
 	<Page
 		id="ticketDetailsPage"
 		title="{i18n>TicketDetails.Title} {ticketId}"
 		showNavButton="true"
 		navButtonPress="onNavBack"
-		class="sapUiResponsiveContentPadding">
-		<content>
-			<Panel
-				id="ticketPanel"
-				width="auto"
-				class="sapUiResponsiveMargin sapUiNoContentPadding">
-				<headerToolbar>
-					<Toolbar>
-						<Title text="{i18n>TicketDetails.ToolbarTitle}" level="H2"/>
-						<ToolbarSpacer />
-						<Button
-                            text="Edit"
-                            icon="sap-icon://edit"
-                            press="onClickEdit"
-						/>
-					</Toolbar>
-				</headerToolbar>
-				<content>
-					<f:SimpleForm
-					    id="ticketDetailSimpleForm"
-						minWidth="1024"
-						editable="false"
-						layout="ResponsiveGridLayout"
-						labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
-						<f:content>
-							<Label text="{i18n>Ticket.TicketTitle}" />
-							<Text id="ticketDetailsTitle" text="{ticketTitle}" />
-							<Label text="{i18n>Ticket.TicketDescription}" />
-							<Text id="ticketDetailsDescription" text="{ticketDescription}" />
-							<Label text="{i18n>Ticket.FunctionalArea}" />
-							<Text id="ticketDetailsFunctionalArea" text="{description_functionalArea}" />
-							<Label text="{i18n>Ticket.Creator}" />
-							<Text id="ticketDetailsCreator" text="{firstName_creator} {lastName_creator}" />
-							<Label text="{i18n>Ticket.Assignee}" />
-							<Text id="ticketDetailsAssignee" text="{firstName_assignee} {lastName_assignee}" />
-							<Label text="{i18n>Ticket.DateCreated}" />
-							<Text id="ticketDetailsDateCreated" text="{
-                                path: 'dateCreated',
-                                type: 'sap.ui.model.type.Date',
-                                formatOptions: {
-                                    style: 'medium'
-                                }
-                            }" />
-							<Label text="{i18n>Ticket.DateStarted}" />
-							<Text id="ticketDetailsDateStarted" text="{
-                                path: 'dateStarted',
-                                type: 'sap.ui.model.type.Date',
-                                formatOptions: {
-                                    style: 'medium'
-                                }
-                            }" />
-							<Label text="{i18n>Ticket.DateClosed}" />
-							<Text id="ticketDetailsDateClosed" text="{
-                                path: 'dateClosed',
-                                type: 'sap.ui.model.type.Date',
-                                formatOptions: {
-                                    style: 'medium'
-                                }
-                            }" />
-							<Label text="{i18n>Ticket.TicketStatus}" />
-							<Text id="ticketDetailsStatus" text="{description_status}" />
-							<Label text="{i18n>Ticket.TicketPriority}" />
-							<Text id="ticketDetailsPriority" text="{description_priority}" />
-						</f:content>
-					</f:SimpleForm>
-					<t:Timeline
-                        id="ticketEditComments"
-                        enableBackendFilter="true"
-                        enableScroll="false"
-                        growingThreshold="10"
-                        content="{
-                            path:'CommentModel>/Comments',
-                            filters: [{
-                                path: 'ticket_ticketId',
-                                operator: 'EQ',
-                                value1: 'T100000094'
-                            }],
-                            sort: 'CommentModel>/dateTime'
-                        }"
-                        layout="ResponsiveGridLayout"
-                        showIcons="true" >
-                        <t:content>
-                            <t:TimelineItem
-                                icon="sap-icon://post"
-                                dateTime="{CommentModel>dateTime}"
-                                text="{CommentModel>text}"
-                                userName="{CommentModel>firstName} {CommentModel>lastName}" >
-                            </t:TimelineItem>
-                        </t:content>
-                    </t:Timeline>
-				</content>
-			</Panel>
-		</content>
+		class="sapUiResponsiveContentPadding" >
+			<IconTabBar
+				id="iconTabBar"
+				select="onTabSelect"
+				selectedKey="{view>/selectedTabKey}"
+                class="sapUiResponsiveContentPadding" >
+				<items>
+					<IconTabFilter id="detailsTab" text="{i18n>TicketDetails.TabTitleDetails}" key="Details">
+                        <mvc:XMLView viewName="statapp.view.ticket.ticketDetailTabs.TicketDetailsTab"></mvc:XMLView>
+					</IconTabFilter>
+					<IconTabFilter id="commentsTab" text="{i18n>TicketDetails.TabTitleComments}" key="Comments">
+						<mvc:XMLView viewName="statapp.view.ticket.ticketDetailTabs.TicketCommentsTab"></mvc:XMLView>
+					</IconTabFilter>
+					<IconTabFilter id="attachmentsTab" text="{i18n>TicketDetails.TabTitleAttachments}" key="Attachments">
+						<mvc:XMLView viewName="statapp.view.ticket.ticketDetailTabs.TicketAttachmentsTab"></mvc:XMLView>
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
         <footer>
 			<OverflowToolbar id="TicketDetailsFooter">
                 <ToolbarSpacer/>

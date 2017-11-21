@@ -22,7 +22,6 @@
 					<ToolbarSpacer />
 				</Toolbar>
 			</headerToolbar>
-			<content>
                 <ScrollContainer
                     vertical="true"
                     getParent="true" >
@@ -32,7 +31,7 @@
                         layout="ResponsiveGridLayout"
                         labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
                         <f:content>
-                        
+                            
                             <Toolbar>
                                 <Title text="{i18n>TicketEdit.FixedFormTitle}" level="H5" titleStyle="H5"/>
                                 <ToolbarSpacer />
@@ -165,14 +164,7 @@
                         </f:content>
                     </f:SimpleForm>
                 </ScrollContainer>
-			</content>
 		</Panel>
-		<footer>
-			<OverflowToolbar id="TicketListFooter">
-                <ToolbarSpacer/>
-                <Button id="newTicketButton" text="{i18n>TicketList.NewTicketButton}" press="onNavToNewTicket" icon="sap-icon://add"/>
-            </OverflowToolbar>
-        </footer>
 		<footer>
 			<OverflowToolbar id="TicketEditFooter">
                 <ToolbarSpacer/>

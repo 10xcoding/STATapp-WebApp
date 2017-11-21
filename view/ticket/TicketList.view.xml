@@ -7,8 +7,7 @@
     <Page id="ticketListPage" title="{i18n>TicketList.Title}"
 		showNavButton="true"
 		navButtonPress="onNavBack"
-		class="sapUiResponsiveContentPadding"
-		rerender="true">
+		class="sapUiResponsiveContentPadding" >
 		<subHeader>
             <Toolbar>
                 <SearchField

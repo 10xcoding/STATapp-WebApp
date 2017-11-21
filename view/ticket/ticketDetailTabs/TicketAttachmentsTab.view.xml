@@ -1,0 +1,90 @@
+<mvc:View
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc" >
+    
+    <MessageStrip showIcon="true"
+        type="Information"
+        text="To add files, you can also use drag &amp; drop on your desktop or tablet."
+        class="sapUiTinyMargin" />
+        
+    <UploadCollection id="UploadCollection"
+        maximumFilenameLength="55"
+        maximumFileSize="10"
+        multiple="true"
+        change="onChange"
+        fileDeleted="onFileDeleted"
+        filenameLengthExceed="onFilenameLengthExceed"
+        fileRenamed="onFileRenamed"
+        fileSizeExceed="onFileSizeExceed"
+        selectionChange="onSelectionChange"
+        typeMissmatch="onTypeMissmatch"
+        uploadComplete="onUploadComplete"
+        beforeUploadStarts="onBeforeUploadStarts"
+        uploadTerminated="onUploadTerminated"
+        items="{
+            path : '/Tickets',
+            templateShareable : false
+            }"
+        numberOfAttachmentsText="Uploaded (8)"
+        mode="SingleSelectMaster">
+        <toolbar>
+            <OverflowToolbar id="myId">
+                <Title id="attachmentTitle" />
+                <ToolbarSpacer />
+                <SearchField width="10rem" search="onSearch" />
+                <Button id="deleteSelectedButton"
+                    text="Delete"
+                    press="onDeleteSelectedItems"
+                    enabled="false"
+                    visible="false"
+                    type="Transparent" />
+                <ToggleButton id="selectAllButton"
+                    text="Select all"
+                    press="onSelectAllPress"
+                    enabled="false"
+                    visible="false"
+                    type="Transparent" />
+                <UploadCollectionToolbarPlaceholder />
+            </OverflowToolbar>
+        </toolbar>
+        <items>
+            <UploadCollectionItem
+                documentId="{documentId}"
+                fileName="{fileName}"
+                mimeType="{mimeType}"
+                thumbnailUrl="{thumbnailUrl}"
+                url="{url}"
+                enableEdit="{enableEdit}"
+                enableDelete="{enableDelete}"
+                visibleDelete="{visibleDelete}"
+                visibleEdit="{visibleEdit}"
+                attributes="{path : 'attributes', templateShareable : false}"
+                statuses="{path : 'statuses', templateShareable : false}"
+                markers="{path : 'markers', templateShareable : false}"
+                selected="{selected}">
+                <attributes>
+                    <ObjectAttribute
+                        title="{title}"
+                        text="{path : 'text', formatter : '.formatAttribute'}"
+                        active="{active}"
+                        press="onAttributePress" />
+                </attributes>
+                <statuses>
+                    <ObjectStatus
+                        title="{title}"
+                        text="{text}"
+                        state="{state}"
+                        icon="{icon}"
+                        iconDensityAware="{iconDensityAware}"
+                        textDirection="{textDirection}" />
+                </statuses>
+                <markers>
+                    <ObjectMarker
+                        type="{type}"
+                        press="onMarkerPress" />
+                </markers>
+            </UploadCollectionItem>
+        </items>
+    </UploadCollection>
+	
+</mvc:View>

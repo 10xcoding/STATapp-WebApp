@@ -182,7 +182,7 @@
 				"greedy": "true",
 				"target": "tickets"
 			}, {
-				"pattern": "tickets/{ticketId}",
+				"pattern": "tickets/{ticketId}:?query:",
 				"name": "ticket",
 				"target": "ticketDetails"
 			}, {

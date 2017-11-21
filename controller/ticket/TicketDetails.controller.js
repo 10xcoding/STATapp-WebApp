@@ -2,11 +2,13 @@ sap.ui.define([
     "sap/m/MessageBox"
     ,"sap/m/MessageToast"
 	,"statapp/controller/BaseController"
-], function (MessageBox, MessageToast, BaseController) {
+	,"sap/ui/model/json/JSONModel"
+], function (MessageBox, MessageToast, BaseController, JSONModel) {
 	"use strict";
+	var _aValidTabKeys = ["Details", "Comments", "Attachments"];
 	return BaseController.extend("statapp.controller.ticket.TicketDetails", {
 		_onRouteMatched : function (oEvent) {
-			var oArgs, oView;
+			var oArgs, oView, oQuery;
 			oArgs = oEvent.getParameter("arguments");
 			oView = this.getView();
 			oView.bindElement({
@@ -21,10 +23,23 @@ sap.ui.define([
 					}
 				}
 			});
+			oQuery = oArgs["?query"];
+			if (oQuery && _aValidTabKeys.indexOf(oQuery.tab) >= 0) {
+				oView.getModel("view").setProperty("/selectedTabKey", oQuery.tab);
+			} else {
+				// the default query param should be visible at all time
+				this.getRouter().navTo("ticket", {
+					ticketId : oArgs.ticketId,
+					query: {
+						tab : _aValidTabKeys[0]
+					}
+				}, true /*no history*/);
+			}
 		},
         onInit: function () {
             // Set router
 			var oRouter = this.getRouter();
+			this.getView().setModel(new JSONModel(), "view");
 			oRouter.getRoute("ticket").attachMatched(this._onRouteMatched, this);
 			
 			// Subscribe to event buses
@@ -33,7 +48,14 @@ sap.ui.define([
             oEventBus.subscribe("ticketDetailsChannel", "setCloseTicketButton", this.setCloseTicketButton, this);
             oEventBus.subscribe("ticketDetailsChannel", "updateFields", this.updateFields, this);
 		},
-		onAfterRendering : function() {
+		onTabSelect : function (oEvent){
+			var oCtx = this.getView().getBindingContext();
+			this.getRouter().navTo("ticket", {
+				ticketId : oCtx.getProperty("ticketId"),
+				query: {
+					tab : oEvent.getParameter("selectedKey")
+				}
+			}, true /*without history*/);
 		},
         setStartTicketButton : function() {
             // Check ticket status, set start ticket button as needed
