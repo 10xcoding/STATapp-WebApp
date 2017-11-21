@@ -11,16 +11,16 @@
         growingThreshold="10"
         enableSocial="true"
         content="{
-            path:'CommentModel>/Comments'
+            path:'TicketsComments'
         }"
         layout="ResponsiveGridLayout"
         showIcons="true" >
         <t:content>
             <t:TimelineItem
                 icon="sap-icon://post"
-                dateTime="{CommentModel>dateTime}"
-                text="{CommentModel>text}"
-                userName="{CommentModel>firstName} {CommentModel>lastName}" >
+                dateTime="{dateTime}"
+                text="{text}"
+                userName="{firstName} {lastName}" >
             </t:TimelineItem>
         </t:content>
     </t:Timeline>
