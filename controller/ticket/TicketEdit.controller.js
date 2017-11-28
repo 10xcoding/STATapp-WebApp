@@ -3,13 +3,15 @@ sap.ui.define([
 	,"statapp/controller/BaseController"
 ], function (MessageToast, BaseController) {
 	"use strict";
+	var currentTicketId = "";
 	return BaseController.extend("statapp.controller.ticket.TicketEdit", {
 		_onRouteMatched : function (oEvent) {
 			var oArgs, oView;
 			oArgs = oEvent.getParameter("arguments");
+			currentTicketId = oArgs.ticketId;
 			oView = this.getView();
 			oView.bindElement({
-				path : "/Tickets('" + oArgs.ticketId + "')",
+				path : "/TicketsComments('" + currentTicketId + "')",
 				events : {
 					change: this._onBindingChange.bind(this),
 					dataRequested: function () {
@@ -48,9 +50,6 @@ sap.ui.define([
 		},
 		onPressSave : function () {
             //Get ticketId from context
-            //var editTicketId = this.getView()
-            //Get required data from input fields
-            var currTicketId = window.location.href.slice(-15,-5);
             var userTicketTitle = this.getView().byId("editTicketTitle").getValue();
             var userTicketDescription = this.getView().byId("editTicketDescription").getValue();
             var userFunctionalAreaValue = this.getView().byId("editFuncAreaSelect").getProperty("selectedKey");
@@ -65,7 +64,7 @@ sap.ui.define([
                 //Create JS object
                 var ticketsJSO =
                     {
-                        "ticketId":  currTicketId,
+                        "ticketId":  currentTicketId,
                         "ticketTitle":  userTicketTitle  ,
                         "ticketDescription":  userTicketDescription  ,
                         "functionalArea.value":  userFunctionalAreaValue  ,
@@ -112,7 +111,7 @@ sap.ui.define([
                 );
             };
             oParams.bMerge = true;
-            this.getView().getModel().update("/UpdateTicket('" + ticketJSO.ticketId + "')", ticketJSO, oParams );
+            this.getView().getModel().update("/UpdateTicket('" + currentTicketId + "')", ticketJSO, oParams );
         }
 	});
 });

@@ -18,8 +18,6 @@ sap.ui.define([
             var oDataModel = new sap.ui.model.odata.v2.ODataModel(ticketListOdataServiceUrl);
             this.getView().setModel(oDataModel);
         },
-        onAfterRendering : function() {
-        },
 		onPressSave : function () {
             //Get required data from input fields
             var userTicketTitle = this.getView().byId("newTicketTitle").getValue();

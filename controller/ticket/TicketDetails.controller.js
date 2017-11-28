@@ -6,13 +6,15 @@ sap.ui.define([
 ], function (MessageBox, MessageToast, BaseController, JSONModel) {
 	"use strict";
 	var _aValidTabKeys = ["Details", "Comments", "Attachments"];
+	var currentTicketId = "";
 	return BaseController.extend("statapp.controller.ticket.TicketDetails", {
 		_onRouteMatched : function (oEvent) {
 			var oArgs, oView, oQuery;
 			oArgs = oEvent.getParameter("arguments");
+			currentTicketId = oArgs.ticketId;
 			oView = this.getView();
 			oView.bindElement({
-				path : "/Tickets('" + oArgs.ticketId + "')",
+				path : "/TicketsComments('" + currentTicketId + "')",
 				events : {
 					change: this._onBindingChange.bind(this),
 					dataRequested: function () {
@@ -23,6 +25,53 @@ sap.ui.define([
 					}
 				}
 			});
+// 			oView.setModel(new ODataModel(
+// 			    path : "/TicketsComments('" + currentTicketId + "')",
+// 				events : {
+// 					change: this._onBindingChange.bind(this),
+// 					dataRequested: function () {
+// 						oView.setBusy(true);
+// 					},
+// 					dataReceived: function () {
+// 						oView.setBusy(false);
+// 					}
+// 				}),"comments");
+			// SOMETHING LIKE THIS ???
+			
+// 			this.getView().setModel(new JSONModel(data));
+//          this.getView().setModel(new JSONModel(data), name));
+			
+// 			// TicketModel
+//             var oTicketModel = new JSONModel({ // ODATAModel ?
+// 				path : "/Tickets('" + currentTicketId + "')",
+// 				events : {
+// 					change: this._onBindingChange.bind(this),
+// 					dataRequested: function () {
+// 						oView.setBusy(true);
+// 					},
+// 					dataReceived: function () {
+// 						oView.setBusy(false);
+// 					}
+// 				}
+// 			});
+//             this.getView().setModel(oTicketModel, "TicketModel");
+//             this.getView().bindElement(oTicketModel);
+//             // TicketCommentsModel
+//             var oTicketCommentModel = new JSONModel({
+// 				path : "/TicketsComments('" + currentTicketId + "')",
+// 				events : {
+// 					change: this._onBindingChange.bind(this),
+// 					dataRequested: function () {
+// 						oView.setBusy(true);
+// 					},
+// 					dataReceived: function () {
+// 						oView.setBusy(false);
+// 					}
+// 				}
+// 			});
+//             this.getView().setModel(oTicketCommentModel, "TicketCommentModel");
+			// SOMETHING LIKE THIS ???
+			
 			oQuery = oArgs["?query"];
 			if (oQuery && _aValidTabKeys.indexOf(oQuery.tab) >= 0) {
 				oView.getModel("view").setProperty("/selectedTabKey", oQuery.tab);
@@ -88,11 +137,9 @@ sap.ui.define([
 		onHitTimelineRefresh : function() {
 		    MessageToast.show("Clicked refresh, went to controller.");
 		},
-		onClickEdit : function (oEvent) {
-            var selectedPath = oEvent.getSource().getBindingContext().sPath;
-            var ticketId = selectedPath.slice(10,-2); //TODO: check
+		onClickEdit : function () {
 			this.getRouter().navTo("ticketEdit",{
-				ticketId : ticketId
+				ticketId : currentTicketId
 			});
 		},
 		onPressStartTicket : function () {
@@ -120,8 +167,7 @@ sap.ui.define([
                     oEventBus.publish("ticketDetailsChannel", "setStartTicketButton", false);
                 };
                 oParams.bMerge = true;
-                var currTicketId = window.location.href.slice(-10);
-                this.getView().getModel().update("/StartTicket('" + currTicketId + "')", {}, oParams );
+                this.getView().getModel().update("/StartTicket('" + currentTicketId + "')", {}, oParams );
             }
 		},
 		onPressCloseTicket : function () {
@@ -149,8 +195,7 @@ sap.ui.define([
                     oEventBus.publish("ticketDetailsChannel", "setCloseTicketButton", false);
                 };
                 oParams.bMerge = true;
-                var currTicketId = window.location.href.slice(-10);
-                this.getView().getModel().update("/CloseTicket('" + currTicketId + "')", {}, oParams );
+                this.getView().getModel().update("/CloseTicket('" + currentTicketId + "')", {}, oParams );
             }
 		}
 	});

@@ -39,11 +39,11 @@
                 <Label text="{i18n>Ticket.TicketDescription}" />
                 <Text id="ticketDetailsDescription" text="{ticketDescription}" />
                 <Label text="{i18n>Ticket.FunctionalArea}" />
-                <Text id="ticketDetailsFunctionalArea" text="{description_functionalArea}" />
+                <Text id="ticketDetailsFunctionalArea" text="{functionalArea_description}" />
                 <Label text="{i18n>Ticket.Creator}" />
-                <Text id="ticketDetailsCreator" text="{firstName_creator} {lastName_creator}" />
+                <Text id="ticketDetailsCreator" text="{creator_firstName} {creator_lastName}" />
                 <Label text="{i18n>Ticket.Assignee}" />
-                <Text id="ticketDetailsAssignee" text="{firstName_assignee} {lastName_assignee}" />
+                <Text id="ticketDetailsAssignee" text="{assignee_firstName} {assignee_lastName}" />
                 <Label text="{i18n>Ticket.DateCreated}" />
                 <Text id="ticketDetailsDateCreated" text="{
                     path: 'dateCreated',
@@ -69,9 +69,9 @@
                     }
                 }" />
                 <Label text="{i18n>Ticket.TicketStatus}" />
-                <Text id="ticketDetailsStatus" text="{description_status}" />
+                <Text id="ticketDetailsStatus" text="{ticketStatus_description}" />
                 <Label text="{i18n>Ticket.TicketPriority}" />
-                <Text id="ticketDetailsPriority" text="{description_priority}" />
+                <Text id="ticketDetailsPriority" text="{ticketPriority_description}" />
             </f:content>
         </f:SimpleForm>
     </ScrollContainer>
