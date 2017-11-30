@@ -29,14 +29,6 @@
                     "localUri" : "localService/metadata.xml"
                 }
             },
-            "commentService" : {
-                "uri" : "https://stats0017130098trial.hanatrial.ondemand.com/dev/dev01/statapp/services/comment.xsodata",
-                "type" : "OData",
-                "settings" : {
-                    "odataVersion" : "2.0",
-                    "localUri" : "localService/metadata.xml"
-                }
-            },
             "funcAreaService" : {
                 "uri" : "https://stats0017130098trial.hanatrial.ondemand.com/dev/dev01/statapp/services/functionalArea.xsodata",
                 "type" : "OData",
@@ -116,16 +108,6 @@
                     "defaultCountMode" : "Request"
                 },
                 "dataSource" : "userService",
-                "preload" : true
-            },
-            "CommentModel" : {
-                "type" : "sap.ui.model.odata.v2.ODataModel",
-                "settings" : {
-                    "defaultOperationMode" : "Server",
-                    "defaultBindingMode" : "OneTime",
-                    "defaultCountMode" : "Request"
-                },
-                "dataSource" : "commentService",
                 "preload" : true
             },
             "FuncAreaModel" : {

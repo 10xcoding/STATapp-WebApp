@@ -11,7 +11,7 @@ sap.ui.define([
 			currentTicketId = oArgs.ticketId;
 			oView = this.getView();
 			oView.bindElement({
-				path : "/TicketsComments('" + currentTicketId + "')",
+				path : "/Tickets('" + currentTicketId + "')",
 				events : {
 					change: this._onBindingChange.bind(this),
 					dataRequested: function () {

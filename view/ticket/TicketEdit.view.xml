@@ -38,7 +38,7 @@
                             </Toolbar>
                             
                             <Label text="{i18n>Ticket.Creator}" labelFor="editTicketCreatorInput" />
-                            <Input id="editTicketCreatorInput" value="{firstName_creator} {lastName_creator}" editable="false" />
+                            <Input id="editTicketCreatorInput" value="{creator_firstName} {creator_lastName}" editable="false" />
                             <Label text="{i18n>Ticket.DateCreated}" labelFor="editTicketDateCreatedInput" />
                             <Input
                                 id="editTicketDateCreatedInput"

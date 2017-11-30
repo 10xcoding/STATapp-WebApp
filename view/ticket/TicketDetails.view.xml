@@ -16,7 +16,10 @@
 				selectedKey="{view>/selectedTabKey}"
                 class="sapUiResponsiveContentPadding" >
 				<items>
-					<IconTabFilter id="detailsTab" text="{i18n>TicketDetails.TabTitleDetails}" key="Details">
+					<IconTabFilter
+                        id="detailsTab"
+                        text="{i18n>TicketDetails.TabTitleDetails}"
+                        key="Details">
                         <mvc:XMLView viewName="statapp.view.ticket.ticketDetailTabs.TicketDetailsTab"></mvc:XMLView>
 					</IconTabFilter>
 					<IconTabFilter id="commentsTab" text="{i18n>TicketDetails.TabTitleComments}" key="Comments">
