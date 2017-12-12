@@ -23,7 +23,7 @@
                 items="{
                     path: '/Tickets',
                     filters: [{
-                        path: 'description_status',
+                        path: 'ticketStatus_description',
                         operator: 'NE',
                         value1: 'Closed'
                     }],
@@ -31,20 +31,22 @@
                 }">
                 <items> 
                     <ObjectListItem
-                        title="{ticketTitle} - {description_functionalArea}"
+                        title="{ticketTitle} - {functionalArea_description}"
                         type="Active"
                         press="onTicketListItemPress"
                         number="{
-                            parts:[{path:'description_priority'}]
+                            parts:[{
+                                path:'ticketPriority_description'
+                            }]
                         }">
                         <firstStatus>
                             <ObjectStatus
-                                text="{description_status}"
+                                text="{ticketStatus_description}"
                             />
                         </firstStatus>
                         <attributes>
-                            <ObjectAttribute text="{i18n>Ticket.Creator}: {firstName_creator} {lastName_creator}" />
-                            <ObjectAttribute text="{i18n>Ticket.Assignee}: {firstName_assignee} {lastName_assignee}" />
+                            <ObjectAttribute text="{i18n>Ticket.Creator}: {creator_firstName} {creator_lastName}" />
+                            <ObjectAttribute text="{i18n>Ticket.Assignee}: {assignee_firstName} {assignee_lastName}" />
                         </attributes>
                     </ObjectListItem>
                 </items>

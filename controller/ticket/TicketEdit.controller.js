@@ -99,11 +99,11 @@ sap.ui.define([
                     closeOnBrowserNavigation: false }
                 );
                 var oEventBus = sap.ui.getCore().getEventBus();
+                oEventBus.publish("ticketEditChannel", "updateFields");
                 oEventBus.publish("ticketListChannel", "updateTicketList");
+                oEventBus.publish("ticketDetailsChannel", "updateFields");
                 oEventBus.publish("ticketDetailsChannel", "setStartTicketButton");
                 oEventBus.publish("ticketDetailsChannel", "setCloseTicketButton");
-                oEventBus.publish("ticketDetailsChannel", "updateFields");
-                oEventBus.publish("ticketEditChannel", "updateFields");
             };
             oParams.error = function(){
                 MessageToast.show("Error occured when updating ticket,\nno changes saved", {

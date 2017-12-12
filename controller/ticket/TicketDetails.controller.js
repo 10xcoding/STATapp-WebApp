@@ -7,6 +7,7 @@ sap.ui.define([
 	"use strict";
 	var _aValidTabKeys = ["Details", "Comments", "Attachments"];
 	var currentTicketId = "";
+	var oAuthorModel = new JSONModel();
 	return BaseController.extend("statapp.controller.ticket.TicketDetails", {
 		_onRouteMatched : function (oEvent) {
 			var oArgs, oView, oQuery;
@@ -14,7 +15,7 @@ sap.ui.define([
 			currentTicketId = oArgs.ticketId;
 			oView = this.getView();
 			oView.bindElement({
-				path : "/TicketsComments('" + currentTicketId + "')",
+				path : "/Tickets('" + currentTicketId + "')",
 				events : {
 					change: this._onBindingChange.bind(this),
 					dataRequested: function () {
@@ -25,53 +26,6 @@ sap.ui.define([
 					}
 				}
 			});
-// 			oView.setModel(new ODataModel(
-// 			    path : "/TicketsComments('" + currentTicketId + "')",
-// 				events : {
-// 					change: this._onBindingChange.bind(this),
-// 					dataRequested: function () {
-// 						oView.setBusy(true);
-// 					},
-// 					dataReceived: function () {
-// 						oView.setBusy(false);
-// 					}
-// 				}),"comments");
-			// SOMETHING LIKE THIS ???
-			
-// 			this.getView().setModel(new JSONModel(data));
-//          this.getView().setModel(new JSONModel(data), name));
-			
-// 			// TicketModel
-//             var oTicketModel = new JSONModel({ // ODATAModel ?
-// 				path : "/Tickets('" + currentTicketId + "')",
-// 				events : {
-// 					change: this._onBindingChange.bind(this),
-// 					dataRequested: function () {
-// 						oView.setBusy(true);
-// 					},
-// 					dataReceived: function () {
-// 						oView.setBusy(false);
-// 					}
-// 				}
-// 			});
-//             this.getView().setModel(oTicketModel, "TicketModel");
-//             this.getView().bindElement(oTicketModel);
-//             // TicketCommentsModel
-//             var oTicketCommentModel = new JSONModel({
-// 				path : "/TicketsComments('" + currentTicketId + "')",
-// 				events : {
-// 					change: this._onBindingChange.bind(this),
-// 					dataRequested: function () {
-// 						oView.setBusy(true);
-// 					},
-// 					dataReceived: function () {
-// 						oView.setBusy(false);
-// 					}
-// 				}
-// 			});
-//             this.getView().setModel(oTicketCommentModel, "TicketCommentModel");
-			// SOMETHING LIKE THIS ???
-			
 			oQuery = oArgs["?query"];
 			if (oQuery && _aValidTabKeys.indexOf(oQuery.tab) >= 0) {
 				oView.getModel("view").setProperty("/selectedTabKey", oQuery.tab);
@@ -96,7 +50,14 @@ sap.ui.define([
             oEventBus.subscribe("ticketDetailsChannel", "setStartTicketButton", this.setStartTicketButton, this);
             oEventBus.subscribe("ticketDetailsChannel", "setCloseTicketButton", this.setCloseTicketButton, this);
             oEventBus.subscribe("ticketDetailsChannel", "updateFields", this.updateFields, this);
+            oEventBus.subscribe("ticketDetailsChannel", "updateCommentFeed", this.updateCommentFeed, this);
 		},
+        // onAfterRendering : function() {
+        //     var oComments = this.getView().byId('ticketDetailsComments');
+        //     for (var i = 0 ; i < oComments.length ; i++) {
+        //         oComments[i].sender.$().attr('aria-haspopup', true);
+        //     }
+        // },
 		onTabSelect : function (oEvent){
 			var oCtx = this.getView().getBindingContext();
 			this.getRouter().navTo("ticket", {
@@ -123,10 +84,14 @@ sap.ui.define([
             }
         },
         updateFields : function() {
+            this.getView().getModel().refresh();
             var ticketDetailsForm = this.getView().byId("ticketDetailSimpleForm");
             ticketDetailsForm.getModel().updateBindings(true);
             var ticketEditComments = this.getView().byId("ticketDetailsComments");
             ticketEditComments.getModel().updateBindings(true);
+        },
+        updateCommentFeed : function() {
+            this.getView().getModel().refresh();
         },
 		_onBindingChange : function () {
 			// No data for the binding
@@ -134,8 +99,80 @@ sap.ui.define([
 				this.getRouter().getTargets().display("notFound");
 			}
 		},
-		onHitTimelineRefresh : function() {
-		    MessageToast.show("Clicked refresh, went to controller.");
+		onPostComment : function(oEvent) {
+            //Get comment text
+			var userCommentText = oEvent.getParameter("value");
+            //Context data
+            var currUser = "STU0000002"; // TODO: GET USER FROM CONTEXT
+            if (userCommentText === "" || currentTicketId === "" || currUser === "") {
+                MessageToast.show("Something went wrong. Please try again later.", {
+                    closeOnBrowserNavigation: false });
+            } else {
+                //Define defaults
+                var defaultCommentId = "X"; // Req'd for create, but a new id is generated in hdbprocedure from hdbsequence
+                //Create json object
+                var commentsJSO =
+                    {
+                        "commentId": defaultCommentId, // Req'd for create, but a new id is generated in hdbprocedure from hdbsequence
+                        "text":  userCommentText  ,
+                        "author.userId":  currUser  ,
+                        "ticket.ticketId":  currentTicketId
+                    };
+                //oData create call - also refresh comment list
+                this.addNewComment(commentsJSO);
+            }
+		},
+		addNewComment : function(commentsJSO) {
+            var oParams = {};
+            oParams.success = function(){
+                MessageToast.show("Comment posted!");
+                var oEventBus = sap.ui.getCore().getEventBus();
+                oEventBus.publish("ticketDetailsChannel", "updateCommentFeed");
+            };
+            oParams.error = function(){
+                MessageToast.show("Error occured when posting comment", {
+                    closeOnBrowserNavigation: false }
+                );
+            };
+            oParams.bMerge = true;
+            this.getView().getModel().create("/CreateComment", commentsJSO, oParams );
+		},
+		onAuthorPress: function (oEvent) {
+		    var oView = this.getView();
+			var oUserId = oEvent.getParameter("userId");
+            this.oAuthorModel.bindElement({
+                path : "/Users('" + oUserId + "')",
+                events : {
+                    change : this._onBindingChange.bind(this),
+                    dataRequested: function () {
+                        oView.setBusy(true);
+                    },
+                    dataReceived: function () {
+                        oView.setBusy(false);
+                    }
+                }
+            });
+			this.openQuickView(oEvent, oAuthorModel);
+		},
+		createPopover: function() {
+			if (!this._oQuickView) {
+				this._oQuickView = sap.ui.xmlfragment("sap.m.sample.QuickView.QuickView", this);
+				this.getView().addDependent(this._oQuickView);
+			}
+		},
+		openQuickView: function (oEvent, oModel) {
+			this.createPopover();
+			this._oQuickView.setModel(oModel);
+			// delay because addDependent will do a async rerendering and the actionSheet will immediately close without it.
+			var oText = oEvent.getSource();
+			jQuery.sap.delayedCall(0, this, function () {
+				this._oQuickView.openBy(oText);
+			});
+		},
+		onExit: function () {
+			if (this._oQuickView) {
+				this._oQuickView.destroy();
+			}
 		},
 		onClickEdit : function () {
 			this.getRouter().navTo("ticketEdit",{

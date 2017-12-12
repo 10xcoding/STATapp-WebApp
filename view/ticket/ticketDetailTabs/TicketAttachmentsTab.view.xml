@@ -1,4 +1,5 @@
 <mvc:View
+	controllerName="statapp.controller.ticket.TicketDetails"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc" >
     
@@ -11,6 +12,7 @@
         maximumFilenameLength="55"
         maximumFileSize="10"
         multiple="true"
+        
         change="onChange"
         fileDeleted="onFileDeleted"
         filenameLengthExceed="onFilenameLengthExceed"
@@ -21,15 +23,15 @@
         uploadComplete="onUploadComplete"
         beforeUploadStarts="onBeforeUploadStarts"
         uploadTerminated="onUploadTerminated"
+        
         items="{
-            path : '/Tickets',
+            path : '/Attachments',
             templateShareable : false
             }"
         numberOfAttachmentsText="Uploaded (8)"
         mode="SingleSelectMaster">
         <toolbar>
-            <OverflowToolbar id="myId">
-                <Title id="attachmentTitle" />
+            <OverflowToolbar id="attachmentToolbar">
                 <ToolbarSpacer />
                 <SearchField width="10rem" search="onSearch" />
                 <Button id="deleteSelectedButton"

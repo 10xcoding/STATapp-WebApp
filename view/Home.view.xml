@@ -1,45 +1,52 @@
 <mvc:View
 	controllerName="statapp.controller.Home"
 	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc">
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:layout="sap.ui.layout">
 	<Page title="{i18n>Home.Title}" class="sapUiResponsiveContentPadding">
-		<content>
+        <layout:VerticalLayout class="sapUiResponsiveMargin">
+            <Title
+                titleStyle="H2"
+                text="{i18n>Home.STAT.Subtitle}"
+                class="sapUiTinyMarginBegin" />
+                
+            <layout:HorizontalLayout allowWrapping="true">
+                <GenericTile
+                    class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+                    header="{i18n>Home.TicketListTileHeader}"
+                    subheader="{i18n>Home.TicketListTileSubheader}"
+                    press="onNavToTickets">
+                    <tileContent>
+                        <TileContent unit="{i18n>Home.TicketListTileUnit}">
+                            <content>
+                                <NumericContent
+                                    id="ticketCount"
+                                    value="{
+                                        path: '/Tickets',
+                                        formatter: '.formatter.getOpenTicketCount'
+                                    }"
+                                />
+                            </content>
+                        </TileContent>
+                    </tileContent>
+                </GenericTile>
+                
+                <GenericTile
+                    class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+                    header="{i18n>Home.SettingsTileHeader}"
+                    subheader="{i18n>Home.SettingsTileSubheader}"
+                    press="onNavToSettings">
+                    <tileContent>
+                        <TileContent>
+                            <content>
+                                <ImageContent src="sap-icon://settings">
+                                </ImageContent>
+                            </content>
+                        </TileContent>
+                    </tileContent>
+                </GenericTile>
             
-            <GenericTile
-                class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-                header="{i18n>Home.TicketListTileHeader}"
-                subheader="{i18n>Home.TicketListTileSubheader}"
-                press="onNavToTickets">
-                <tileContent>
-                    <TileContent unit="{i18n>Home.TicketListTileUnit}">
-                        <content>
-                            <NumericContent
-                                id="ticketCount"
-                                value="{
-                                    path: '/Tickets',
-                                    formatter: '.formatter.getOpenTicketCount'
-                                }"
-                            />
-                        </content>
-                    </TileContent>
-                </tileContent>
-            </GenericTile>
-            
-            <GenericTile
-                class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
-                header="{i18n>Home.SettingsTileHeader}"
-                subheader="{i18n>Home.SettingsTileSubheader}"
-                press="onNavToSettings">
-                <tileContent>
-                    <TileContent>
-                        <content>
-                            <ImageContent src="sap-icon://settings">
-                            </ImageContent>
-                        </content>
-                    </TileContent>
-                </tileContent>
-            </GenericTile>
-            
-		</content>
+            </layout:HorizontalLayout>
+        </layout:VerticalLayout>
 	</Page>
 </mvc:View>

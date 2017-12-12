@@ -1,8 +1,10 @@
 sap.ui.define([
-	"statapp/controller/BaseController"
-], function (BaseController) {
+	"statapp/controller/BaseController",
+	"statapp/model/formatter"
+], function (BaseController, formatter) {
 	"use strict";
 	return BaseController.extend("statapp.controller.ticket.TicketList", {
+	    formatter: formatter,
         onInit : function() {
 		    // Subscribe to event buses
             var oEventBus = sap.ui.getCore().getEventBus();

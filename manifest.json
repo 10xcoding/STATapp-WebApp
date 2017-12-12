@@ -69,11 +69,7 @@
             "sap_ux",
             "sap_platinum",
             "sap_bluecrystal",
-            "sap_goldreflection",
-            "sap_belize",
-            "sap_belizedeep",
-            "sap_highcontrastblack",
-            "sap_highcontrastwhite"
+            "sap_belize"
         ]
     },
     "sap.ui5": {

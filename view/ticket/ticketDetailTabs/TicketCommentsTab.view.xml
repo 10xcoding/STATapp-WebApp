@@ -1,33 +1,32 @@
 <mvc:View
+	controllerName="statapp.controller.ticket.TicketDetails"
+    id="ticketCommentsTab"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
-	xmlns:t="sap.suite.ui.commons" >
+	xmlns:t="sap.suite.ui.commons"
+	xmlns:feed="sap.collaboration.components.feed" >
     
-	<t:Timeline
-        id="ticketEditComments"
-        class="sapUiResponsiveContentPadding"
-        enableBackendFilter="true"
-        enableScroll="false"
-        growingThreshold="10"
-        enableSocial="true"
-        content="{
-            path: 'itsComments',
-            filters: [{
-                        path: 'commentText',
-                        operator: 'NE',
-                        value1: null
-                    }]
-        }"
-        layout="ResponsiveGridLayout"
-        showIcons="true" >
-        <t:content>
-            <t:TimelineItem
-                icon="sap-icon://post"
-                dateTime="{commentDateTime}"
-                text="{commentText}"
-                userName="{commentAuthor_firstName} {commentAuthor_lastName}" >
-            </t:TimelineItem>
-        </t:content>
-    </t:Timeline>
+    <FeedInput
+		post="onPostComment"
+		showIcon="false"
+		class="sapUiResponsiveContentPadding" />
+	<List
+        id="ticketDetailsComments"
+		showSeparators="Inner"
+		items="{
+            path: 'ItsComments/',
+            sorter: {
+				path: 'dateTime',
+				descending: true
+			}
+        }" >
+		<FeedListItem
+            showIcon="false"
+			sender="{firstName} {lastName}"
+			senderPress="onAuthorPress"
+			timestamp="{dateTime}"
+			text="{text}"
+			convertLinksToAnchorTags="All"/>
+	</List>
 	
 </mvc:View>
