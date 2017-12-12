@@ -31,6 +31,23 @@ sap.ui.define([
                     return "Error";
             }
         }
+        ,
+        getFuncAreaIcon: function(funcArea) {
+            switch(funcArea) {
+                case 'Unknown':
+                    return "sap-icon://question-mark";
+                case 'Shipping/Receiving':
+                    return "sap-icon://offsite-work";
+                case 'HR':
+                    return "sap-icon://group";
+                case 'Finance':
+                    return "sap-icon://customer-financial-fact-sheet";
+                case 'Internal':
+                    return "sap-icon://idea-wall";
+                default:
+                    return "sap-icon://question-mark";
+            }
+        }
         // ,
         // getStatusState: function(ticketStatus) {
         //     switch(ticketStatus) {

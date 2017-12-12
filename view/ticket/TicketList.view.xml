@@ -2,6 +2,7 @@
     id="ticketListView"
     controllerName="statapp.controller.ticket.TicketList"
     xmlns="sap.m"
+    xmlns:core="sap.ui.core"
     xmlns:mvc="sap.ui.core.mvc">
     
     <Page id="ticketListPage" title="{i18n>TicketList.Title}"
@@ -30,25 +31,52 @@
                     sort: 'dateCreated'
                 }">
                 <items> 
-                    <ObjectListItem
-                        title="{ticketTitle} - {functionalArea_description}"
+                    <CustomListItem
                         type="Active"
-                        press="onTicketListItemPress"
-                        number="{
-                            parts:[{
-                                path:'ticketPriority_description'
-                            }]
-                        }">
-                        <firstStatus>
-                            <ObjectStatus
-                                text="{ticketStatus_description}"
-                            />
-                        </firstStatus>
-                        <attributes>
-                            <ObjectAttribute text="{i18n>Ticket.Creator}: {creator_firstName} {creator_lastName}" />
-                            <ObjectAttribute text="{i18n>Ticket.Assignee}: {assignee_firstName} {assignee_lastName}" />
-                        </attributes>
-                    </ObjectListItem>
+                        press="onTicketListItemPress">
+                        <HBox
+                            alignItems="Start"
+                            justifyContent="SpaceBetween">
+                            <items>
+                                <FlexBox>
+                                    <items>
+                                        <core:Icon
+                                            size="2rem"
+                                            src="{
+                                                parts:[{
+                                                    path:'functionalArea_description'
+                                                }],
+                                                formatter: '.formatter.getFuncAreaIcon'
+                                            }"
+                                            class="sapUiSmallMarginBegin
+                                            sapUiSmallMarginTopBottom" />
+                                        <VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" >
+                                            <Title text="{ticketTitle}"/>
+                                            <Label text="{i18n>Ticket.Creator}: {creator_firstName} {creator_lastName}" />
+                                            <Label text="{i18n>Ticket.Assignee}: {assignee_firstName} {assignee_lastName}" />
+                                        </VBox>
+                                    </items>
+                                </FlexBox>
+                                <VBox class="sapUiSmallMarginEnd sapUiSmallMarginTopBottom"
+                                    alignItems="End"
+                                    justifyContent="End"
+                                    width="200px">
+                                    <items class="sapUiSmallMarginEnd">
+                                        <Title text="{ticketStatus_description}" />
+                                        <ObjectStatus
+                                            text="{ticketPriority_description}"
+                                            state="{
+                                                parts:[{
+                                                    path:'ticketPriority_description'
+                                                }],
+                                                formatter: '.formatter.getPriorityState'
+                                            }"
+                                        />
+                                    </items>
+                                </VBox>
+                            </items>
+                        </HBox>
+                    </CustomListItem>
                 </items>
             </List>
         </ScrollContainer>
