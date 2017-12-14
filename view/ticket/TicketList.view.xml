@@ -3,7 +3,8 @@
     controllerName="statapp.controller.ticket.TicketList"
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
-    xmlns:mvc="sap.ui.core.mvc">
+    xmlns:mvc="sap.ui.core.mvc"
+	xmlns:l="sap.ui.layout" >
     
     <Page id="ticketListPage" title="{i18n>TicketList.Title}"
 		showNavButton="true"
@@ -30,51 +31,41 @@
                     }],
                     sort: 'dateCreated'
                 }">
-                <items> 
+                <items>
                     <CustomListItem
                         type="Active"
-                        press="onTicketListItemPress">
+                        press="onTicketListItemPress" >
                         <HBox
                             alignItems="Start"
-                            justifyContent="SpaceBetween">
-                            <items>
-                                <FlexBox>
-                                    <items>
-                                        <core:Icon
-                                            size="2rem"
-                                            src="{
-                                                parts:[{
-                                                    path:'functionalArea_description'
-                                                }],
-                                                formatter: '.formatter.getFuncAreaIcon'
-                                            }"
-                                            class="sapUiSmallMarginBegin
-                                            sapUiSmallMarginTopBottom" />
-                                        <VBox class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" >
-                                            <Title text="{ticketTitle}"/>
-                                            <Label text="{i18n>Ticket.Creator}: {creator_firstName} {creator_lastName}" />
-                                            <Label text="{i18n>Ticket.Assignee}: {assignee_firstName} {assignee_lastName}" />
-                                        </VBox>
-                                    </items>
-                                </FlexBox>
-                                <VBox class="sapUiSmallMarginEnd sapUiSmallMarginTopBottom"
-                                    alignItems="End"
-                                    justifyContent="End"
-                                    width="200px">
-                                    <items class="sapUiSmallMarginEnd">
-                                        <Title text="{ticketStatus_description}" />
-                                        <ObjectStatus
-                                            text="{ticketPriority_description}"
-                                            state="{
-                                                parts:[{
-                                                    path:'ticketPriority_description'
-                                                }],
-                                                formatter: '.formatter.getPriorityState'
-                                            }"
-                                        />
-                                    </items>
-                                </VBox>
-                            </items>
+                            justifyContent="SpaceBetween"
+                            class="sapUiSmallMarginTopBottom" >
+                            <VBox
+                                class="sapUiSmallMarginBegin"
+                                width="70%" >
+                                <Title
+                                    text="{ticketTitle}" />
+                                <Label
+                                    text="{i18n>Ticket.Creator}: {creator_firstName} {creator_lastName}" />
+                                <Label
+                                    text="{i18n>Ticket.Assignee}: {assignee_firstName} {assignee_lastName}" />
+                            </VBox>
+                            <VBox
+                                class="sapUiSmallMarginEnd"
+                                alignItems="End"
+                                justifyContent="End"
+                                width="30%" >
+                                <Title
+                                    text="{ticketStatus_description}" />
+                                <ObjectStatus
+                                    text="{ticketPriority_description}"
+                                    state="{
+                                        parts:[{
+                                            path:'ticketPriority_description'
+                                        }],
+                                        formatter: '.formatter.getPriorityState'
+                                    }"
+                                />
+                            </VBox>
                         </HBox>
                     </CustomListItem>
                 </items>

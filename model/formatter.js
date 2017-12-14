@@ -19,6 +19,14 @@ sap.ui.define([
             return count;
         }
         ,
+	    /**
+         * This function returns, for the given ticketPriority, an sap state (Success, Warning, or Error) which corresponds to a
+         * UI color/design.
+         *
+         * @private
+         * @param {ticketPriority} a priority description as defined in the database (currently Low, Medium, or High)
+         * @returns {str} an sap state
+         */
         getPriorityState: function(ticketPriority) {
             switch(ticketPriority) {
                 case 'Low':
@@ -32,12 +40,19 @@ sap.ui.define([
             }
         }
         ,
+	    /**
+         * This function returns an sapui5 icon corresponding to the functional area 
+         *
+         * @private
+         * @param {funcArea} a functional area description as defined in the database (currently, one of the values listed below)
+         * @returns {int} the count of open tickets
+         */
         getFuncAreaIcon: function(funcArea) {
             switch(funcArea) {
                 case 'Unknown':
                     return "sap-icon://question-mark";
                 case 'Shipping/Receiving':
-                    return "sap-icon://offsite-work";
+                    return "sap-icon://shipping-status";
                 case 'HR':
                     return "sap-icon://group";
                 case 'Finance':
@@ -48,19 +63,6 @@ sap.ui.define([
                     return "sap-icon://question-mark";
             }
         }
-        // ,
-        // getStatusState: function(ticketStatus) {
-        //     switch(ticketStatus) {
-        //         case 'New':
-        //             return "Success";
-        //         case 'In Progress':
-        //             return "Warning";
-        //         case 'Closed':
-        //             return "Error";
-        //         default:
-        //             return "Error";
-        //     }
-        // }
         // ,
         // getTranslation: function(text, args) {
         //     // set i18n model on view

@@ -79,3 +79,24 @@ sap.ui.define([
 		}
 	});
 });
+
+// THIS IS THE FUNCTIONAL AREA ICON/DESCRIPTION PREVIOUSLY USED IN THE TICKET LIST
+/*
+
+<VBox
+    class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"
+    span="L4 M3 S2" >
+    <core:Icon
+        size="2rem"
+        src="{
+            parts:[{
+                path:'functionalArea_description'
+            }],
+            formatter: '.formatter.getFuncAreaIcon'
+        }" />
+    <Label
+        class="sapUiResponsiveContentPadding"
+        text="{functionalArea_description}" />
+</VBox>
+
+*/
