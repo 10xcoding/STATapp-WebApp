@@ -1,7 +1,7 @@
 <core:FragmentDefinition
     xmlns:core="sap.ui.core"
     xmlns="sap.m" >
-	<ViewSettingsDialog confirm="onConfirm">
+	<ViewSettingsDialog confirm="onConfirmFilter">
         <filterItems>
             <ViewSettingsFilterItem
                 key="ticketStatus_value"
@@ -9,13 +9,13 @@
                 multiSelect="true" >
 				<items>
                     <ViewSettingsItem
-                        key="1"
+                        key="s1"
                         text="New" />
                     <ViewSettingsItem
-                        key="2"
+                        key="s2"
                         text="In Progress" />
                     <ViewSettingsItem
-                        key="3"
+                        key="s3"
                         text="Closed" />					
 				</items>
 			</ViewSettingsFilterItem>
@@ -25,13 +25,13 @@
                 multiSelect="true" >
 				<items>
                     <ViewSettingsItem
-                        key="1"
+                        key="p1"
                         text="High" />
                     <ViewSettingsItem
-                        key="2"
+                        key="p2"
                         text="Medium" />
                     <ViewSettingsItem
-                        key="3"
+                        key="p3"
                         text="Low" />					
 				</items>
 			</ViewSettingsFilterItem>

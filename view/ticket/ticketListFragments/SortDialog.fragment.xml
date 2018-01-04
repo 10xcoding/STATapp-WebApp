@@ -1,7 +1,7 @@
 <core:FragmentDefinition
     xmlns:core="sap.ui.core"
     xmlns="sap.m" >
-	<ViewSettingsDialog confirm="onConfirm">
+	<ViewSettingsDialog confirm="onConfirmSort">
         <sortItems>
             <ViewSettingsItem
                 key="dateCreated"
