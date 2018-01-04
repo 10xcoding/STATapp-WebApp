@@ -1,0 +1,40 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m" >
+	<ViewSettingsDialog confirm="onConfirm">
+        <filterItems>
+            <ViewSettingsFilterItem
+                key="ticketStatus_value"
+                text="Status"
+                multiSelect="true" >
+				<items>
+                    <ViewSettingsItem
+                        key="1"
+                        text="New" />
+                    <ViewSettingsItem
+                        key="2"
+                        text="In Progress" />
+                    <ViewSettingsItem
+                        key="3"
+                        text="Closed" />					
+				</items>
+			</ViewSettingsFilterItem>
+            <ViewSettingsFilterItem
+                key="ticketPriority_value"
+                text="Priority"
+                multiSelect="true" >
+				<items>
+                    <ViewSettingsItem
+                        key="1"
+                        text="High" />
+                    <ViewSettingsItem
+                        key="2"
+                        text="Medium" />
+                    <ViewSettingsItem
+                        key="3"
+                        text="Low" />					
+				</items>
+			</ViewSettingsFilterItem>
+		</filterItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

@@ -1,0 +1,14 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m" >
+	<ViewSettingsDialog confirm="onConfirm">
+        <groupItems>
+            <ViewSettingsItem
+                key="ticketPriority_value"
+                text="Priority" />
+            <ViewSettingsItem
+                key="ticketStatus_value"
+                text="Status" />
+		</groupItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

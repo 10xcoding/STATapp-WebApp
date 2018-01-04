@@ -99,6 +99,24 @@ sap.ui.define([
             this._oDialog.open();
 		},
 		/**
+         * This function handles the filter button press, and reverses the order of the list
+         * @private
+         */
+		onPressFilterList : function() {
+            // Open the filter dialog fragment
+            this._oDialog = sap.ui.xmlfragment("statapp.view.ticket.ticketListFragments.FilterDialog", this);
+            this._oDialog.open();
+		},
+		/**
+         * This function handles the group button press, and reverses the order of the list
+         * @private
+         */
+		onPressGroupList : function() {
+            // Open the group dialog fragment
+            this._oDialog = sap.ui.xmlfragment("statapp.view.ticket.ticketListFragments.GroupDialog", this);
+            this._oDialog.open();
+		},
+		/**
          * This function handles navigation to new ticket page (from button click)
          * @private
          */
