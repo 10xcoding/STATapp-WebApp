@@ -6,6 +6,7 @@ sap.ui.define([
 	"use strict";
 	var sortOrderInverted;
 	var aFilters = [];
+	var oTicketListItemsBinding;
 	return BaseController.extend("statapp.controller.ticket.TicketList", {
         formatter: formatter,
         /**
@@ -42,9 +43,9 @@ sap.ui.define([
             //bind filter
             var ticketList = this.getView().byId("ticketsList");
             ticketList.setProperty();
-            var tableItems = ticketList.getBinding("items");
+            oTicketListItemsBinding = ticketList.getBinding("items");
             ticketList.getModel().updateBindings(true);
-            tableItems.filter(aFilters, "Application");
+            oTicketListItemsBinding.filter(aFilters, "Application");
 		},
 		/**
          * This function handles the liveChange filter of the tickets (shows closed tickets also on search).
@@ -72,9 +73,9 @@ sap.ui.define([
             }
             //bind filter
             var ticketList = this.getView().byId("ticketsList");
-            var tableItems = ticketList.getBinding("items");
+            oTicketListItemsBinding = ticketList.getBinding("items");
             ticketList.getModel().updateBindings(true);
-            tableItems.filter(aFilters, "Application");
+            oTicketListItemsBinding.filter(aFilters, "Application");
 		},
 		/**
          * This function handles navigation to ticket details page of a specific ticket
@@ -99,6 +100,29 @@ sap.ui.define([
             this._oDialog.open();
 		},
 		/**
+         * This function handles confirming sort selection, and updates the list to reflect this choice
+         * @private
+         */
+		onConfirmSort : function(oEvent) {
+            // get list/items
+            if (oTicketListItemsBinding === undefined) {
+                var oView = this.getView();
+                var oList = oView.byId("ticketsList");
+                oTicketListItemsBinding = oList.getBinding("items");
+		    }
+            // get sort parameters
+            var mParams = oEvent.getParameters();
+            
+            // apply grouping
+            var aSorters = [];
+            
+            // apply sorter
+            var sSortPath = mParams.sortItem.getKey();
+            var bSortDescending = mParams.sortDescending;
+            aSorters.push(new sap.ui.model.Sorter(sSortPath, bSortDescending));
+            oTicketListItemsBinding.sort(aSorters);
+		},
+		/**
          * This function handles the filter button press, and reverses the order of the list
          * @private
          */
@@ -108,6 +132,46 @@ sap.ui.define([
             this._oDialog.open();
 		},
 		/**
+         * This function handles confirming filter selection, and updates the list to reflect these choices
+         * @private
+         */
+		onConfirmFilter : function(oEvent) {
+            // get list/items
+            if (oTicketListItemsBinding === undefined) {
+                var oView = this.getView();
+                var oList = oView.byId("ticketsList");
+                oTicketListItemsBinding = oList.getBinding("items");
+		    }
+            // get sort parameters
+            var mParams = oEvent.getParameters();
+            
+            // apply filters
+            aFilters = [];
+            var oFilterItem, vKey, vKeyPath, vKeyValue, vIsSelected, sFilterPath, oFilter;
+            for (var i = 0; i < mParams.filterItems.length; i++) {
+                oFilterItem = mParams.filterItems[i];
+                vKey = oFilterItem.getKey("key"); // value of key
+                vKeyPath = vKey.slice(0,1);
+                vKeyValue = vKey.slice(1,2);
+                vIsSelected = oFilterItem.getKey("selected"); //boolean
+                if (vIsSelected) {
+                    switch(vKeyPath) {
+                        case "s": //status
+                            sFilterPath = "ticketStatus_value";
+                            break;
+                        case "p": //priority
+                            sFilterPath = "ticketPriority_value";
+                            break;
+                        default:
+                            continue;
+                    }
+                    oFilter = new sap.ui.model.Filter(sFilterPath, "EQ", vKeyValue);
+                    aFilters.push(oFilter);
+                }
+            }
+            oTicketListItemsBinding.filter(aFilters);
+		},
+		/**
          * This function handles the group button press, and reverses the order of the list
          * @private
          */
@@ -115,6 +179,36 @@ sap.ui.define([
             // Open the group dialog fragment
             this._oDialog = sap.ui.xmlfragment("statapp.view.ticket.ticketListFragments.GroupDialog", this);
             this._oDialog.open();
+		},
+		/**
+         * This function handles confirming a grouping selection, and updates the list to reflect this choice
+         * @private
+         */
+		onConfirmGroup : function(oEvent) {
+            // get list/items
+            if (oTicketListItemsBinding === undefined) {
+                var oView = this.getView();
+                var oList = oView.byId("ticketsList");
+                oTicketListItemsBinding = oList.getBinding("items");
+		    }
+            // get sort parameters
+            var mParams = oEvent.getParameters();
+            
+            // apply grouping
+            var aSorters = [];
+            if (mParams.groupItem) {
+                var sGroupPath = mParams.groupItem.getKey();
+                var bGroupDescending = mParams.groupDescending;
+                var vGroup = function(oContext) {
+                    var name = oContext.getProperty("Address/City");
+                    return {
+                        key: name,
+                        text: name
+                    };
+                };
+                aSorters.push(new sap.ui.model.Sorter(sGroupPath, bGroupDescending, vGroup));
+            }
+            oTicketListItemsBinding.sort(aSorters);
 		},
 		/**
          * This function handles navigation to new ticket page (from button click)
@@ -127,6 +221,55 @@ sap.ui.define([
 		}
 	});
 });
+
+// For all three at once: (use if individual sort/filter/group runs into problems)
+
+// onConfirm : function(oEvent) {
+// 		    // get list/items
+//             var oView = this.getView();
+//             var oList = oView.byId("ticketsList");
+//             var oBinding = oList.getBinding("items");
+//             // get sort parameters
+//             var mParams = oEvent.getParameters();
+            
+//             // apply grouping
+//             var aSorters = [];
+//             if (mParams.groupItem) {
+//                 var sGroupPath = mParams.groupItem.getKey();
+//                 var bGroupDescending = mParams.groupDescending;
+//                 var vGroup = function(oContext) {
+//                     var name = oContext.getProperty("Address/City");
+//                     return {
+//                         key: name,
+//                         text: name
+//                     };
+//                 };
+//                 aSorters.push(new sap.ui.model.Sorter(sGroupPath, bGroupDescending, vGroup));
+//             }
+            
+//             // apply sorter
+//             var sSortPath = mParams.sortItem.getKey();
+//             var bSortDescending = mParams.sortDescending;
+//             aSorters.push(new sap.ui.model.Sorter(sSortPath, bSortDescending));
+//             oBinding.sort(aSorters);
+            
+//             // apply filters
+//             var aFilters = [];
+//             var oFilterItem, aSplit, sFilterPath, vOperator, vValue1, vValue2, oFilter;
+//             for (var i = 0, l = mParams.filterItems.length; i < l; i++) {
+//                 oFilterItem = mParams.filterItems[i];
+//                 aSplit = oFilterItem.getKey().split("___");
+//                 sFilterPath = aSplit[0];
+//                 vOperator = aSplit[1];
+//                 vValue1 = aSplit[2];
+//                 vValue2 = aSplit[3];
+//                 oFilter = new sap.ui.model.Filter(sFilterPath, vOperator, vValue1, vValue2);
+//                 aFilters.push(oFilter);
+//             }
+//             oBinding.filter(aFilters);
+// 		},
+
+
 
 // THIS IS THE FUNCTIONAL AREA ICON/DESCRIPTION PREVIOUSLY USED IN THE TICKET LIST
 /*
