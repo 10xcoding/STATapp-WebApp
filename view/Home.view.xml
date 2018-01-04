@@ -8,11 +8,11 @@
             <Title
                 titleStyle="H2"
                 text="{i18n>Home.STAT.Subtitle}"
-                class="sapUiTinyMarginBegin" />
+                class="sapUiSmallMarginBegin sapUiSmallMarginTop" />
                 
             <layout:HorizontalLayout allowWrapping="true">
                 <GenericTile
-                    class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+                    class="sapUiSmallMarginBegin sapUiSmallMarginTop tileLayout"
                     header="{i18n>Home.TicketListTileHeader}"
                     subheader="{i18n>Home.TicketListTileSubheader}"
                     press="onNavToTickets">
@@ -32,15 +32,14 @@
                 </GenericTile>
                 
                 <GenericTile
-                    class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+                    class="sapUiSmallMarginBegin sapUiSmallMarginTop tileLayout"
                     header="{i18n>Home.SettingsTileHeader}"
                     subheader="{i18n>Home.SettingsTileSubheader}"
                     press="onNavToSettings">
                     <tileContent>
                         <TileContent>
                             <content>
-                                <ImageContent src="sap-icon://settings">
-                                </ImageContent>
+                                <ImageContent src="sap-icon://settings" />
                             </content>
                         </TileContent>
                     </tileContent>

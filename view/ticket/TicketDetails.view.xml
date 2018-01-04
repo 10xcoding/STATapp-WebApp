@@ -3,10 +3,17 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:f="sap.ui.layout.form"
-	busyIndicatorDelay="0" >
+	busyIndicatorDelay="0"
+	id="ticketDetailsView" >
 	<Page
 		id="ticketDetailsPage"
-		title="{i18n>TicketDetails.Title} {ticketId}"
+		title="{
+            parts: [
+                'i18n>TicketDetails.Title',
+                'ticketId'
+            ],
+            formatter: 'jQuery.sap.formatMessage'
+        }"
 		showNavButton="true"
 		navButtonPress="onNavBack"
 		class="sapUiResponsiveContentPadding" >
@@ -22,10 +29,16 @@
                         key="Details">
                         <mvc:XMLView viewName="statapp.view.ticket.ticketDetailTabs.TicketDetailsTab"></mvc:XMLView>
 					</IconTabFilter>
-					<IconTabFilter id="commentsTab" text="{i18n>TicketDetails.TabTitleComments}" key="Comments">
+					<IconTabFilter
+                        id="commentsTab"
+                        text="{i18n>TicketDetails.TabTitleComments}"
+                        key="Comments">
 						<mvc:XMLView viewName="statapp.view.ticket.ticketDetailTabs.TicketCommentsTab"></mvc:XMLView>
 					</IconTabFilter>
-					<IconTabFilter id="attachmentsTab" text="{i18n>TicketDetails.TabTitleAttachments}" key="Attachments">
+					<IconTabFilter
+                        id="attachmentsTab"
+                        text="{i18n>TicketDetails.TabTitleAttachments}"
+                        key="Attachments">
 						<mvc:XMLView viewName="statapp.view.ticket.ticketDetailTabs.TicketAttachmentsTab"></mvc:XMLView>
 					</IconTabFilter>
 				</items>
@@ -39,7 +52,7 @@
                     press="onPressStartTicket"
                     enabled="{= ${dateStarted} === null}"
                 />
-                <ToolbarSpacer width="0.1em"/>
+                <ToolbarSpacer width="2px"/>
                 <Button
                     id="closeTicketButton"
                     text="{i18n>TicketDetails.CloseTicketButton}"

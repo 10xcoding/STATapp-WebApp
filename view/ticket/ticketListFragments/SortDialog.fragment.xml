@@ -1,0 +1,21 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m" >
+	<ViewSettingsDialog confirm="onConfirm">
+        <sortItems>
+            <ViewSettingsItem
+                key="dateCreated"
+                text="Date Created"
+                selected="true" />
+            <ViewSettingsItem
+                key="ticketTitle"
+                text="Ticket Title" />
+            <ViewSettingsItem
+                key="ticketPriority_value"
+                text="Priority" />
+            <ViewSettingsItem
+                key="ticketStatus_value"
+                text="Status" />
+		</sortItems>
+	</ViewSettingsDialog>
+</core:FragmentDefinition>

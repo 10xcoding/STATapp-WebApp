@@ -19,7 +19,8 @@
 				path: 'dateTime',
 				descending: true
 			}
-        }" >
+        }"
+        noDataText="No comments found" >
 		<FeedListItem
             showIcon="false"
 			sender="{firstName} {lastName}"

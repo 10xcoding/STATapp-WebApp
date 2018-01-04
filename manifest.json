@@ -203,8 +203,30 @@
 					"viewLevel" : 3
 				},
 				"settingsHome": {
-				    "viewName": "SettingsHome",
+				    "viewName": "settings.SettingsHome",
 				    "viewLevel": 2
+				},
+				"ticketTabDetails": {
+					"parent": "ticketDetails",
+					"viewPath": "statapp.view.ticket",
+					"viewName": "ticket.TicketDetailsTab",
+					"viewId": "ticketTabDetailsId",
+					"controlId": "detailsTab",
+					"controlAggregation": "content"
+				},
+				"ticketTabComments": {
+					"parent": "ticketDetails",
+					"viewPath": "statapp.view.ticket",
+					"viewName": "ticket.TicketCommentsTab",
+					"controlId": "commentsTab",
+					"controlAggregation": "content"
+				},
+				"ticketTabAttachements": {
+					"parent": "ticketDetails",
+					"viewPath": "sap.ui.demo.nav.view.employee",
+					"viewName": "ticket.TicketAttachmentsTab",
+					"controlId": "attachmentsTab",
+					"controlAggregation": "content"
 				}
             }
         }

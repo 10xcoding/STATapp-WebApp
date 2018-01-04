@@ -29,12 +29,23 @@
                         operator: 'NE',
                         value1: 'Closed'
                     }],
-                    sort: 'dateCreated'
-                }">
+                    sorter: {
+                        path: 'dateCreated',
+                        descending: false
+                    }
+                }"
+                noDataText="No tickets found" >
                 <items>
                     <CustomListItem
                         type="Active"
-                        press="onTicketListItemPress" >
+                        press="onTicketListItemPress"
+                        highlight="{
+                            parts:[{
+                                path:'ticketPriority_description'
+                            }],
+                            formatter: '.formatter.getPriorityState'
+                        }"
+                        >
                         <HBox
                             alignItems="Start"
                             justifyContent="SpaceBetween"
@@ -43,7 +54,13 @@
                                 class="sapUiSmallMarginBegin"
                                 width="70%" >
                                 <Title
-                                    text="{ticketTitle}" />
+                                    text="{
+                                        parts:[
+                                            {path:'ticketTitle'},
+                                            {path:'ticketStatus_description'}
+                                        ],
+                                        formatter: '.formatter.starNew'
+                                    }" />
                                 <Label
                                     text="{i18n>Ticket.Creator}: {creator_firstName} {creator_lastName}" />
                                 <Label
@@ -57,7 +74,13 @@
                                 <Title
                                     text="{ticketStatus_description}" />
                                 <ObjectStatus
-                                    text="{ticketPriority_description}"
+                                    text="{
+                                        parts:[
+                                            { path:'ticketPriority_description' },
+                                            { path:'ticketStatus_description' }
+                                        ],
+                                        formatter: '.formatter.getPriorityOpenClose'
+                                    }"
                                     state="{
                                         parts:[{
                                             path:'ticketPriority_description'
@@ -73,8 +96,11 @@
         </ScrollContainer>
         <footer>
 			<OverflowToolbar id="TicketListFooter">
-                <ToolbarSpacer/>
-                <Button id="newTicketButton" text="{i18n>TicketList.NewTicketButton}" press="onNavToNewTicket" icon="sap-icon://add"/>
+                <ToolbarSpacer />
+                <Button id="newTicketButton" press="onNavToNewTicket" icon="sap-icon://add"/>
+                <Button id="sortListButton" press="onPressSortList" icon="sap-icon://sort"/>
+                <Button id="filterListButton" press="onPressFilterList" icon="sap-icon://filter"/>
+                <Button id="groupListButton" press="onPressGroupList" icon="sap-icon://group-2"/>
             </OverflowToolbar>
         </footer>
     </Page>

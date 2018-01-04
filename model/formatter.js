@@ -11,7 +11,7 @@ sap.ui.define([
          */
         getOpenTicketCount: function() {
             var url = "https://stats0017130098trial.hanatrial.ondemand.com/dev/dev01/statapp/services/ticket.xsodata/Tickets/" + 
-                        "$count?$filter=ticketStatus_value%20ne%204";
+                        "$count?$filter=ticketStatus_value%20ne%203";
             var count = 0;
             // TODO: change to asyncronous request with loading indicator
             count = $.ajax({type: "GET", url: url, async: false}).responseText;
@@ -19,6 +19,22 @@ sap.ui.define([
             return count;
         }
         ,
+	   // /**
+    //      * This function returns the open ticket count to display on the tickets tile.
+    //      *
+    //      * @private
+    //      * @returns {int} the count of open tickets
+    //      */
+    //     getOpenTicketCount: function(tickets) {
+    //         var count = 0;
+    //         for (var i = 0; i < tickets.length; i++) {
+    //             if (tickets[i].ticketStatus_description !== "Closed") {
+    //                 count++;
+    //             }
+    //         }
+    //         return count;
+    //     }
+    //     ,
 	    /**
          * This function returns, for the given ticketPriority, an sap state (Success, Warning, or Error) which corresponds to a
          * UI color/design.
@@ -37,6 +53,57 @@ sap.ui.define([
                     return "Error";
                 default:
                     return "Error";
+            }
+        }
+        ,
+	    /**
+         * This function returns, for the given ticketPriority and ticketStatus, an empty string if a ticket is closed,
+         * or the ticketPriority otherwise
+         *
+         * @private
+         * @param {ticketPriority} a priority description as defined in the database (currently Low, Medium, or High)
+         * @param {ticketStatus} a status description as defined in the database (currently New, In Progress, or Closed)
+         * @returns {str} a ticketPriority string to print
+         */
+        getPriorityOpenClose: function(ticketPriority, ticketStatus) {
+            switch(ticketStatus) {
+                case 'Closed':
+                    return "";
+                default:
+                    return ticketPriority;
+            }
+        }
+        ,
+	   // /**
+    //      * This function returns, for the given ticketStatus, true if the status is new, false otherwise
+    //      *
+    //      * @private
+    //      * @param {ticketStatus} a status description as defined in the database (currently New, In Progress, or Closed)
+    //      * @returns {boolean} true or false
+    //      */
+    //     isNew: function(ticketStatus) {
+    //         switch(ticketStatus) {
+    //             case 'New':
+    //                 return true;
+    //             default:
+    //                 return false;
+    //         }
+    //     }
+    //     ,
+        /**
+         * This function returns a starred version of the title if the ticket is new
+         *
+         * @private
+         * @param {ticketTitle} a title
+         * @param {ticketStatus} a status description as defined in the database (currently New, In Progress, or Closed)
+         * @returns {boolean} true or false
+         */
+        starNew: function(ticketTitle, ticketStatus) {
+            switch(ticketStatus) {
+                case 'New':
+                    return "*" + ticketTitle;
+                default:
+                    return ticketTitle;
             }
         }
         ,

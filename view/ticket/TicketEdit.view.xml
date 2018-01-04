@@ -8,7 +8,13 @@
 	busyIndicatorDelay="0" >
 	<Page
 		id="ticketEditPage"
-		title="{i18n>TicketEdit.Title} {ticketId}"
+		title="{
+            parts: [
+                'i18n>TicketEdit.Title',
+                'ticketId'
+            ],
+            formatter: 'jQuery.sap.formatMessage'
+        }"
 		showNavButton="true"
 		navButtonPress="onNavBack"
 		class="sapUiResponsiveContentPadding">

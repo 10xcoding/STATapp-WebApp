@@ -1,92 +1,43 @@
 <mvc:View
 	controllerName="statapp.controller.ticket.TicketDetails"
-    xmlns="sap.m"
-    xmlns:mvc="sap.ui.core.mvc" >
-    
-    <MessageStrip showIcon="true"
-        type="Information"
-        text="To add files, you can also use drag &amp; drop on your desktop or tablet."
-        class="sapUiTinyMargin" />
-        
-    <UploadCollection id="UploadCollection"
-        maximumFilenameLength="55"
-        maximumFileSize="10"
-        multiple="true"
-        
-        change="onChange"
-        fileDeleted="onFileDeleted"
-        filenameLengthExceed="onFilenameLengthExceed"
-        fileRenamed="onFileRenamed"
-        fileSizeExceed="onFileSizeExceed"
-        selectionChange="onSelectionChange"
-        typeMissmatch="onTypeMissmatch"
-        uploadComplete="onUploadComplete"
-        beforeUploadStarts="onBeforeUploadStarts"
-        uploadTerminated="onUploadTerminated"
-        
-        items="{
-            path : '/Attachments',
-            templateShareable : false
-            }"
-        numberOfAttachmentsText="Uploaded (8)"
-        mode="SingleSelectMaster">
-        <toolbar>
-            <OverflowToolbar id="attachmentToolbar">
-                <ToolbarSpacer />
-                <SearchField width="10rem" search="onSearch" />
-                <Button id="deleteSelectedButton"
-                    text="Delete"
-                    press="onDeleteSelectedItems"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m">
+
+	<UploadCollection
+		id="UploadCollection"
+		instantUpload="true"
+		sameFilenameAllowed="true"
+		items="{
+            path : '/ItsAttachments',
+            sorter: {
+				path: 'dateTime',
+				descending: true
+			}
+        }" >
+		<toolbar>
+			<OverflowToolbar id="attachmentToolbar" >
+				<Title id="attachmentTitle" />
+				<ToolbarSpacer/>
+				<Button
+                    id="downloadButton"
+                    text="Download"
+                    press="onDownloadItem"
                     enabled="false"
-                    visible="false"
                     type="Transparent" />
-                <ToggleButton id="selectAllButton"
-                    text="Select all"
-                    press="onSelectAllPress"
-                    enabled="false"
-                    visible="false"
-                    type="Transparent" />
-                <UploadCollectionToolbarPlaceholder />
-            </OverflowToolbar>
-        </toolbar>
-        <items>
-            <UploadCollectionItem
-                documentId="{documentId}"
-                fileName="{fileName}"
-                mimeType="{mimeType}"
-                thumbnailUrl="{thumbnailUrl}"
-                url="{url}"
-                enableEdit="{enableEdit}"
-                enableDelete="{enableDelete}"
-                visibleDelete="{visibleDelete}"
-                visibleEdit="{visibleEdit}"
-                attributes="{path : 'attributes', templateShareable : false}"
-                statuses="{path : 'statuses', templateShareable : false}"
-                markers="{path : 'markers', templateShareable : false}"
-                selected="{selected}">
-                <attributes>
-                    <ObjectAttribute
-                        title="{title}"
-                        text="{path : 'text', formatter : '.formatAttribute'}"
-                        active="{active}"
-                        press="onAttributePress" />
-                </attributes>
-                <statuses>
-                    <ObjectStatus
-                        title="{title}"
-                        text="{text}"
-                        state="{state}"
-                        icon="{icon}"
-                        iconDensityAware="{iconDensityAware}"
-                        textDirection="{textDirection}" />
-                </statuses>
-                <markers>
-                    <ObjectMarker
-                        type="{type}"
-                        press="onMarkerPress" />
-                </markers>
-            </UploadCollectionItem>
-        </items>
-    </UploadCollection>
-	
+				<UploadCollectionToolbarPlaceholder />
+			</OverflowToolbar>
+		</toolbar>
+		<items>
+		<!-- url="test-resources/sap/m/demokit/sample/UploadCollection/LinkedDocuments/Notes.txt" -->
+			<UploadCollectionItem
+                mimeType="text/plain"
+                visibleEdit="true"
+                visibleDelete="true"
+                thumbnailUrl=""
+                documentId="{attachmentId}"
+				fileName="{fileName}" >
+			</UploadCollectionItem>
+		</items>
+	</UploadCollection>
 </mvc:View>

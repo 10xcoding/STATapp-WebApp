@@ -8,7 +8,11 @@ sap.ui.define([
 	var _aValidTabKeys = ["Details", "Comments", "Attachments"];
 	var currentTicketId = "";
 	var oAuthorModel = new JSONModel();
+// 	var oStartButton, oCloseButton;
 	return BaseController.extend("statapp.controller.ticket.TicketDetails", {
+        /*******************************/
+        /***  ROUTE/BINDING/LOADING  ***/
+        /*******************************/
 		_onRouteMatched : function (oEvent) {
 			var oArgs, oView, oQuery;
 			oArgs = oEvent.getParameter("arguments");
@@ -27,7 +31,7 @@ sap.ui.define([
 				}
 			});
 			oQuery = oArgs["?query"];
-			if (oQuery && _aValidTabKeys.indexOf(oQuery.tab) >= 0) {
+			if (oQuery && _aValidTabKeys.indexOf(oQuery.tab) >= 0) { 
 				oView.getModel("view").setProperty("/selectedTabKey", oQuery.tab);
 			} else {
 				// the default query param should be visible at all time
@@ -37,6 +41,12 @@ sap.ui.define([
 						tab : _aValidTabKeys[0]
 					}
 				}, true /*no history*/);
+			}
+		},
+		_onBindingChange : function () {
+			// No data for the binding
+			if (!this.getView().getBindingContext()) {
+				this.getRouter().getTargets().display("notFound");
 			}
 		},
         onInit: function () {
@@ -50,14 +60,19 @@ sap.ui.define([
             oEventBus.subscribe("ticketDetailsChannel", "setStartTicketButton", this.setStartTicketButton, this);
             oEventBus.subscribe("ticketDetailsChannel", "setCloseTicketButton", this.setCloseTicketButton, this);
             oEventBus.subscribe("ticketDetailsChannel", "updateFields", this.updateFields, this);
-            oEventBus.subscribe("ticketDetailsChannel", "updateCommentFeed", this.updateCommentFeed, this);
+            // oEventBus.subscribe("ticketDetailsChannel", "updateCommentFeed", this.updateCommentFeed, this);
 		},
-        // onAfterRendering : function() {
-        //     var oComments = this.getView().byId('ticketDetailsComments');
-        //     for (var i = 0 ; i < oComments.length ; i++) {
-        //         oComments[i].sender.$().attr('aria-haspopup', true);
-        //     }
-        // },
+        onAfterRendering : function() {
+            // var oComments = this.getView().byId('ticketDetailsComments');
+            // for (var i = 0 ; i < oComments.length ; i++) {
+            //     oComments[i].sender.$().attr('aria-haspopup', true);
+            // }
+            // oStartButton = "";
+            // oCloseButton = "";
+        },
+		/**********************/
+        /***  DETAILS PAGE  ***/
+        /**********************/
 		onTabSelect : function (oEvent){
 			var oCtx = this.getView().getBindingContext();
 			this.getRouter().navTo("ticket", {
@@ -85,20 +100,18 @@ sap.ui.define([
         },
         updateFields : function() {
             this.getView().getModel().refresh();
-            var ticketDetailsForm = this.getView().byId("ticketDetailSimpleForm");
-            ticketDetailsForm.getModel().updateBindings(true);
-            var ticketEditComments = this.getView().byId("ticketDetailsComments");
-            ticketEditComments.getModel().updateBindings(true);
         },
-        updateCommentFeed : function() {
-            this.getView().getModel().refresh();
-        },
-		_onBindingChange : function () {
-			// No data for the binding
-			if (!this.getView().getBindingContext()) {
-				this.getRouter().getTargets().display("notFound");
-			}
+		/*********************/
+        /***  DETAILS TAB  ***/
+        /*********************/
+		onClickEdit : function () {
+			this.getRouter().navTo("ticketEdit",{
+				ticketId : currentTicketId
+			});
 		},
+		/**********************/
+        /***  COMMENTS TAB  ***/
+        /**********************/
 		onPostComment : function(oEvent) {
             //Get comment text
 			var userCommentText = oEvent.getParameter("value");
@@ -127,7 +140,7 @@ sap.ui.define([
             oParams.success = function(){
                 MessageToast.show("Comment posted!");
                 var oEventBus = sap.ui.getCore().getEventBus();
-                oEventBus.publish("ticketDetailsChannel", "updateCommentFeed");
+                oEventBus.publish("ticketDetailsChannel", "updateFields");
             };
             oParams.error = function(){
                 MessageToast.show("Error occured when posting comment", {
@@ -137,6 +150,13 @@ sap.ui.define([
             oParams.bMerge = true;
             this.getView().getModel().create("/CreateComment", commentsJSO, oParams );
 		},
+		/*********************/
+        /***  ATTACHMENTS  ***/
+        /*********************/
+		
+		/*********************/
+        /***  USER POP-UP  ***/
+        /*********************/
 		onAuthorPress: function (oEvent) {
 		    var oView = this.getView();
 			var oUserId = oEvent.getParameter("userId");
@@ -173,67 +193,6 @@ sap.ui.define([
 			if (this._oQuickView) {
 				this._oQuickView.destroy();
 			}
-		},
-		onClickEdit : function () {
-			this.getRouter().navTo("ticketEdit",{
-				ticketId : currentTicketId
-			});
-		},
-		onPressStartTicket : function () {
-            //Set button as unclickable
-            this.getView().byId("startTicketButton").setEnabled(false);
-            //Confirm selection
-            if (confirm("Ticket start date cannot be changed after ticket is started. Continue?") == true) {
-                //oData Service
-                var oParams = {};
-                oParams.success = function(){
-                    MessageToast.show("Ticket Started!", {
-                        closeOnBrowserNavigation: false }
-                    );
-                    var oEventBus = sap.ui.getCore().getEventBus();
-                    oEventBus.publish("ticketListChannel", "updateTicketList");
-                    oEventBus.publish("ticketDetailsChannel", "setStartTicketButton");
-                    oEventBus.publish("ticketDetailsChannel", "updateFields");
-                    oEventBus.publish("ticketEditChannel", "updateFields");
-                };
-                oParams.error = function(){
-                    MessageToast.show("Error occured when updating,\nno changes saved", {
-                        closeOnBrowserNavigation: false }
-                    );
-                    var oEventBus = sap.ui.getCore().getEventBus();
-                    oEventBus.publish("ticketDetailsChannel", "setStartTicketButton", false);
-                };
-                oParams.bMerge = true;
-                this.getView().getModel().update("/StartTicket('" + currentTicketId + "')", {}, oParams );
-            }
-		},
-		onPressCloseTicket : function () {
-            //Set button as unclickable
-            this.getView().byId("closeTicketButton").setEnabled(false);
-            //Confirm selection
-            if (confirm("Ticket close date cannot be changed after ticket is closed. Continue?") == true) {
-                //oData Service
-                var oParams = {};
-                oParams.success = function(){
-                    MessageToast.show("Ticket Closed!", {
-                        closeOnBrowserNavigation: false }
-                    );
-                    var oEventBus = sap.ui.getCore().getEventBus();
-                    oEventBus.publish("ticketListChannel", "updateTicketList");
-                    oEventBus.publish("ticketDetailsChannel", "setCloseTicketButton");
-                    oEventBus.publish("ticketDetailsChannel", "updateFields");
-                    oEventBus.publish("ticketEditChannel", "updateFields");
-                };
-                oParams.error = function(){
-                    MessageToast.show("Error occured when updating,\nno changes saved", {
-                        closeOnBrowserNavigation: false }
-                    );
-                    var oEventBus = sap.ui.getCore().getEventBus();
-                    oEventBus.publish("ticketDetailsChannel", "setCloseTicketButton", false);
-                };
-                oParams.bMerge = true;
-                this.getView().getModel().update("/CloseTicket('" + currentTicketId + "')", {}, oParams );
-            }
 		}
 	});
 });

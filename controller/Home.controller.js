@@ -7,15 +7,16 @@ sap.ui.define([
 	    formatter: formatter,
 	    /**
          * This function navigates to ticketList page.
-         *
          * @private
          */
 		onNavToTickets : function () {
 			this.getRouter().navTo("ticketList");
 		},
+		
+		// TRY? : init count at "...", set tile busy dialog, call odata query, remove busy dialog
+		
 		/**
          * This function navigates to settingsHomePage
-         *
          * @private
          */
 		onNavToSettings : function () {
