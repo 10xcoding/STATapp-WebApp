@@ -9,14 +9,18 @@
     <Page id="ticketListPage" title="{i18n>TicketList.Title}"
 		showNavButton="true"
 		navButtonPress="onNavBack"
-		class="sapUiResponsiveContentPadding" >
+		class="sapUiResponsiveContentPadding"
+		width="auto" >
 		<subHeader>
             <Toolbar>
                 <SearchField
                     liveChange="onFilterTickets"/>
             </Toolbar>
         </subHeader>
-        <ScrollContainer vertical="true" getParent="true">
+        <ScrollContainer
+            vertical="true"
+            class="sapUiResponsiveContentPadding"
+            width="auto" >
             <layoutData>
                 <FlexItemData growFactor="1"/>
             </layoutData>

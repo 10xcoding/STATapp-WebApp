@@ -4,8 +4,8 @@ sap.ui.define([
 	"sap/ui/model/Filter"
 ], function (BaseController, formatter, Filter) {
 	"use strict";
-	var sortOrderInverted;
 	var aFilters = [];
+	var ticketList;
 	var oTicketListItemsBinding;
 	return BaseController.extend("statapp.controller.ticket.TicketList", {
         formatter: formatter,
@@ -29,7 +29,6 @@ sap.ui.define([
          */
         onInit : function() {
 		    // Subscribe to event buses
-		    sortOrderInverted = false;
             var oEventBus = sap.ui.getCore().getEventBus();
             oEventBus.subscribe("ticketListChannel", "updateTicketList", this.updateTicketList, this);
         },
@@ -39,12 +38,8 @@ sap.ui.define([
          */
         updateTicketList : function () {
             //build filter array
-            aFilters.push(new Filter("ticketStatus_description", sap.ui.model.FilterOperator.NE, 'Closed'));
-            //bind filter
-            var ticketList = this.getView().byId("ticketsList");
-            ticketList.setProperty();
-            oTicketListItemsBinding = ticketList.getBinding("items");
-            ticketList.getModel().updateBindings(true);
+            aFilters = [new Filter("ticketStatus_description", sap.ui.model.FilterOperator.NE, 'Closed')];
+            //update filter
             oTicketListItemsBinding.filter(aFilters, "Application");
 		},
 		/**
@@ -72,8 +67,9 @@ sap.ui.define([
                 aFilters.push(new Filter("ticketStatus_description", sap.ui.model.FilterOperator.NE, 'Closed'));
             }
             //bind filter
-            var ticketList = this.getView().byId("ticketsList");
-            oTicketListItemsBinding = ticketList.getBinding("items");
+            if (ticketList === undefined) {
+                this.saveTicketListBinding();
+            }
             ticketList.getModel().updateBindings(true);
             oTicketListItemsBinding.filter(aFilters, "Application");
 		},
@@ -83,18 +79,26 @@ sap.ui.define([
          * @param {oEvent} the listItem being clicked (determines which ticketId to use)
          */
 		onTicketListItemPress : function(oEvent) {
+            this.saveTicketListBinding();
 			var selectedPath = oEvent.getSource().getBindingContext().sPath; // selectedPath = "/Tickets('STT0001111')"
-			var ticketId = selectedPath.slice(-12,-2); //TODO: get without slice
+			var ticketId = selectedPath.slice(-12,-2); //TODO: get without slice?
 			this.getRouter().navTo("ticket",{
 				ticketId : ticketId
 			});
 		},
+        /**
+         * This function saves the binding to the ticket list, which is needed for the eventbus
+         * @private
+         */
+        saveTicketListBinding : function() {
+            ticketList = this.getView().byId("ticketsList");
+            oTicketListItemsBinding = ticketList.getBinding("items");
+        },
 		/**
          * This function handles the sort button press, and reverses the order of the list
          * @private
          */
 		onPressSortList : function() {
-            sortOrderInverted = !sortOrderInverted;
             // Open the sort dialog fragment
             this._oDialog = sap.ui.xmlfragment("statapp.view.ticket.ticketListFragments.SortDialog", this);
             this._oDialog.open();
@@ -221,55 +225,6 @@ sap.ui.define([
 		}
 	});
 });
-
-// For all three at once: (use if individual sort/filter/group runs into problems)
-
-// onConfirm : function(oEvent) {
-// 		    // get list/items
-//             var oView = this.getView();
-//             var oList = oView.byId("ticketsList");
-//             var oBinding = oList.getBinding("items");
-//             // get sort parameters
-//             var mParams = oEvent.getParameters();
-            
-//             // apply grouping
-//             var aSorters = [];
-//             if (mParams.groupItem) {
-//                 var sGroupPath = mParams.groupItem.getKey();
-//                 var bGroupDescending = mParams.groupDescending;
-//                 var vGroup = function(oContext) {
-//                     var name = oContext.getProperty("Address/City");
-//                     return {
-//                         key: name,
-//                         text: name
-//                     };
-//                 };
-//                 aSorters.push(new sap.ui.model.Sorter(sGroupPath, bGroupDescending, vGroup));
-//             }
-            
-//             // apply sorter
-//             var sSortPath = mParams.sortItem.getKey();
-//             var bSortDescending = mParams.sortDescending;
-//             aSorters.push(new sap.ui.model.Sorter(sSortPath, bSortDescending));
-//             oBinding.sort(aSorters);
-            
-//             // apply filters
-//             var aFilters = [];
-//             var oFilterItem, aSplit, sFilterPath, vOperator, vValue1, vValue2, oFilter;
-//             for (var i = 0, l = mParams.filterItems.length; i < l; i++) {
-//                 oFilterItem = mParams.filterItems[i];
-//                 aSplit = oFilterItem.getKey().split("___");
-//                 sFilterPath = aSplit[0];
-//                 vOperator = aSplit[1];
-//                 vValue1 = aSplit[2];
-//                 vValue2 = aSplit[3];
-//                 oFilter = new sap.ui.model.Filter(sFilterPath, vOperator, vValue1, vValue2);
-//                 aFilters.push(oFilter);
-//             }
-//             oBinding.filter(aFilters);
-// 		},
-
-
 
 // THIS IS THE FUNCTIONAL AREA ICON/DESCRIPTION PREVIOUSLY USED IN THE TICKET LIST
 /*

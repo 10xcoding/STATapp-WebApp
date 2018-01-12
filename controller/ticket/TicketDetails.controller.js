@@ -3,36 +3,41 @@ sap.ui.define([
     ,"sap/m/MessageToast"
 	,"statapp/controller/BaseController"
 	,"sap/ui/model/json/JSONModel"
-], function (MessageBox, MessageToast, BaseController, JSONModel) {
+	,"sap/ui/core/Fragment"
+	,"jquery.sap.global"
+], function (MessageBox, MessageToast, BaseController, JSONModel, Fragment, jQuery) {
 	"use strict";
 	var _aValidTabKeys = ["Details", "Comments", "Attachments"];
+	var oViews;
 	var currentTicketId = "";
-	var oAuthorModel = new JSONModel();
-// 	var oStartButton, oCloseButton;
+// 	var oAuthorModel;
+    var oModel;
+    var dateStarted, dateClosed;
+	var oStartTicketButton, oCloseTicketButton;
 	return BaseController.extend("statapp.controller.ticket.TicketDetails", {
         /*******************************/
         /***  ROUTE/BINDING/LOADING  ***/
         /*******************************/
 		_onRouteMatched : function (oEvent) {
-			var oArgs, oView, oQuery;
+			var oArgs, oQuery;
 			oArgs = oEvent.getParameter("arguments");
 			currentTicketId = oArgs.ticketId;
-			oView = this.getView();
-			oView.bindElement({
+			oViews = this.getView();
+			oViews.bindElement({
 				path : "/Tickets('" + currentTicketId + "')",
 				events : {
 					change: this._onBindingChange.bind(this),
 					dataRequested: function () {
-						oView.setBusy(true);
+						oViews.setBusy(true);
 					},
 					dataReceived: function () {
-						oView.setBusy(false);
+						oViews.setBusy(false);
 					}
 				}
 			});
 			oQuery = oArgs["?query"];
 			if (oQuery && _aValidTabKeys.indexOf(oQuery.tab) >= 0) { 
-				oView.getModel("view").setProperty("/selectedTabKey", oQuery.tab);
+				oViews.getModel("view").setProperty("/selectedTabKey", oQuery.tab);
 			} else {
 				// the default query param should be visible at all time
 				this.getRouter().navTo("ticket", {
@@ -49,7 +54,7 @@ sap.ui.define([
 				this.getRouter().getTargets().display("notFound");
 			}
 		},
-        onInit: function () {
+        onInit : function () {
             // Set router
 			var oRouter = this.getRouter();
 			this.getView().setModel(new JSONModel(), "view");
@@ -62,14 +67,10 @@ sap.ui.define([
             oEventBus.subscribe("ticketDetailsChannel", "updateFields", this.updateFields, this);
             // oEventBus.subscribe("ticketDetailsChannel", "updateCommentFeed", this.updateCommentFeed, this);
 		},
-        onAfterRendering : function() {
-            // var oComments = this.getView().byId('ticketDetailsComments');
-            // for (var i = 0 ; i < oComments.length ; i++) {
-            //     oComments[i].sender.$().attr('aria-haspopup', true);
-            // }
-            // oStartButton = "";
-            // oCloseButton = "";
-        },
+		onAfterRendering : function() {
+// 			var oComment = this.getView().byId('ticketDetailsComments');
+// 			oComment.$().attr('aria-haspopup', true);
+		},
 		/**********************/
         /***  DETAILS PAGE  ***/
         /**********************/
@@ -84,22 +85,98 @@ sap.ui.define([
 		},
         setStartTicketButton : function() {
             // Check ticket status, set start ticket button as needed
-            var oModel = this.getView().getModel();
-            var dateStarted = oModel.dateStarted;
+            if (oModel === undefined) {
+                oModel = this.getView().getModel();
+            }
+            if (dateStarted === undefined) {
+                dateStarted = oModel.dateStarted;
+            }
             if (dateStarted !== "" && dateStarted !== "?" && dateStarted !== null) {
-                this.getView().byId("startTicketButton").setEnabled(true);
+                if (oStartTicketButton === undefined) {
+                    oStartTicketButton = this.getView().byId("startTicketButton");
+                }
+                oStartTicketButton.setEnabled(true);
             }
         },
         setCloseTicketButton : function() {
             // Check ticket status, set close button as needed
-            var oModel = this.getView().getModel();
-            var dateClosed = oModel.dateClosed;
+            if (oModel === undefined) {
+                oModel = this.getView().getModel();
+            }
+            if (dateStarted === undefined) {
+                dateClosed = oModel.dateClosed;
+            }
             if (dateClosed !== "" && dateClosed !== "?" && dateClosed !== null) {
+                if (oCloseTicketButton === undefined) {
+                    oCloseTicketButton = this.getView().byId("closeTicketButton");
+                }
                 this.getView().byId("closeTicketButton").setEnabled(true);
             }
         },
+		onPressStartTicket : function () {
+            //Set button as unclickable
+            if (oStartTicketButton === undefined) {
+                oStartTicketButton = this.getView().byId("startTicketButton");
+            }
+            oStartTicketButton.setEnabled(false);
+            //Confirm selection
+            if (confirm("Ticket start date cannot be changed after ticket is started. Continue?") == true) {
+                //oData Service
+                var oParams = {};
+                oParams.success = function(){
+                    MessageToast.show("Ticket Started!", {
+                        closeOnBrowserNavigation: false }
+                    );
+                    var oEventBus = sap.ui.getCore().getEventBus();
+                    oEventBus.publish("ticketListChannel", "updateTicketList");
+                    oEventBus.publish("ticketDetailsChannel", "setStartTicketButton");
+                    oEventBus.publish("ticketDetailsChannel", "updateFields");
+                    oEventBus.publish("ticketEditChannel", "updateFields");
+                };
+                oParams.error = function(){
+                    MessageToast.show("Error occured when updating,\nno changes saved", {
+                        closeOnBrowserNavigation: false }
+                    );
+                    var oEventBus = sap.ui.getCore().getEventBus();
+                    oEventBus.publish("ticketDetailsChannel", "setStartTicketButton", false);
+                };
+                oParams.bMerge = true;
+                this.getView().getModel().update("/StartTicket('" + currentTicketId + "')", {}, oParams );
+            }
+        },
+        onPressCloseTicket : function () {
+            //Set button as unclickable
+            if (oCloseTicketButton === undefined) {
+                oCloseTicketButton = this.getView().byId("closeTicketButton");
+            }
+            oCloseTicketButton.setEnabled(false);
+            //Confirm selection
+            if (confirm("Ticket close date cannot be changed after ticket is closed. Continue?") == true) {
+                //oData Service
+                var oParams = {};
+                oParams.success = function(){
+                    MessageToast.show("Ticket Closed!", {
+                        closeOnBrowserNavigation: false }
+                    );
+                    var oEventBus = sap.ui.getCore().getEventBus();
+                    oEventBus.publish("ticketListChannel", "updateTicketList");
+                    oEventBus.publish("ticketDetailsChannel", "setCloseTicketButton");
+                    oEventBus.publish("ticketDetailsChannel", "updateFields");
+                    oEventBus.publish("ticketEditChannel", "updateFields");
+                };
+                oParams.error = function(){
+                    MessageToast.show("Error occured when updating,\nno changes saved", {
+                        closeOnBrowserNavigation: false }
+                    );
+                    var oEventBus = sap.ui.getCore().getEventBus();
+                    oEventBus.publish("ticketDetailsChannel", "setCloseTicketButton", false);
+                };
+                oParams.bMerge = true;
+                this.getView().getModel().update("/CloseTicket('" + currentTicketId + "')", {}, oParams );
+            }
+        },
         updateFields : function() {
-            this.getView().getModel().refresh();
+            oModel.refresh();
         },
 		/*********************/
         /***  DETAILS TAB  ***/
@@ -151,48 +228,45 @@ sap.ui.define([
             this.getView().getModel().create("/CreateComment", commentsJSO, oParams );
 		},
 		/*********************/
-        /***  ATTACHMENTS  ***/
-        /*********************/
-		
-		/*********************/
         /***  USER POP-UP  ***/
         /*********************/
 		onAuthorPress: function (oEvent) {
-		    var oView = this.getView();
-			var oUserId = oEvent.getParameter("userId");
-            this.oAuthorModel.bindElement({
-                path : "/Users('" + oUserId + "')",
-                events : {
-                    change : this._onBindingChange.bind(this),
-                    dataRequested: function () {
-                        oView.setBusy(true);
-                    },
-                    dataReceived: function () {
-                        oView.setBusy(false);
-                    }
-                }
-            });
-			this.openQuickView(oEvent, oAuthorModel);
+            var oCommentId = oEvent.getSource().getCustomData()[0].getValue("commentId");
+            var oCommentData = this.getView().getModel().getData("/Comments('" + oCommentId + "')");
+            var oCommentModel = new JSONModel(
+                {
+                    path : [{
+                        firstName : oCommentData.firstName,
+                        lastName : oCommentData.lastName,
+                        email : oCommentData.email
+                    }]
+                });
+            var oSenderDomRef = oEvent.getParameters().getDomRef();
+			this.openQuickView(oCommentModel, oSenderDomRef);
 		},
-		createPopover: function() {
+		openQuickView : function (oCommentModel, oSenderDomRef) {
+			this.createPopover(oCommentModel);
+			this._oQuickView.setModel(oCommentModel);
+			// delay because addDependent will do a async rerendering and the actionSheet will immediately close without it.
+			jQuery.sap.delayedCall(10, this, function () {
+				this._oQuickView.openBy(oSenderDomRef);
+				this._oQuickView.setPlacement(sap.m.PlacementType.Bottom);
+			});
+		},
+		createPopover : function () {
 			if (!this._oQuickView) {
-				this._oQuickView = sap.ui.xmlfragment("sap.m.sample.QuickView.QuickView", this);
+				this._oQuickView = sap.ui.xmlfragment("statapp.view.user.UserDetails", this);
 				this.getView().addDependent(this._oQuickView);
 			}
 		},
-		openQuickView: function (oEvent, oModel) {
-			this.createPopover();
-			this._oQuickView.setModel(oModel);
-			// delay because addDependent will do a async rerendering and the actionSheet will immediately close without it.
-			var oText = oEvent.getSource();
-			jQuery.sap.delayedCall(0, this, function () {
-				this._oQuickView.openBy(oText);
-			});
-		},
-		onExit: function () {
+		onExit : function () {
 			if (this._oQuickView) {
 				this._oQuickView.destroy();
 			}
 		}
+		/*********************/
+        /***  ATTACHMENTS  ***/
+        /*********************/
+		
 	});
 });

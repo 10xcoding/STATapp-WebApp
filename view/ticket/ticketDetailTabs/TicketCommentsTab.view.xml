@@ -4,7 +4,8 @@
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
 	xmlns:t="sap.suite.ui.commons"
-	xmlns:feed="sap.collaboration.components.feed" >
+	xmlns:feed="sap.collaboration.components.feed"
+	xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1" >
     
     <FeedInput
 		post="onPostComment"
@@ -27,7 +28,8 @@
 			senderPress="onAuthorPress"
 			timestamp="{dateTime}"
 			text="{text}"
-			convertLinksToAnchorTags="All"/>
+			convertLinksToAnchorTags="All"
+			app:commentId="{commentId}" />
 	</List>
 	
 </mvc:View>

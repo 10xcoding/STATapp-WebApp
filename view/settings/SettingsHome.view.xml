@@ -16,7 +16,7 @@
             <layout:HorizontalLayout allowWrapping="true">
             
                 <GenericTile
-                    class="sapUiSmallMarginBegin sapUiSmallMarginTop tileLayout"
+                    class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
                     header="{i18n>settings.SettingsHome.accountSettingsHeader}"
                     subheader="{i18n>settings.SettingsHome.accountSettingsSubheader}"
                     press="onNavToAccountSettings">
@@ -30,7 +30,7 @@
                 </GenericTile>
                 
                 <GenericTile
-                    class="sapUiSmallMarginBegin sapUiSmallMarginTop tileLayout"
+                    class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
                     header="{i18n>settings.SettingsHome.userSettingsHeader}"
                     subheader="{i18n>settings.SettingsHome.userSettingsSubheader}"
                     press="onNavToUserSettings">
@@ -44,19 +44,19 @@
                 </GenericTile>
                 
                 <GenericTile
-                    class="sapUiSmallMarginBegin sapUiSmallMarginTop tileLayout"
+                    class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
                     header="{i18n>settings.SettingsHome.funcAreaSettingsHeader}"
                     subheader="{i18n>settings.SettingsHome.funcAreaSettingsSubheader}"
                     press="onNavToFuncAreaSettings" />
                 
                 <GenericTile
-                    class="sapUiSmallMarginBegin sapUiSmallMarginTop tileLayout"
+                    class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
                     header="{i18n>settings.SettingsHome.ticketStatusSettingsHeader}"
                     subheader="{i18n>settings.SettingsHome.ticketStatusSettingsSubheader}"
                     press="onNavToTicketStatusSettings" />
                 
                 <GenericTile
-                    class="sapUiSmallMarginBegin sapUiSmallMarginTop tileLayout"
+                    class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
                     header="{i18n>settings.SettingsHome.ticketPrioritySettingsHeader}"
                     subheader="{i18n>settings.SettingsHome.ticketPrioritySettingsSubheader}"
                     press="onNavToTicketPrioritySettings" />

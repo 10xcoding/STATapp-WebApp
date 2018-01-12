@@ -2,39 +2,35 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core" >
 	<QuickView
-        id="userView"
-        pages="{
-            path : '/pages',
-            templateShareable : 'true'
-        }"
-        navigate=".onNavigate" >
+        id="quickViewOrigin"
+        pages="{ path : '/path', templateShareable : 'true'}" >
 		<QuickViewPage
-			pageId="{pageId}"
-			header="{header}"
-			icon="{icon}"
-			title="{title}"
-			titleUrl="{titleUrl}"
-			description="{description}"
-			groups="{
-                path : 'groups',
-                templateShareable : 'true'
-            }" >
+			header="Employee Info"
+			title="{firstName} {lastName}"
+			description="Job Title" >
 			<QuickViewGroup
-                heading="{heading}"
-                elements="{
-                    path : 'elements',
-                    templateShareable : 'true'
-                }" >
+                heading="Contact Info" >
 				<QuickViewGroupElement
-					label="{label}"
-					value="{value}"
-					url="{url}"
-					type="{elementType}"
-					pageLinkId="{pageLinkId}"
-					emailSubject="{emailSubject}"
-					target="{target}"
-					>
-				</QuickViewGroupElement>
+					label="Email"
+					value="{email}"
+					type="sap.m.QuickViewGroupElementType.email"
+					/>
+				<QuickViewGroupElement
+					label="Phone"
+					value="XXX-XXX-XXXX"
+					type="sap.m.QuickViewGroupElementType.phone"
+					/>
+			</QuickViewGroup>
+			<QuickViewGroup
+                heading="Company" >
+				<QuickViewGroupElement
+					label="Name"
+					value="XYZ Company"
+					/>
+				<QuickViewGroupElement
+					label="Address"
+					value="123 Fake Street"
+					/>
 			</QuickViewGroup>
 		</QuickViewPage>
 	</QuickView>

@@ -12,7 +12,7 @@
                 
             <layout:HorizontalLayout allowWrapping="true">
                 <GenericTile
-                    class="sapUiSmallMarginBegin sapUiSmallMarginTop tileLayout"
+                    class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
                     header="{i18n>Home.TicketListTileHeader}"
                     subheader="{i18n>Home.TicketListTileSubheader}"
                     press="onNavToTickets">
@@ -32,7 +32,7 @@
                 </GenericTile>
                 
                 <GenericTile
-                    class="sapUiSmallMarginBegin sapUiSmallMarginTop tileLayout"
+                    class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
                     header="{i18n>Home.SettingsTileHeader}"
                     subheader="{i18n>Home.SettingsTileSubheader}"
                     press="onNavToSettings">
