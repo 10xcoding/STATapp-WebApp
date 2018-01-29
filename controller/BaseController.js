@@ -27,6 +27,24 @@ sap.ui.define([
 			} else {
 				this.getRouter().navTo("appHome", {}, false /*no history*/);
 			}
+		},
+		/**
+		 * Convenience method for getting the view model by name in every controller of the application.
+		 * @public
+		 * @param {string} sName the model name
+		 * @returns {sap.ui.model.Model} the model instance
+		 */
+		getModel: function(sName) {
+			return this.getView().getModel(sName) || this.getOwnerComponent().getModel(sName);
+		},
+		/**
+		 * Convenience method for refreshing the view model in every controller of the application.
+		 * @public
+		 * @param {sap.ui.model.Model} oModel the model instance
+		 * @param {string} sName the model name
+		 */
+		refreshModel: function(oModel, sName) {
+			this.getView().setModel(oModel, sName).refresh();
 		}
 // 		,
 // 		onPressRefresh: function () {
