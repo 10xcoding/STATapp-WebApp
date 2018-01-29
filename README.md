@@ -9,21 +9,21 @@ STAT (short for SAP Ticketing And Tracking) is an ticket tracking application, d
 
 ## Getting started with STAT
 
-Currently, STAT is in its beta version, and needed to be set up in the SAP HANA Web-based Development Workbench.
+Currently, STAT is in its beta version, and needs to be set up in the SAP HANA Web-based Development Workbench.
 
 ### Prerequisites
 
-A SAP Cloud Platform Account (Trial or Full version).
+* A SAP Cloud Platform Account (Trial or Full version).
 
-A SAP HANA DB/Schema to store the application and the server data to be accessed.
+* A SAP HANA DB/Schema to store the application and the server data to be accessed.
 
-User accounts, with proper permissions.
+* User accounts, with proper permissions.
 
 ### Installation
 
-Clone or copy the contents of this repository into any directory of the main Content folder into the SAP HANA Web-based Development Workbench
+Clone or copy the contents of the [back-end repository](https://github.com/ffanizza10xcoding/STATapp-BackEnd) into any directory of the main Content folder of the SAP HANA Web-based Development Workbench
 
-Clone or copy the contents of the [back-end repository](https://github.com/ffanizza10xcoding/STATapp-BackEnd) into any directory of the main Content folder into the SAP HANA Web-based Development Workbench
+Clone or copy the contents of the [back-end repository](https://github.com/ffanizza10xcoding/STATapp-BackEnd) into any directory of the main Content folder of the SAP HANA Web-based Development Workbench
 
 In the tables, edit the initial data as required, including users and functional areas. Note that the ticket priorities and ticket statuses can also be edited, but may have issues if they are not initialized to the defaults as defined in the csv files in the [loads folder](https://github.com/ffanizza10xcoding/STATapp-BackEnd/statapp/data/loads).
 
