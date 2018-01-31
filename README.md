@@ -1,7 +1,6 @@
 ## STAT application - Webapp
 
-The front-end for the STAT application ([back-end](https://github.com/ffanizza10xcoding/STATapp-BackEnd))
-
+The front end for the STAT application ([back end available here](https://github.com/ffanizza10xcoding/STATapp-BackEnd))
 
 # STAT application
 
@@ -21,17 +20,13 @@ Currently, STAT is in its beta version, and needs to be set up in the SAP HANA W
 
 ### Installation
 
-Clone or copy the contents of the [back-end repository](https://github.com/ffanizza10xcoding/STATapp-BackEnd) into any directory of the main Content folder of the SAP HANA Web-based Development Workbench
+Follow installation instructions for the [back end](https://github.com/ffanizza10xcoding/STATapp-BackEnd).
 
-Clone or copy the contents of the [back-end repository](https://github.com/ffanizza10xcoding/STATapp-BackEnd) into any directory of the main Content folder of the SAP HANA Web-based Development Workbench
-
-In the tables, edit the initial data as required, including users and functional areas. Note that the ticket priorities and ticket statuses can also be edited, but may have issues if they are not initialized to the defaults as defined in the csv files in the [loads folder](https://github.com/ffanizza10xcoding/STATapp-BackEnd/statapp/data/loads).
+Clone or copy the contents of the front end repository into any directory of the main "Content" folder of the SAP HANA Web-based Development Workbench.
 
 ## Using STAT
 
-Launch the application from the [index.html](/index.html) file
-
-The application, when launched, can be accessed directly using this URL. (The server must be started prior to accessing the web app, if not already started)
+Launch the application from the [index.html](/index.html) file. The application, when launched, can be accessed directly using the URL generated. (The server must be started prior to accessing the web app, if not already started)
 
 After accessing the application, a user can navigate the application by clicking on the tiles. The "Open Tickets" tile on the homepage navigates to the main application. This application shows a list of tickets, which can be filtered or sorted from the icons on the footer bar. Also on the footer is a button to add a new ticket. Each ticket can be clicked to navigate to a details, comments, and attachemnt page. This "details" page has tabs to navigate between these three views. From the details tab, a user can click the edit icon (the pencil) to navigate to the edit ticket page, where details about a ticket can be edited.
 
