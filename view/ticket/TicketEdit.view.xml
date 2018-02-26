@@ -92,6 +92,7 @@
                                 <Title text="{i18n>TicketEdit.EditFormTitle}" level="H5" titleStyle="H5"/>
                                 <ToolbarSpacer />
                                 <ToggleButton
+                                    id="allowEditBtn"
                                     icon="sap-icon://edit"
                                     press="onPressEditForm" />
                             </Toolbar>
