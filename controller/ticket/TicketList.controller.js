@@ -176,45 +176,6 @@ sap.ui.define([
             }
             oTicketListItemsBinding.filter(aFilters);
 		},
-// 		/**
-//          * This function handles the group button press, and reverses the order of the list
-//          * @private
-//          */
-// 		onPressGroupList : function() {
-//             // Open the group dialog fragment
-//             this._oDialog = sap.ui.xmlfragment("statapp.view.ticket.ticketListFragments.GroupDialog", this);
-//             this._oDialog.open();
-// 		},
-// 		/**
-//          * This function handles confirming a grouping selection, and updates the list to reflect this choice
-//          * @private
-//          */
-// 		onConfirmGroup : function(oEvent) {
-//             // get list/items
-//             if (oTicketListItemsBinding === undefined) {
-//                 var oView = this.getView();
-//                 var oList = oView.byId("ticketsList");
-//                 oTicketListItemsBinding = oList.getBinding("items");
-//             }
-//             // get sort parameters
-//             var mParams = oEvent.getParameters();
-            
-//             // apply grouping
-//             var aSorters = [];
-//             if (mParams.groupItem) {
-//                 var sGroupPath = mParams.groupItem.getKey();
-//                 var bGroupDescending = mParams.groupDescending;
-//                 var vGroup = function(oContext) {
-//                     var name = oContext.getProperty("Address/City");
-//                     return {
-//                         key: name,
-//                         text: name
-//                     };
-//                 };
-//                 aSorters.push(new sap.ui.model.Sorter(sGroupPath, bGroupDescending, vGroup));
-//             }
-//             oTicketListItemsBinding.sort(aSorters);
-// 		},
 		/**
          * This function handles navigation to new ticket page (from button click)
          * @private
@@ -228,24 +189,3 @@ sap.ui.define([
 		}
 	});
 });
-
-// THIS IS THE FUNCTIONAL AREA ICON/DESCRIPTION PREVIOUSLY USED IN THE TICKET LIST
-/*
-
-<VBox
-    class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom"
-    span="L4 M3 S2" >
-    <core:Icon
-        size="2rem"
-        src="{
-            parts:[{
-                path:'functionalArea_description'
-            }],
-            formatter: '.formatter.getFuncAreaIcon'
-        }" />
-    <Label
-        class="sapUiResponsiveContentPadding"
-        text="{functionalArea_description}" />
-</VBox>
-
-*/
