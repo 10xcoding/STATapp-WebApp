@@ -43,7 +43,7 @@ After accessing the application, a user can navigate the application by clicking
 
 ## License
 
-This application and project is licensed under the GNU Affero General Public License [AGPLv3](https://www.gnu.org/licenses/agpl-3.0.html#section13). See the [attached license](/) for details.
+This application and project is licensed under the GNU Affero General Public License [AGPLv3](https://www.gnu.org/licenses/agpl-3.0.html#section13). See the [attached license](/LICENSE) for details.
 
 ## Acknowledgments
 
