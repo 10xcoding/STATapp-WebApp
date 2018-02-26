@@ -1,10 +1,10 @@
 ## STAT application - Webapp
 
-The front end for the STAT application ([back end available here](https://github.com/ffanizza10xcoding/STATapp-BackEnd))
+The front-end for the STAT application ([back-end available here](https://github.com/ffanizza10xcoding/STATapp-BackEnd))
 
 # STAT application
 
-STAT (short for SAP Ticketing And Tracking) is an ticket tracking application, designed in SAPUI5. STAT can be used to track system issues and create test scripts that integrate directly with any SAP system. Users can avoid the need to manage additional user accounts or websites and improve their issue resolution workflow.
+STAT (short for SAP Ticketing And Tracking) is a ticket tracking application, designed in SAPUI5. STAT can be used to track system issues and create test scripts that integrate directly with any SAP system. Users can avoid the need to manage additional user accounts or websites and improve their issue resolution workflow.
 
 ## Getting started with STAT
 
@@ -20,9 +20,9 @@ Currently, STAT is in its beta version, and needs to be set up in the SAP HANA W
 
 ### Installation
 
-Follow installation instructions for the [back end](https://github.com/ffanizza10xcoding/STATapp-BackEnd).
+Follow installation instructions for the [back-end](https://github.com/ffanizza10xcoding/STATapp-BackEnd).
 
-Clone or copy the contents of the front end repository into any directory of the main "Content" folder of the SAP HANA Web-based Development Workbench.
+Clone or copy the contents of the front-end repository into any directory of the main "Content" folder of the SAP HANA Web-based Development Workbench.
 
 ## Using STAT
 
