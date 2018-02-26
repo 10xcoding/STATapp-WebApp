@@ -3,10 +3,13 @@ sap.ui.define([
 	,"statapp/controller/BaseController"
 ], function (MessageToast, BaseController) {
 	"use strict";
+	var oEventBus;
 	return BaseController.extend("statapp.controller.ticket.NewTicket", {
         onInit : function() {
             // Subscribe to event buses
-            var oEventBus = sap.ui.getCore().getEventBus();
+            if (!oEventBus) {
+                oEventBus = sap.ui.getCore().getEventBus();
+            }
             oEventBus.subscribe("newTicketChannel", "clearFields", this.clearFields, this);
             // sOrigin = "https://stats0017130098trial.hanatrial.ondemand.com"
             var sOrigin = window.location.protocol + "//" + window.location.hostname
@@ -70,7 +73,9 @@ sap.ui.define([
                 MessageToast.show("New ticket has been successfully created", {
                     closeOnBrowserNavigation: false }
                 );
-                var oEventBus = sap.ui.getCore().getEventBus();
+                if (!oEventBus) {
+                    oEventBus = sap.ui.getCore().getEventBus();
+                }
                 oEventBus.publish("ticketListChannel", "updateTicketList");
                 oEventBus.publish("newTicketChannel", "clearFields");
             };

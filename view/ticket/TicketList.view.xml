@@ -104,7 +104,7 @@
                 <Button id="newTicketButton" press="onNavToNewTicket" icon="sap-icon://add"/>
                 <Button id="sortListButton" press="onPressSortList" icon="sap-icon://sort"/>
                 <Button id="filterListButton" press="onPressFilterList" icon="sap-icon://filter"/>
-                <Button id="groupListButton" press="onPressGroupList" icon="sap-icon://group-2"/>
+                <!--<Button id="groupListButton" press="onPressGroupList" icon="sap-icon://group-2"/>-->
             </OverflowToolbar>
         </footer>
     </Page>

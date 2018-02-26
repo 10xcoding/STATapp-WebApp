@@ -4,6 +4,7 @@ sap.ui.define([
 ], function (MessageToast, BaseController) {
 	"use strict";
 	var currentTicketId = "";
+	var oEventBus;
 	return BaseController.extend("statapp.controller.ticket.TicketEdit", {
 		_onRouteMatched : function (oEvent) {
 			var oArgs, oView;
@@ -29,7 +30,9 @@ sap.ui.define([
 			oRouter.getRoute("ticketEdit").attachMatched(this._onRouteMatched, this);
 			
             // Subscribe to event buses
-            var oEventBus = sap.ui.getCore().getEventBus();
+            if (!oEventBus) {
+                oEventBus = sap.ui.getCore().getEventBus();
+            }
             oEventBus.subscribe("ticketEditChannel", "updateFields", this.updateFields, this);
 		},
 		onBeforeRendering : function() {
@@ -98,7 +101,9 @@ sap.ui.define([
                 MessageToast.show("Changes saved!", {
                     closeOnBrowserNavigation: false }
                 );
-                var oEventBus = sap.ui.getCore().getEventBus();
+                if (!oEventBus) {
+                    oEventBus = sap.ui.getCore().getEventBus();
+                }
                 oEventBus.publish("ticketEditChannel", "updateFields");
                 oEventBus.publish("ticketListChannel", "updateTicketList");
                 oEventBus.publish("ticketDetailsChannel", "updateFields");

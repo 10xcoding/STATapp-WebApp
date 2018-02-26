@@ -7,6 +7,7 @@ sap.ui.define([
 	var aFilters = [];
 	var ticketList;
 	var oTicketListItemsBinding;
+	var oEventBus;
 	return BaseController.extend("statapp.controller.ticket.TicketList", {
         formatter: formatter,
         /**
@@ -28,8 +29,8 @@ sap.ui.define([
          * @private
          */
         onInit : function() {
-		    // Subscribe to event buses
-            var oEventBus = sap.ui.getCore().getEventBus();
+            // Subscribe to event buses
+            oEventBus = sap.ui.getCore().getEventBus();
             oEventBus.subscribe("ticketListChannel", "updateTicketList", this.updateTicketList, this);
         },
         /**
@@ -82,7 +83,7 @@ sap.ui.define([
             this.saveTicketListBinding();
 			var selectedPath = oEvent.getSource().getBindingContext().sPath; // selectedPath = "/Tickets('STT0001111')"
 			var ticketId = selectedPath.slice(-12,-2); //TODO: get without slice?
-			this.getRouter().navTo("ticket",{
+			this.getRouter().navTo("ticket", {
 				ticketId : ticketId
 			});
 		},
@@ -113,7 +114,7 @@ sap.ui.define([
                 var oView = this.getView();
                 var oList = oView.byId("ticketsList");
                 oTicketListItemsBinding = oList.getBinding("items");
-		    }
+            }
             // get sort parameters
             var mParams = oEvent.getParameters();
             
@@ -145,7 +146,7 @@ sap.ui.define([
                 var oView = this.getView();
                 var oList = oView.byId("ticketsList");
                 oTicketListItemsBinding = oList.getBinding("items");
-		    }
+            }
             // get sort parameters
             var mParams = oEvent.getParameters();
             
@@ -175,51 +176,53 @@ sap.ui.define([
             }
             oTicketListItemsBinding.filter(aFilters);
 		},
-		/**
-         * This function handles the group button press, and reverses the order of the list
-         * @private
-         */
-		onPressGroupList : function() {
-            // Open the group dialog fragment
-            this._oDialog = sap.ui.xmlfragment("statapp.view.ticket.ticketListFragments.GroupDialog", this);
-            this._oDialog.open();
-		},
-		/**
-         * This function handles confirming a grouping selection, and updates the list to reflect this choice
-         * @private
-         */
-		onConfirmGroup : function(oEvent) {
-            // get list/items
-            if (oTicketListItemsBinding === undefined) {
-                var oView = this.getView();
-                var oList = oView.byId("ticketsList");
-                oTicketListItemsBinding = oList.getBinding("items");
-		    }
-            // get sort parameters
-            var mParams = oEvent.getParameters();
+// 		/**
+//          * This function handles the group button press, and reverses the order of the list
+//          * @private
+//          */
+// 		onPressGroupList : function() {
+//             // Open the group dialog fragment
+//             this._oDialog = sap.ui.xmlfragment("statapp.view.ticket.ticketListFragments.GroupDialog", this);
+//             this._oDialog.open();
+// 		},
+// 		/**
+//          * This function handles confirming a grouping selection, and updates the list to reflect this choice
+//          * @private
+//          */
+// 		onConfirmGroup : function(oEvent) {
+//             // get list/items
+//             if (oTicketListItemsBinding === undefined) {
+//                 var oView = this.getView();
+//                 var oList = oView.byId("ticketsList");
+//                 oTicketListItemsBinding = oList.getBinding("items");
+//             }
+//             // get sort parameters
+//             var mParams = oEvent.getParameters();
             
-            // apply grouping
-            var aSorters = [];
-            if (mParams.groupItem) {
-                var sGroupPath = mParams.groupItem.getKey();
-                var bGroupDescending = mParams.groupDescending;
-                var vGroup = function(oContext) {
-                    var name = oContext.getProperty("Address/City");
-                    return {
-                        key: name,
-                        text: name
-                    };
-                };
-                aSorters.push(new sap.ui.model.Sorter(sGroupPath, bGroupDescending, vGroup));
-            }
-            oTicketListItemsBinding.sort(aSorters);
-		},
+//             // apply grouping
+//             var aSorters = [];
+//             if (mParams.groupItem) {
+//                 var sGroupPath = mParams.groupItem.getKey();
+//                 var bGroupDescending = mParams.groupDescending;
+//                 var vGroup = function(oContext) {
+//                     var name = oContext.getProperty("Address/City");
+//                     return {
+//                         key: name,
+//                         text: name
+//                     };
+//                 };
+//                 aSorters.push(new sap.ui.model.Sorter(sGroupPath, bGroupDescending, vGroup));
+//             }
+//             oTicketListItemsBinding.sort(aSorters);
+// 		},
 		/**
          * This function handles navigation to new ticket page (from button click)
          * @private
          */
 		onNavToNewTicket : function() {
-            var oEventBus = sap.ui.getCore().getEventBus();
+            if (!oEventBus) {
+                oEventBus = sap.ui.getCore().getEventBus();
+            }
             oEventBus.publish("newTicketChannel", "clearFields");
 			this.getRouter().navTo("newTicket"); 
 		}

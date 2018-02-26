@@ -1,11 +1,12 @@
 sap.ui.define([
-    "sap/m/MessageBox"
-    ,"sap/m/MessageToast"
-	,"statapp/controller/BaseController"
+    // "sap/m/MessageBox"
+    // ,"sap/m/MessageToast"
+// 	,
+	"statapp/controller/BaseController"
 	,"sap/ui/model/json/JSONModel"
 	,"sap/ui/core/Fragment"
 	,"jquery.sap.global"
-], function (MessageBox, MessageToast, BaseController, JSONModel, Fragment, jQuery) {
+], function (BaseController, JSONModel, Fragment, jQuery) {
 	"use strict";
 	var _aValidTabKeys = ["Details", "Comments", "Attachments"];
 	var oViews;
@@ -14,10 +15,26 @@ sap.ui.define([
     var oModel;
     var dateStarted, dateClosed;
 	var oStartTicketButton, oCloseTicketButton;
+	var oEventBus;
 	return BaseController.extend("statapp.controller.ticket.TicketDetails", {
         /*******************************/
         /***  ROUTE/BINDING/LOADING  ***/
         /*******************************/
+        onInit : function () {
+            // Set router
+			var oRouter = this.getRouter();
+			this.getView().setModel(new JSONModel(), "view");
+			oRouter.getRoute("ticket").attachMatched(this._onRouteMatched, this);
+			
+			// Subscribe to event buses
+			if (!oEventBus) {
+                oEventBus = sap.ui.getCore().getEventBus();
+			}
+            oEventBus.subscribe("ticketDetailsChannel", "setStartTicketButton", this.setStartTicketButton, this);
+            oEventBus.subscribe("ticketDetailsChannel", "setCloseTicketButton", this.setCloseTicketButton, this);
+            oEventBus.subscribe("ticketDetailsChannel", "updateFields", this.updateFields, this);
+            // oEventBus.subscribe("ticketDetailsChannel", "updateCommentFeed", this.updateCommentFeed, this);
+		},
 		_onRouteMatched : function (oEvent) {
 			var oArgs, oQuery;
 			oArgs = oEvent.getParameter("arguments");
@@ -54,19 +71,6 @@ sap.ui.define([
 				this.getRouter().getTargets().display("notFound");
 			}
 		},
-        onInit : function () {
-            // Set router
-			var oRouter = this.getRouter();
-			this.getView().setModel(new JSONModel(), "view");
-			oRouter.getRoute("ticket").attachMatched(this._onRouteMatched, this);
-			
-			// Subscribe to event buses
-            var oEventBus = sap.ui.getCore().getEventBus();
-            oEventBus.subscribe("ticketDetailsChannel", "setStartTicketButton", this.setStartTicketButton, this);
-            oEventBus.subscribe("ticketDetailsChannel", "setCloseTicketButton", this.setCloseTicketButton, this);
-            oEventBus.subscribe("ticketDetailsChannel", "updateFields", this.updateFields, this);
-            // oEventBus.subscribe("ticketDetailsChannel", "updateCommentFeed", this.updateCommentFeed, this);
-		},
 		onAfterRendering : function() {
 // 			var oComment = this.getView().byId('ticketDetailsComments');
 // 			oComment.$().attr('aria-haspopup', true);
@@ -85,37 +89,41 @@ sap.ui.define([
 		},
         setStartTicketButton : function() {
             // Check ticket status, set start ticket button as needed
-            if (oModel === undefined) {
-                oModel = this.getView().getModel();
+            if (!oStartTicketButton) {
+                oStartTicketButton = this.getView().byId("startTicketButton");
             }
-            if (dateStarted === undefined) {
+            if (!dateStarted) {
+                if (!oModel) {
+                    oModel = this.getView().getModel();
+                }
                 dateStarted = oModel.dateStarted;
             }
-            if (dateStarted !== "" && dateStarted !== "?" && dateStarted !== null) {
-                if (oStartTicketButton === undefined) {
-                    oStartTicketButton = this.getView().byId("startTicketButton");
-                }
+            if (dateStarted !== "" && dateStarted !== "?" && dateStarted !== null && dateStarted !== undefined) {
                 oStartTicketButton.setEnabled(true);
+            } else {
+                oStartTicketButton.setEnabled(false);
             }
         },
         setCloseTicketButton : function() {
             // Check ticket status, set close button as needed
-            if (oModel === undefined) {
-                oModel = this.getView().getModel();
+            if (!oCloseTicketButton) {
+                oCloseTicketButton = this.getView().byId("closeTicketButton");
             }
-            if (dateStarted === undefined) {
+            if (!dateClosed) {
+                if (!oModel) {
+                    oModel = this.getView().getModel();
+                }
                 dateClosed = oModel.dateClosed;
             }
-            if (dateClosed !== "" && dateClosed !== "?" && dateClosed !== null) {
-                if (oCloseTicketButton === undefined) {
-                    oCloseTicketButton = this.getView().byId("closeTicketButton");
-                }
-                this.getView().byId("closeTicketButton").setEnabled(true);
+            if (dateClosed !== "" && dateClosed !== "?" && dateClosed !== null && dateClosed !== undefined) {
+                oCloseTicketButton.setEnabled(true);
+            } else {
+                oCloseTicketButton.setEnabled(false);
             }
         },
 		onPressStartTicket : function () {
             //Set button as unclickable
-            if (oStartTicketButton === undefined) {
+            if (!oStartTicketButton) {
                 oStartTicketButton = this.getView().byId("startTicketButton");
             }
             oStartTicketButton.setEnabled(false);
@@ -124,20 +132,24 @@ sap.ui.define([
                 //oData Service
                 var oParams = {};
                 oParams.success = function(){
-                    MessageToast.show("Ticket Started!", {
+                    sap.m.MessageToast.show("Ticket Started!", {
                         closeOnBrowserNavigation: false }
                     );
-                    var oEventBus = sap.ui.getCore().getEventBus();
+                    if (!oEventBus) {
+                        oEventBus = sap.ui.getCore().getEventBus();
+                    }
                     oEventBus.publish("ticketListChannel", "updateTicketList");
                     oEventBus.publish("ticketDetailsChannel", "setStartTicketButton");
                     oEventBus.publish("ticketDetailsChannel", "updateFields");
                     oEventBus.publish("ticketEditChannel", "updateFields");
                 };
                 oParams.error = function(){
-                    MessageToast.show("Error occured when updating,\nno changes saved", {
+                    sap.m.MessageToast.show("Error occured when updating,\nno changes saved", {
                         closeOnBrowserNavigation: false }
                     );
-                    var oEventBus = sap.ui.getCore().getEventBus();
+                    if (!oEventBus) {
+                        oEventBus = sap.ui.getCore().getEventBus();
+                    }
                     oEventBus.publish("ticketDetailsChannel", "setStartTicketButton", false);
                 };
                 oParams.bMerge = true;
@@ -155,20 +167,24 @@ sap.ui.define([
                 //oData Service
                 var oParams = {};
                 oParams.success = function(){
-                    MessageToast.show("Ticket Closed!", {
+                    sap.m.MessageToast.show("Ticket Closed!", {
                         closeOnBrowserNavigation: false }
                     );
-                    var oEventBus = sap.ui.getCore().getEventBus();
+                    if (!oEventBus) {
+                        oEventBus = sap.ui.getCore().getEventBus();
+                    }
                     oEventBus.publish("ticketListChannel", "updateTicketList");
                     oEventBus.publish("ticketDetailsChannel", "setCloseTicketButton");
                     oEventBus.publish("ticketDetailsChannel", "updateFields");
                     oEventBus.publish("ticketEditChannel", "updateFields");
                 };
                 oParams.error = function(){
-                    MessageToast.show("Error occured when updating,\nno changes saved", {
+                    sap.m.MessageToast.show("Error occured when updating,\nno changes saved", {
                         closeOnBrowserNavigation: false }
                     );
-                    var oEventBus = sap.ui.getCore().getEventBus();
+                    if (!oEventBus) {
+                        oEventBus = sap.ui.getCore().getEventBus();
+                    }
                     oEventBus.publish("ticketDetailsChannel", "setCloseTicketButton", false);
                 };
                 oParams.bMerge = true;
@@ -176,6 +192,9 @@ sap.ui.define([
             }
         },
         updateFields : function() {
+            if (!oModel) {
+                oModel = this.getView().getModel();
+            }
             oModel.refresh();
         },
 		/*********************/
@@ -195,7 +214,7 @@ sap.ui.define([
             //Context data
             var currUser = "STU0000002"; // TODO: GET USER FROM CONTEXT
             if (userCommentText === "" || currentTicketId === "" || currUser === "") {
-                MessageToast.show("Something went wrong. Please try again later.", {
+                sap.m.MessageToast.show("Something went wrong. Please try again later.", {
                     closeOnBrowserNavigation: false });
             } else {
                 //Define defaults
@@ -215,12 +234,14 @@ sap.ui.define([
 		addNewComment : function(commentsJSO) {
             var oParams = {};
             oParams.success = function(){
-                MessageToast.show("Comment posted!");
-                var oEventBus = sap.ui.getCore().getEventBus();
+                sap.m.MessageToast.show("Comment posted!");
+                if (!oEventBus) {
+                    oEventBus = sap.ui.getCore().getEventBus();
+                }
                 oEventBus.publish("ticketDetailsChannel", "updateFields");
             };
             oParams.error = function(){
-                MessageToast.show("Error occured when posting comment", {
+                sap.m.MessageToast.show("Error occured when posting comment", {
                     closeOnBrowserNavigation: false }
                 );
             };
