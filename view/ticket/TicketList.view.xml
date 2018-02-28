@@ -52,7 +52,6 @@
                         >
                         <HBox
                             alignItems="Start"
-                            justifyContent="SpaceBetween"
                             class="sapUiSmallMarginTopBottom" >
                             <VBox
                                 class="sapUiSmallMarginBegin"
@@ -92,6 +91,17 @@
                                         formatter: '.formatter.getPriorityState'
                                     }"
                                 />
+                                <!--
+                                <Label
+                                    text="{
+                                        path: 'dateCreated',
+                                        type: 'sap.ui.model.type.Date',
+                                        formatOptions: {
+                                            style: 'short'
+                                        }
+                                    }"
+                                />
+                                -->
                             </VBox>
                         </HBox>
                     </CustomListItem>
