@@ -32,6 +32,7 @@ sap.ui.define([
             // Subscribe to event buses
             oEventBus = sap.ui.getCore().getEventBus();
             oEventBus.subscribe("ticketListChannel", "updateTicketList", this.updateTicketList, this);
+            aFilters = [new Filter("ticketStatus_description", sap.ui.model.FilterOperator.NE, 'Closed')];
         },
         /**
          * This function is a callback (eventbus) function which updates the open ticket ticket list if any changes have been made.
@@ -50,28 +51,28 @@ sap.ui.define([
          */
 		onFilterTickets : function(oEvent) {
             //build filter array
-            var sQuery = oEvent.getSource().getValue().toLowerCase();
+            var sQuery = oEvent.getSource().getValue();
             if (sQuery && sQuery.length > 0) {
                 var filters = [
-                    this.createFilter("ticketTitle", sQuery, "Contains", true),
-                    this.createFilter("ticketId", sQuery, "Contains", true),
-                    this.createFilter("creator_firstName", sQuery, "Contains", true),
-                    this.createFilter("creator_lastName", sQuery, "Contains", true),
-                    this.createFilter("assignee_firstName", sQuery, "Contains", true),
-                    this.createFilter("assignee_lastName", sQuery, "Contains", true),
-                    this.createFilter("ticketDescription", sQuery, "Contains", true)
+                    this.createFilter("ticketTitle", sQuery, sap.ui.model.FilterOperator.Contains, true),
+                    this.createFilter("ticketId", sQuery, sap.ui.model.FilterOperator.Contains, true),
+                    this.createFilter("creator_firstName", sQuery, sap.ui.model.FilterOperator.Contains, true),
+                    this.createFilter("creator_lastName", sQuery, sap.ui.model.FilterOperator.Contains, true),
+                    this.createFilter("assignee_firstName", sQuery, sap.ui.model.FilterOperator.Contains, true),
+                    this.createFilter("assignee_lastName", sQuery, sap.ui.model.FilterOperator.Contains, true),
+                    this.createFilter("ticketDescription", sQuery, sap.ui.model.FilterOperator.Contains, true)
                 ]; 
                 var orFilter = new Filter(filters, false);
-                aFilters.push(orFilter);
+                aFilters = [orFilter];
             }
             if (sQuery.length === 0) {
                 aFilters.push(new Filter("ticketStatus_description", sap.ui.model.FilterOperator.NE, 'Closed'));
             }
             //bind filter
-            if (ticketList === undefined) {
+            if (!ticketList) {
                 this.saveTicketListBinding();
             }
-            ticketList.getModel().updateBindings(true);
+            // ticketList.getModel().updateBindings(true);
             oTicketListItemsBinding.filter(aFilters, "Application");
 		},
 		/**
@@ -171,10 +172,10 @@ sap.ui.define([
                             continue;
                     }
                     oFilter = new sap.ui.model.Filter(sFilterPath, "EQ", vKeyValue);
-                    aFilters.push(oFilter);
+                    aFilters.push(oFilter);// = [oFilter];
                 }
             }
-            oTicketListItemsBinding.filter(aFilters);
+            oTicketListItemsBinding.filter(aFilters, "Application");
 		},
 		/**
          * This function handles navigation to new ticket page (from button click)
