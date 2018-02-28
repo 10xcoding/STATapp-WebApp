@@ -1,25 +1,25 @@
 sap.ui.define([
-    // "sap/m/MessageBox"
-    // ,"sap/m/MessageToast"
-// 	,
 	"statapp/controller/BaseController"
 	,"sap/ui/model/json/JSONModel"
 	,"sap/ui/core/Fragment"
 	,"jquery.sap.global"
 ], function (BaseController, JSONModel, Fragment, jQuery) {
 	"use strict";
-	var _aValidTabKeys = ["Details", "Comments", "Attachments"];
-	var oViews;
-	var currentTicketId = "";
-// 	var oAuthorModel;
-    var oModel;
-    var dateStarted, dateClosed;
-	var oStartTicketButton, oCloseTicketButton;
-	var oEventBus;
+	var _aValidTabKeys = ["Details", "Comments", "Attachments"];    // Tab list
+	var oViews;                                                     // Page view object
+	var currentTicketId = "";                                       // ticket id
+    var oModel;                                                     // data model object
+    var dateStarted, dateClosed;                                    // date objects
+	var oStartTicketButton, oCloseTicketButton;                     // start/close button objects
+	var oEventBus;                                                  // EventBus object (handles response to actions on other pages)
 	return BaseController.extend("statapp.controller.ticket.TicketDetails", {
         /*******************************/
         /***  ROUTE/BINDING/LOADING  ***/
         /*******************************/
+        /**
+         * This function is the initialization function (called on initialization of the view)
+         * @private
+         */
         onInit : function () {
             // Set router
 			var oRouter = this.getRouter();
@@ -33,8 +33,11 @@ sap.ui.define([
             oEventBus.subscribe("ticketDetailsChannel", "setStartTicketButton", this.setStartTicketButton, this);
             oEventBus.subscribe("ticketDetailsChannel", "setCloseTicketButton", this.setCloseTicketButton, this);
             oEventBus.subscribe("ticketDetailsChannel", "updateFields", this.updateFields, this);
-            // oEventBus.subscribe("ticketDetailsChannel", "updateCommentFeed", this.updateCommentFeed, this);
 		},
+        /**
+         * This function is used for route matching and tab movement
+         * @private
+         */
 		_onRouteMatched : function (oEvent) {
 			var oArgs, oQuery;
 			oArgs = oEvent.getParameter("arguments");
@@ -65,19 +68,20 @@ sap.ui.define([
 				}, true /*no history*/);
 			}
 		},
+        /**
+         * This function is used if the router cannot match the generated route
+         * @private
+         */
 		_onBindingChange : function () {
 			// No data for the binding
 			if (!this.getView().getBindingContext()) {
 				this.getRouter().getTargets().display("notFound");
 			}
 		},
-		onAfterRendering : function() {
-// 			var oComment = this.getView().byId('ticketDetailsComments');
-// 			oComment.$().attr('aria-haspopup', true);
-		},
-		/**********************/
-        /***  DETAILS PAGE  ***/
-        /**********************/
+        /**
+         * This function is used for navigation between tabs
+         * @private
+         */
 		onTabSelect : function (oEvent){
 			var oCtx = this.getView().getBindingContext();
 			this.getRouter().navTo("ticket", {
@@ -87,6 +91,13 @@ sap.ui.define([
 				}
 			}, true /*without history*/);
 		},
+		/**********************/
+        /***  DETAILS PAGE  ***/
+        /**********************/
+        /**
+         * This function is a callback (eventbus) function which updates the start ticket button if any changes have been made.
+         * @private
+         */
         setStartTicketButton : function() {
             // Check ticket status, set start ticket button as needed
             if (!oStartTicketButton) {
@@ -104,6 +115,10 @@ sap.ui.define([
                 oStartTicketButton.setEnabled(false);
             }
         },
+        /**
+         * This function is a callback (eventbus) function which updates the close ticket button if any changes have been made.
+         * @private
+         */
         setCloseTicketButton : function() {
             // Check ticket status, set close button as needed
             if (!oCloseTicketButton) {
@@ -121,6 +136,10 @@ sap.ui.define([
                 oCloseTicketButton.setEnabled(false);
             }
         },
+        /**
+         * This function handles start ticket button presses - set button as unclickable, OData call, react to response
+         * @private
+         */
 		onPressStartTicket : function () {
             //Set button as unclickable
             if (!oStartTicketButton) {
@@ -156,6 +175,10 @@ sap.ui.define([
                 this.getView().getModel().update("/StartTicket('" + currentTicketId + "')", {}, oParams );
             }
         },
+        /**
+         * This function handles start ticket button presses - set button as unclickable, OData call, react to response
+         * @private
+         */
         onPressCloseTicket : function () {
             //Set button as unclickable
             if (oCloseTicketButton === undefined) {
@@ -191,6 +214,10 @@ sap.ui.define([
                 this.getView().getModel().update("/CloseTicket('" + currentTicketId + "')", {}, oParams );
             }
         },
+        /**
+         * This function is a callback function (refreshes model if changes are made elsewhere)
+         * @private
+         */
         updateFields : function() {
             if (!oModel) {
                 oModel = this.getView().getModel();
@@ -200,6 +227,10 @@ sap.ui.define([
 		/*********************/
         /***  DETAILS TAB  ***/
         /*********************/
+        /**
+         * This function handles edit ticket button presses - nav to edit ticket page
+         * @private
+         */
 		onClickEdit : function () {
 			this.getRouter().navTo("ticketEdit",{
 				ticketId : currentTicketId
@@ -208,6 +239,10 @@ sap.ui.define([
 		/**********************/
         /***  COMMENTS TAB  ***/
         /**********************/
+        /**
+         * This function handles post comment button presses - prepare object for OData call
+         * @private
+         */
 		onPostComment : function(oEvent) {
             //Get comment text
 			var userCommentText = oEvent.getParameter("value");
@@ -231,6 +266,10 @@ sap.ui.define([
                 this.addNewComment(commentsJSO);
             }
 		},
+        /**
+         * This function handles start ticket button presses - OData call, react to response
+         * @private
+         */
 		addNewComment : function(commentsJSO) {
             var oParams = {};
             oParams.success = function(){
@@ -251,6 +290,10 @@ sap.ui.define([
 		/*********************/
         /***  USER POP-UP  ***/
         /*********************/
+        /**
+         * This function handles author name presses - prepares author model to open
+         * @private
+         */
 		onAuthorPress: function (oEvent) {
             var oCommentId = oEvent.getSource().getCustomData()[0].getValue("commentId");
             var oCommentData = this.getView().getModel().getData("/Comments('" + oCommentId + "')");
@@ -265,6 +308,10 @@ sap.ui.define([
             var oSenderDomRef = oEvent.getParameters().getDomRef();
 			this.openQuickView(oCommentModel, oSenderDomRef);
 		},
+        /**
+         * This function calls a popover function, and places the popover in the correct location if it is a larger screen
+         * @private
+         */
 		openQuickView : function (oCommentModel, oSenderDomRef) {
 			this.createPopover(oCommentModel);
 			this._oQuickView.setModel(oCommentModel);
@@ -274,12 +321,20 @@ sap.ui.define([
 				this._oQuickView.setPlacement(sap.m.PlacementType.Bottom);
 			});
 		},
+        /**
+         * This function handles XML fragment popover creation
+         * @private
+         */
 		createPopover : function () {
 			if (!this._oQuickView) {
 				this._oQuickView = sap.ui.xmlfragment("statapp.view.user.UserDetails", this);
 				this.getView().addDependent(this._oQuickView);
 			}
 		},
+        /**
+         * This function handles exiting the generated XML fragment
+         * @private
+         */
 		onExit : function () {
 			if (this._oQuickView) {
 				this._oQuickView.destroy();

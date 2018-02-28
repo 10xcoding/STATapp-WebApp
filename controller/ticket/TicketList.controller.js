@@ -4,12 +4,12 @@ sap.ui.define([
 	"sap/ui/model/Filter"
 ], function (BaseController, formatter, Filter) {
 	"use strict";
-	var aFilters = [];
-	var ticketList;
-	var oTicketListItemsBinding;
-	var oEventBus;
+	var aFilters = [];              // Filter list for ticketList filtering
+	var ticketList;                 // ticketList object
+	var oTicketListItemsBinding;    // ticketList item binding object
+	var oEventBus;                  // EventBus object (handles response to actions on other pages)
 	return BaseController.extend("statapp.controller.ticket.TicketList", {
-        formatter: formatter,
+        formatter: formatter,       // Formatter to be used by view
         /**
          * This function is a wrapper function for filters, which allows for case-insensitive search (sets everything to lowercase)
          * @private
@@ -66,6 +66,7 @@ sap.ui.define([
                 aFilters = [orFilter];
             }
             if (sQuery.length === 0) {
+                aFilters = [];
                 aFilters.push(new Filter("ticketStatus_description", sap.ui.model.FilterOperator.NE, 'Closed'));
             }
             //bind filter
