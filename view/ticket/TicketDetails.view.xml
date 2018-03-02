@@ -23,21 +23,39 @@
 				selectedKey="{view>/selectedTabKey}"
                 class="sapUiResponsiveContentPadding" >
 				<items>
+				<!--
+				-->
 					<IconTabFilter
                         id="detailsTab"
-                        text="{i18n>TicketDetails.TabTitleDetails}"
+                        icon="sap-icon://hint"
+				        text="{i18n>TicketDetails.TabTitleDetails}"
                         key="Details">
                         <mvc:XMLView viewName="statapp.view.ticket.ticketDetailTabs.TicketDetailsTab"></mvc:XMLView>
 					</IconTabFilter>
+					
+				<!--
+				        count="{
+                            parts:[{
+                                path:'ItsComments'
+                            }],
+                            formatter: '.formatter.getCount'
+                        }"
+				-->
 					<IconTabFilter
                         id="commentsTab"
-                        text="{i18n>TicketDetails.TabTitleComments}"
+                        icon="sap-icon://group"
+			            text="{i18n>TicketDetails.TabTitleComments}"
                         key="Comments">
 						<mvc:XMLView viewName="statapp.view.ticket.ticketDetailTabs.TicketCommentsTab"></mvc:XMLView>
 					</IconTabFilter>
+					
+				<!--
+                        count = "0"
+				-->
 					<IconTabFilter
                         id="attachmentsTab"
-                        text="{i18n>TicketDetails.TabTitleAttachments}"
+                        icon="sap-icon://attachment"
+				        text="{i18n>TicketDetails.TabTitleAttachments}"
                         key="Attachments">
 						<mvc:XMLView viewName="statapp.view.ticket.ticketDetailTabs.TicketAttachmentsTab"></mvc:XMLView>
 					</IconTabFilter>

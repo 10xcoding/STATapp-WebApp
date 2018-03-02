@@ -95,7 +95,7 @@ sap.ui.define([
                 default:
                     return "sap-icon://question-mark";
             }
-        }
+        },
         // ,
         // getTranslation: function(text, args) {
         //     // set i18n model on view
@@ -107,5 +107,23 @@ sap.ui.define([
         //     var oBundle = i18nModel.getResourceBundle();
         //     return oBundle.getText(text, args);
         // }
+        
+        /**
+         * This function returns a starred version of the title if the ticket is new
+         *
+         * @private
+         * @param {ticketTitle} a title
+         * @param {ticketStatus} a status description as defined in the database (currently New, In Progress, or Closed)
+         * @returns {boolean} true or false
+         */
+        getCount: function(list) {
+            try {
+                if (list instanceof Array) {
+                    return list.length;
+                }
+            } finally {
+                return 0;
+            }
+        }
     };
 });
