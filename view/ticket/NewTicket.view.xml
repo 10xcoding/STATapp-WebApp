@@ -25,7 +25,24 @@
 					minWidth="1024"
 					editable="true"
 					layout="ResponsiveGridLayout"
-					labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
+
+                        columnsXL="2"
+                        columnsL="2"
+                        columnsM="1"
+                        columnsS="1"
+
+                        labelSpanXL="4"
+                        labelSpanL="3"
+                        labelSpanM="6"
+                        labelSpanS="12"
+
+                        emptySpanXL="3"
+                        emptySpanL="0"
+                        emptySpanM="0"
+                        emptySpanS="0"
+
+                        adjustLabelSpan="false"
+                        singleContainerFullSize="false" >
 					<f:content>
 						
 						<Label text="{i18n>Ticket.TicketTitle}" required="true" labelFor="newTicketTitle" />

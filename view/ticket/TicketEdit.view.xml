@@ -19,158 +19,209 @@
 		navButtonPress="onNavBack"
 		class="sapUiResponsiveContentPadding">
 		<Panel
-			id="editTicketPanel"
-			width="auto"
-			class="sapUiResponsiveMargin sapUiNoContentPadding">
-			<headerToolbar>
-				<Toolbar>
-					<Title text="{i18n>TicketEdit.ToolbarTitle}" level="H2"/>
-					<ToolbarSpacer />
-				</Toolbar>
-			</headerToolbar>
-                <ScrollContainer
-                    vertical="true"
-                    getParent="true" >
-                    <f:SimpleForm
-                        id="ticketEditFixedForm"
-                        minWidth="1024"
-                        layout="ResponsiveGridLayout"
-                        labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
-                        <f:content>
-                            
-                            <Toolbar>
-                                <Title text="{i18n>TicketEdit.FixedFormTitle}" level="H5" titleStyle="H5"/>
-                                <ToolbarSpacer />
-                            </Toolbar>
-                            
-                            <Label text="{i18n>Ticket.Creator}" labelFor="editTicketCreatorInput" />
-                            <Input id="editTicketCreatorInput" value="{creator_firstName} {creator_lastName}" editable="false" />
-                            <Label text="{i18n>Ticket.DateCreated}" labelFor="editTicketDateCreatedInput" />
-                            <Input
-                                id="editTicketDateCreatedInput"
-                                value="{
-                                    path: 'dateCreated',
-                                    type: 'sap.ui.model.type.Date',
-                                    formatOptions: {
-                                        style: 'medium'
-                                    }
-                                }"
-                                editable="false" />
-                            <Label text="{i18n>Ticket.DateStarted}" labelFor="editTicketDateStartedInput" />
-                            <Input
-                                id="editTicketDateStartedInput"
-                                value="{
-                                    path: 'dateStarted',
-                                    type: 'sap.ui.model.type.Date',
-                                    formatOptions: {
-                                        style: 'medium'
-                                    }
-                                }"
-                                editable="false" />
-                            <Label text="{i18n>Ticket.DateClosed}" labelFor="editTicketDateClosedInput" />
-                            <Input
-                                id="editTicketDateClosedInput"
-                                value="{
-                                    path: 'dateClosed',
-                                    type: 'sap.ui.model.type.Date',
-                                    formatOptions: {
-                                        style: 'medium'
-                                    }
-                                }"
-                                editable="false" />
-                        </f:content>
-                    </f:SimpleForm>
-                    <f:SimpleForm
-                        id="ticketEditEditForm"
-                        minWidth="1024"
-                        editable="true"
-                        layout="ResponsiveGridLayout"
-                        labelSpanL="3" labelSpanM="3" emptySpanL="4" emptySpanM="4" columnsL="1" columnsM="1">
-                        <f:content>
-                        
-                            <Toolbar>
-                                <Title text="{i18n>TicketEdit.EditFormTitle}" level="H5" titleStyle="H5"/>
-                                <ToolbarSpacer />
-                                <ToggleButton
-                                    id="allowEditBtn"
-                                    icon="sap-icon://edit"
-                                    press="onPressEditForm" />
-                            </Toolbar>
-                            
-                            <Label text="{i18n>Ticket.TicketTitle}" required="true" labelFor="editTicketTitle"/>
-                            <Input
-                                value="{ticketTitle}"
-                                id="editTicketTitle"
-                                editable="false" />
+                id="editTicketPanel"
+                width="auto"
+                class="sapUiResponsiveMargin sapUiNoContentPadding" >
+            <ScrollContainer
+                vertical="true"
+                getParent="true" >
+                <f:Form
+                    id="ticketEditForm">
+                    <f:title>
+                        <core:Title text="{i18n>TicketEdit.ToolbarTitle}" level="H2" />
+                    </f:title>
+                    <f:layout>
+                        <f:ResponsiveGridLayout
+                                columnsXL="2"
+                                columnsL="2"
+                                columnsM="1"
+                                columnsS="1"
+    
+                                labelSpanXL="4"
+                                labelSpanL="3"
+                                labelSpanM="6"
+                                labelSpanS="12"
+    
+                                emptySpanXL="3"
+                                emptySpanL="0"
+                                emptySpanM="0"
+                                emptySpanS="0"
+
+                                adjustLabelSpan="false"
+                                singleContainerFullSize="false" />
+                    </f:layout>
+                    <f:formContainers>
+                        <f:FormContainer>
+
+                            <f:toolbar>
+                                <Toolbar>
+                                    <Title text="{i18n>TicketEdit.FixedFormTitle}"/>
+                                </Toolbar>
+                            </f:toolbar>
+
+                            <f:formElements>
+
+                                <f:FormElement label="{i18n>Ticket.Creator}" >
+                                    <f:fields>
+                                        <Text
+                                            id="editTicketCreatorInput"
+                                            text="{creator_firstName} {creator_lastName}" />
+                                    </f:fields>
+                                </f:FormElement>
+
+                                <f:FormElement label="{i18n>Ticket.DateCreated}" >
+                                    <f:fields>
+                                        <Text
+                                            id="editTicketDateCreatedInput"
+                                            text="{
+                                                path: 'dateCreated',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    style: 'medium'
+                                                }
+                                            }" />
+                                    </f:fields>
+                                </f:FormElement>
+
+                                <f:FormElement label="{i18n>Ticket.DateStarted}" >
+                                    <f:fields>
+                                        <Text
+                                            id="editTicketDateStartedInput"
+                                            text="{
+                                                path: 'dateStarted',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    style: 'medium'
+                                                }
+                                            }" />
+                                    </f:fields>
+                                </f:FormElement>
+
+                                <f:FormElement label="{i18n>Ticket.DateClosed}" >
+                                    <f:fields>
+                                        <Text
+                                            id="editTicketDateClosedInput"
+                                            text="{
+                                                path: 'dateClosed',
+                                                type: 'sap.ui.model.type.Date',
+                                                formatOptions: {
+                                                    style: 'medium'
+                                                }
+                                            }" />
+                                    </f:fields>
+                                </f:FormElement>
+
+                            </f:formElements>
+                        </f:FormContainer>
+                        <f:FormContainer ariaLabelledBy="{i18n>TicketEdit.EditFormTitle}">
+
+                            <f:toolbar>
+                                <Toolbar>
+                                    <Title text="{i18n>TicketEdit.EditFormTitle}"/>
+                                    <ToolbarSpacer/>
+                                    <ToggleButton
+                                        id="allowEditBtn"
+                                        icon="sap-icon://edit"
+                                        press="onPressEditForm" />
+                                </Toolbar>
+                            </f:toolbar>
+
+                            <f:formElements>
+
+                                <f:FormElement label="{i18n>Ticket.TicketTitle}" >
+                                    <f:fields>
+                                        <Input
+                                            value="{ticketTitle}"
+                                            id="editTicketTitle"
+                                            editable="false" />
+                                    </f:fields>
+                                </f:FormElement>
+
+                                <f:FormElement label="{i18n>Ticket.TicketDescription}" >
+                                    <f:fields>
+                                        <TextArea
+                                            value="{ticketDescription}"
+                                            id="editTicketDescription"
+                                            editable="false" />
+                                    </f:fields>
+                                </f:FormElement>
+
+                                <f:FormElement label="{i18n>Ticket.FunctionalArea}" >
+                                    <f:fields>
+                                        <Select
+                                            id="editFuncAreaSelect"
+                                            items="{FuncAreaModel>/FuncAreas}"
+                                            selectedKey="{functionalArea_value}"
+                                            enabled="false" >
+                                            <items>
+                                                <core:Item
+                                                    key="{FuncAreaModel>value}"
+                                                    text="{FuncAreaModel>description}"
+                                                />
+                                            </items>
+                                        </Select>
+                                    </f:fields>
+                                </f:FormElement>
     						
-                            <Label text="{i18n>Ticket.TicketDescription}" required="true" labelFor="editTicketDescription"/>
-                            <TextArea
-                                value="{ticketDescription}"
-                                id="editTicketDescription"
-                                editable="false" />
-    						
-                            <Label text="{i18n>Ticket.FunctionalArea}" required="true" labelFor="editFuncAreaSelect"/>
-                            <Select
-                                id="editFuncAreaSelect"
-                                items="{FuncAreaModel>/FuncAreas}"
-                                selectedKey="{functionalArea_value}"
-                                enabled="false" >
-                                <items>
-                                    <core:Item
-                                        key="{FuncAreaModel>value}"
-                                        text="{FuncAreaModel>description}"
-                                    />
-                                </items>
-                            </Select>
-    						
-                            <Label text="{i18n>Ticket.Assignee}" required="true" labelFor="editAssigneeInput" />
-                            <ComboBox
-                                id="editAssigneeInput"
-                                type="Text"
-                                showSuggestion="true"
-                                items="{UserModel>/Users}"
-                                selectedKey="{assignee_userId}"
-                                editable="false"
-                                showSecondaryValues= "true"
-                                filterSecondaryValues= "true" >
-                                <items>
-                                    <core:ListItem
-                                        key="{UserModel>userId}"
-                                        text="{UserModel>firstName} {UserModel>lastName}"
-                                        additionalText="{UserModel>userId}"
-                                        />
-                                </items>
-                            </ComboBox>
+                                <f:FormElement label="{i18n>Ticket.Assignee}" >
+                                    <f:fields>
+                                        <ComboBox
+                                            id="editAssigneeInput"
+                                            type="Text"
+                                            showSuggestion="true"
+                                            items="{UserModel>/Users}"
+                                            selectedKey="{assignee_userId}"
+                                            editable="false"
+                                            showSecondaryValues= "true"
+                                            filterSecondaryValues= "true" >
+                                            <items>
+                                                <core:ListItem
+                                                    key="{UserModel>userId}"
+                                                    text="{UserModel>firstName} {UserModel>lastName}"
+                                                    additionalText="{UserModel>userId}"
+                                                    />
+                                            </items>
+                                        </ComboBox>
+                                    </f:fields>
+                                </f:FormElement>
 	
-                            <Label text="{i18n>Ticket.TicketStatus}" required="true" labelFor="editTicketStatusSelect"/>
-                            <Select
-                                id="editTicketStatusSelect"
-                                items="{TicketStatusModel>/TicketStatuses}"
-                                selectedKey="{ticketStatus_value}"
-                                enabled="false" >
-                                <items>
-                                    <core:Item
-                                        key="{TicketStatusModel>value}"
-                                        text="{TicketStatusModel>description}" />
-                                </items>
-                            </Select>
-    						
-                            <Label text="{i18n>Ticket.TicketPriority}" required="true" labelFor="editTicketPrioritySelect" />
-                            <Select
-                                id="editTicketPrioritySelect"
-                                items="{TicketPriorityModel>/TicketPriorities}"
-                                selectedKey="{ticketPriority_value}"
-                                enabled="false" >
-                                <items>
-                                    <core:Item
-                                        key="{TicketPriorityModel>value}"
-                                        text="{TicketPriorityModel>description}"
-                                    />
-                                </items>
-                            </Select>
-                        </f:content>
-                    </f:SimpleForm>
-                </ScrollContainer>
+                                <f:FormElement label="{i18n>Ticket.TicketStatus}" >
+                                    <f:fields>
+                                        <Select
+                                            id="editTicketStatusSelect"
+                                            items="{TicketStatusModel>/TicketStatuses}"
+                                            selectedKey="{ticketStatus_value}"
+                                            enabled="false" >
+                                            <items>
+                                                <core:Item
+                                                    key="{TicketStatusModel>value}"
+                                                    text="{TicketStatusModel>description}" />
+                                            </items>
+                                        </Select>
+                                    </f:fields>
+                                </f:FormElement>
+
+                                <f:FormElement label="{i18n>Ticket.TicketPriority}" >
+                                    <f:fields>
+                                        <Select
+                                            id="editTicketPrioritySelect"
+                                            items="{TicketPriorityModel>/TicketPriorities}"
+                                            selectedKey="{ticketPriority_value}"
+                                            enabled="false" >
+                                            <items>
+                                                <core:Item
+                                                    key="{TicketPriorityModel>value}"
+                                                    text="{TicketPriorityModel>description}"
+                                                />
+                                            </items>
+                                        </Select>
+                                    </f:fields>
+                                </f:FormElement>
+                            </f:formElements>
+                        </f:FormContainer>
+                    </f:formContainers>
+                </f:Form>
+            </ScrollContainer>
 		</Panel>
 		<footer>
 			<OverflowToolbar id="TicketEditFooter">
