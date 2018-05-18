@@ -40,9 +40,17 @@ sap.ui.define([
          */
         updateTicketList : function () {
             //build filter array
-            aFilters = [new Filter("ticketStatus_description", sap.ui.model.FilterOperator.NE, 'Closed')];
+            aFilters = this.getDefaultFilter();
             //update filter
             oTicketListItemsBinding.filter(aFilters, "Application");
+		},
+		/**
+         * This function returns the default filter to avoid (and keeps it in one place within this controller)
+         * @private
+         * @returns {sap.ui.model.Filter} the default filter for the ticketList
+         */
+		getDefaultFilter : function() {
+            return [new Filter("ticketStatus_description", sap.ui.model.FilterOperator.NE, 'Closed')];
 		},
 		/**
          * This function handles the liveChange filter of the tickets (shows closed tickets also on search).
@@ -66,8 +74,7 @@ sap.ui.define([
                 aFilters = [orFilter];
             }
             if (sQuery.length === 0) {
-                aFilters = [];
-                aFilters.push(new Filter("ticketStatus_description", sap.ui.model.FilterOperator.NE, 'Closed'));
+                aFilters = this.getDefaultFilter();
             }
             //bind filter
             if (!ticketList) {

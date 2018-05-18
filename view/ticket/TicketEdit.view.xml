@@ -32,19 +32,21 @@
                     </f:title>
                     <f:layout>
                         <f:ResponsiveGridLayout
+                        
                                 columnsXL="2"
-                                columnsL="2"
-                                columnsM="1"
-                                columnsS="1"
-    
                                 labelSpanXL="4"
-                                labelSpanL="3"
-                                labelSpanM="6"
-                                labelSpanS="12"
-    
                                 emptySpanXL="3"
+                                
+                                columnsL="2"
+                                labelSpanL="3"
                                 emptySpanL="0"
+                                
+                                columnsM="1"
+                                labelSpanM="4"
                                 emptySpanM="0"
+                                
+                                columnsS="1"
+                                labelSpanS="12"
                                 emptySpanS="0"
 
                                 adjustLabelSpan="false"
@@ -65,7 +67,8 @@
                                     <f:fields>
                                         <Text
                                             id="editTicketCreatorInput"
-                                            text="{creator_firstName} {creator_lastName}" />
+                                            text="{creator_firstName} {creator_lastName}"
+                                            editable="false" />
                                     </f:fields>
                                 </f:FormElement>
 
@@ -73,6 +76,7 @@
                                     <f:fields>
                                         <Text
                                             id="editTicketDateCreatedInput"
+                                            editable="false" 
                                             text="{
                                                 path: 'dateCreated',
                                                 type: 'sap.ui.model.type.Date',
@@ -87,6 +91,7 @@
                                     <f:fields>
                                         <Text
                                             id="editTicketDateStartedInput"
+                                            editable="false" 
                                             text="{
                                                 path: 'dateStarted',
                                                 type: 'sap.ui.model.type.Date',
@@ -101,6 +106,7 @@
                                     <f:fields>
                                         <Text
                                             id="editTicketDateClosedInput"
+                                            editable="false" 
                                             text="{
                                                 path: 'dateClosed',
                                                 type: 'sap.ui.model.type.Date',
@@ -123,6 +129,7 @@
                                         id="allowEditBtn"
                                         icon="sap-icon://edit"
                                         press="onPressEditForm" />
+                                        <!-- editable="true" /> -->
                                 </Toolbar>
                             </f:toolbar>
 
@@ -132,8 +139,7 @@
                                     <f:fields>
                                         <Input
                                             value="{ticketTitle}"
-                                            id="editTicketTitle"
-                                            editable="false" />
+                                            id="editTicketTitle" />
                                     </f:fields>
                                 </f:FormElement>
 
@@ -141,8 +147,7 @@
                                     <f:fields>
                                         <TextArea
                                             value="{ticketDescription}"
-                                            id="editTicketDescription"
-                                            editable="false" />
+                                            id="editTicketDescription" />
                                     </f:fields>
                                 </f:FormElement>
 
@@ -151,8 +156,7 @@
                                         <Select
                                             id="editFuncAreaSelect"
                                             items="{FuncAreaModel>/FuncAreas}"
-                                            selectedKey="{functionalArea_value}"
-                                            enabled="false" >
+                                            selectedKey="{functionalArea_value}" >
                                             <items>
                                                 <core:Item
                                                     key="{FuncAreaModel>value}"
@@ -171,7 +175,6 @@
                                             showSuggestion="true"
                                             items="{UserModel>/Users}"
                                             selectedKey="{assignee_userId}"
-                                            editable="false"
                                             showSecondaryValues= "true"
                                             filterSecondaryValues= "true" >
                                             <items>
@@ -190,8 +193,7 @@
                                         <Select
                                             id="editTicketStatusSelect"
                                             items="{TicketStatusModel>/TicketStatuses}"
-                                            selectedKey="{ticketStatus_value}"
-                                            enabled="false" >
+                                            selectedKey="{ticketStatus_value}" >
                                             <items>
                                                 <core:Item
                                                     key="{TicketStatusModel>value}"
@@ -206,8 +208,7 @@
                                         <Select
                                             id="editTicketPrioritySelect"
                                             items="{TicketPriorityModel>/TicketPriorities}"
-                                            selectedKey="{ticketPriority_value}"
-                                            enabled="false" >
+                                            selectedKey="{ticketPriority_value}" >
                                             <items>
                                                 <core:Item
                                                     key="{TicketPriorityModel>value}"

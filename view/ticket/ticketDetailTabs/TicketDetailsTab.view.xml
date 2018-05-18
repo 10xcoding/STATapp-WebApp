@@ -41,18 +41,19 @@
             layout="ResponsiveGridLayout"
 
                 columnsXL="2"
-                columnsL="2"
-                columnsM="1"
-                columnsS="1"
-
                 labelSpanXL="4"
+                emptySpanXL="3"
+                
+                columnsL="2"
                 labelSpanL="3"
-                labelSpanM="6"
-                labelSpanS="12"
-
-                emptySpanXL="4"
                 emptySpanL="0"
+                
+                columnsM="1"
+                labelSpanM="4"
                 emptySpanM="0"
+                
+                columnsS="1"
+                labelSpanS="12"
                 emptySpanS="0"
                 
                 adjustLabelSpan="false"
