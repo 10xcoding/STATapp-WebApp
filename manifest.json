@@ -208,7 +208,7 @@
 				},
 				"ticketTabDetails": {
 					"parent": "ticketDetails",
-					"viewPath": "statapp.view.ticket",
+					"viewPath": "statapp.view.ticket.ticketDetailTabs",
 					"viewName": "ticket.TicketDetailsTab",
 					"viewId": "ticketTabDetailsId",
 					"controlId": "detailsTab",
@@ -216,15 +216,15 @@
 				},
 				"ticketTabComments": {
 					"parent": "ticketDetails",
-					"viewPath": "statapp.view.ticket",
+					"viewPath": "statapp.view.ticket.ticketDetailTabs",
 					"viewName": "ticket.TicketCommentsTab",
 					"controlId": "commentsTab",
 					"controlAggregation": "content"
 				},
 				"ticketTabAttachements": {
 					"parent": "ticketDetails",
-					"viewPath": "sap.ui.demo.nav.view.employee",
-					"viewName": "ticket.TicketAttachmentsTab",
+					"viewPath": "statapp.view.ticket",
+					"viewName": "ticket.TicketAttachmentsTab.ticketDetailTabs",
 					"controlId": "attachmentsTab",
 					"controlAggregation": "content"
 				}

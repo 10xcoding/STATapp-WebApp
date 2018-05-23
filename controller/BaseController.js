@@ -4,7 +4,7 @@ sap.ui.define([
 ], function (Controller, History) {
 	"use strict";
 	return Controller.extend("statapp.controller.BaseController", {
-	    /**
+        /**
          * This function returns the router for the baseController
          *
          * @private
@@ -29,20 +29,20 @@ sap.ui.define([
 			}
 		},
 		/**
-		 * Convenience method for getting the view model by name in every controller of the application.
-		 * @public
-		 * @param {string} sName the model name
-		 * @returns {sap.ui.model.Model} the model instance
-		 */
+         * Convenience method for getting the view model by name in every controller of the application.
+         * @public
+         * @param {string} sName the model name
+         * @returns {sap.ui.model.Model} the model instance
+         */
 		getModel: function(sName) {
 			return this.getView().getModel(sName) || this.getOwnerComponent().getModel(sName);
 		},
 		/**
-		 * Convenience method for refreshing the view model in every controller of the application.
-		 * @public
-		 * @param {sap.ui.model.Model} oModel the model instance
-		 * @param {string} sName the model name
-		 */
+         * Convenience method for refreshing the view model in every controller of the application.
+         * @public
+         * @param {sap.ui.model.Model} oModel the model instance
+         * @param {string} sName the model name
+         */
 		refreshModel: function(oModel, sName) {
 			this.getView().setModel(oModel, sName).refresh();
 		}
