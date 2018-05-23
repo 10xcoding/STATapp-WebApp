@@ -223,8 +223,8 @@
 				},
 				"ticketTabAttachements": {
 					"parent": "ticketDetails",
-					"viewPath": "statapp.view.ticket",
-					"viewName": "ticket.TicketAttachmentsTab.ticketDetailTabs",
+					"viewPath": "statapp.view.ticket.ticketDetailTabs",
+					"viewName": "ticket.TicketAttachmentsTab",
 					"controlId": "attachmentsTab",
 					"controlAggregation": "content"
 				}
