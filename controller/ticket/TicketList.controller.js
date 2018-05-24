@@ -35,6 +35,14 @@ sap.ui.define([
             aFilters = [new Filter("ticketStatus_description", sap.ui.model.FilterOperator.NE, 'Closed')];
         },
         /**
+         * This function is called after the view is rendered
+         * @private
+         */
+        onAfterRendering : function() {
+            // Subscribe to event buses
+            this.saveTicketListBinding();
+        },
+        /**
          * This function is a callback (eventbus) function which updates the open ticket ticket list if any changes have been made.
          * @private
          */
@@ -90,10 +98,9 @@ sap.ui.define([
          */
 		onTicketListItemPress : function(oEvent) {
             this.saveTicketListBinding();
-			var selectedPath = oEvent.getSource().getBindingContext().sPath; // selectedPath = "/Tickets('STT0001111')"
-			var ticketId = selectedPath.slice(-12,-2); //TODO: get without slice?
+			var oItemId = oEvent.getSource().getCustomData()[0].getValue("itemId");
 			this.getRouter().navTo("ticket", {
-				ticketId : ticketId
+				ticketId : oItemId
 			});
 		},
         /**

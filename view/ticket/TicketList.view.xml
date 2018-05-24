@@ -4,6 +4,7 @@
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
     xmlns:mvc="sap.ui.core.mvc"
+    xmlns:data="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 	xmlns:l="sap.ui.layout" >
     
     <Page id="ticketListPage" title="{i18n>TicketList.Title}"
@@ -41,6 +42,7 @@
                 noDataText="No tickets found" >
                 <items>
                     <CustomListItem
+                        data:itemId="{ticketId}"
                         type="Active"
                         press="onTicketListItemPress"
                         highlight="{

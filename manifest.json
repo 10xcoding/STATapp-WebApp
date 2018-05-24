@@ -209,7 +209,7 @@
 				"ticketTabDetails": {
 					"parent": "ticketDetails",
 					"viewPath": "statapp.view.ticket.ticketDetailTabs",
-					"viewName": "ticket.TicketDetailsTab",
+					"viewName": "TicketDetailsTab",
 					"viewId": "ticketTabDetailsId",
 					"controlId": "detailsTab",
 					"controlAggregation": "content"
@@ -217,14 +217,14 @@
 				"ticketTabComments": {
 					"parent": "ticketDetails",
 					"viewPath": "statapp.view.ticket.ticketDetailTabs",
-					"viewName": "ticket.TicketCommentsTab",
+					"viewName": "TicketCommentsTab",
 					"controlId": "commentsTab",
 					"controlAggregation": "content"
 				},
 				"ticketTabAttachements": {
 					"parent": "ticketDetails",
 					"viewPath": "statapp.view.ticket.ticketDetailTabs",
-					"viewName": "ticket.TicketAttachmentsTab",
+					"viewName": "TicketAttachmentsTab",
 					"controlId": "attachmentsTab",
 					"controlAggregation": "content"
 				}

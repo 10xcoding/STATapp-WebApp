@@ -7,21 +7,6 @@ sap.ui.define([
 	var oEventBus;              // EventBus object (handles response to actions on other pages)
 	var ticketEditForm;         // form object
 	return BaseController.extend("statapp.controller.ticket.TicketEdit", {
-// 		/**
-// 		 * TODO: overload onNavBack to verify (if edit button is selected)
-//          * This function handles navigating back (from a back button push)
-//          * @private
-//          */
-// 		onNavBack: function () {
-// 			var oHistory, sPreviousHash;
-// 			oHistory = BaseController.History.getInstance();
-// 			sPreviousHash = oHistory.getPreviousHash(); // TODO: go back one breadcrumb instead of one history
-// 			if (sPreviousHash !== undefined) {
-// 				window.history.go(-1);
-// 			} else {
-// 				this.getRouter().navTo("appHome", {}, false /*no history*/);
-// 			}
-// 		},
         /**
          * This function is the initialization function (called on initialization of the view)
          * @private
@@ -30,7 +15,7 @@ sap.ui.define([
 			// Router
 			var oRouter = this.getRouter();
 			oRouter.getRoute("ticketEdit").attachMatched(this._onRouteMatched, this);
-
+            
 			// Subscribe to event buses
 			if (!oEventBus) {
 				oEventBus = sap.ui.getCore().getEventBus();
@@ -76,6 +61,7 @@ sap.ui.define([
          */
 		onAfterRendering: function() {
             this.updateFields();
+            
 		},
         /**
          * This function is upon exiting the page
@@ -110,7 +96,7 @@ sap.ui.define([
 			var userTicketPriorityValue = this.getView().byId("editTicketPrioritySelect").getProperty("selectedKey");
 
 			if (userTicketTitle === "" || userTicketDescription === "" || userTicketAssigneeId === "") {
-				MessageToast.show("Please fill in all required fields!", {
+				MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("TicketEdit.Validation"), {
 					closeOnBrowserNavigation: false
 				});
 			} else {
@@ -138,10 +124,11 @@ sap.ui.define([
          */
 		updateTicket: function(ticketJSO) {
 			var oParams = {};
+			var i18nResBundle = this.getView().getModel("i18n").getResourceBundle();
 			oParams.success = function() {
-				MessageToast.show("Changes saved!", {
-					closeOnBrowserNavigation: false
-				});
+                MessageToast.show(i18nResBundle.getText("TicketEdit.SaveSuccess"), {
+                    closeOnBrowserNavigation: false
+                });
 				if (!oEventBus) {
 					oEventBus = sap.ui.getCore().getEventBus();
 				}
@@ -152,9 +139,9 @@ sap.ui.define([
 				oEventBus.publish("ticketDetailsChannel", "setCloseTicketButton");
 			};
 			oParams.error = function() {
-				MessageToast.show("Error occured when updating ticket,\nno changes saved", {
-					closeOnBrowserNavigation: false
-				});
+                MessageToast.show(i18nResBundle.getText("TicketEdit.SaveError"), {
+                    closeOnBrowserNavigation: false
+                });
 			};
 			oParams.bMerge = true;
 			this.getView().getModel().update("/UpdateTicket('" + currentTicketId + "')", ticketJSO, oParams);

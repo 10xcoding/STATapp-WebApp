@@ -29,9 +29,9 @@ sap.ui.define([
             var userTicketPriorityValue = this.getView().byId("newTicketPrioritySelect").getProperty("selectedKey");
             if (userTicketTitle === "" || userTicketDescription === "" || userFunctionalAreaValue === "" ||
                     userAssigneeValue === "" || userTicketPriorityValue === "") {
-                MessageToast.show("Please fill in all required fields!", {
-                    closeOnBrowserNavigation: false }
-                );
+				MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("NewTicket.Validation"), {
+					closeOnBrowserNavigation: false
+				});
             } else {
                 //Context data
                 var currUserCreator = "STU0000002"; // TODO: GET USER FROM CONTEXT
@@ -66,8 +66,9 @@ sap.ui.define([
 		},
         addNewTicket : function(ticketJSO) {
             var oParams = {};
+            var i18nResBundle = this.getView().getModel("i18n").getResourceBundle();
             oParams.success = function(){
-                MessageToast.show("New ticket has been successfully created", {
+                MessageToast.show(i18nResBundle.getText("NewTicket.Success"), {
                     closeOnBrowserNavigation: false
                 });
                 if (!oEventBus) {
@@ -77,7 +78,7 @@ sap.ui.define([
                 oEventBus.publish("newTicketChannel", "clearFields");
             };
             oParams.error = function(){
-                MessageToast.show("Error occured when creating ticket", {
+                MessageToast.show(i18nResBundle.getText("NewTicket.Error"), {
                     closeOnBrowserNavigation: false
                 });
             };

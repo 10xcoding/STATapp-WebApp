@@ -3,7 +3,8 @@ sap.ui.define([
 	,"sap/ui/model/json/JSONModel"
 	,"sap/ui/core/Fragment"
 	,"jquery.sap.global"
-], function (BaseController, JSONModel, Fragment, jQuery) {
+	,"statapp/model/formatter"
+], function (BaseController, JSONModel, Fragment, jQuery, formatter) {
 	"use strict";
 	var _aValidTabKeys = ["Details", "Comments", "Attachments"];    // Tab list
 	var oViews;                                                     // Page view object
@@ -13,6 +14,7 @@ sap.ui.define([
 	var oStartTicketButton, oCloseTicketButton;                     // start/close button objects
 	var oEventBus;                                                  // EventBus object (handles response to actions on other pages)
 	return BaseController.extend("statapp.controller.ticket.TicketDetails", {
+	    formatter : formatter,
         /*******************************/
         /***  ROUTE/BINDING/LOADING  ***/
         /*******************************/
@@ -78,6 +80,13 @@ sap.ui.define([
 				this.getRouter().getTargets().display("notFound");
 			}
 		},
+		/**
+         * This function handles actions immediatelty after the view is rendered
+         */
+		onAfterRendering : function() {
+            // this.setStartTicketButton();
+            // this.setCloseTicketButton();
+		},
         /**
          * This function is used for navigation between tabs
          * @private
@@ -141,19 +150,20 @@ sap.ui.define([
          * @private
          */
 		onPressStartTicket : function () {
+            var i18nResBundle = this.getView().getModel("i18n").getResourceBundle();
             //Set button as unclickable
             if (!oStartTicketButton) {
                 oStartTicketButton = this.getView().byId("startTicketButton");
             }
             oStartTicketButton.setEnabled(false);
             //Confirm selection
-            if (confirm("Ticket start date cannot be changed after ticket is started. Continue?") == true) {
+            if (confirm(this.getView().getModel("i18n").getResourceBundle().getText("TicketDetails.StartTicketConfirm")) === true) {
                 //oData Service
                 var oParams = {};
-                oParams.success = function(){
-                    sap.m.MessageToast.show("Ticket Started!", {
-                        closeOnBrowserNavigation: false }
-                    );
+                oParams.success = function() {
+                    sap.m.MessageToast.show(i18nResBundle.getText("TicketDetails.StartTicketSuccess"), {
+                        closeOnBrowserNavigation: false
+                    });
                     if (!oEventBus) {
                         oEventBus = sap.ui.getCore().getEventBus();
                     }
@@ -163,9 +173,9 @@ sap.ui.define([
                     oEventBus.publish("ticketEditChannel", "updateFields");
                 };
                 oParams.error = function(){
-                    sap.m.MessageToast.show("Error occured when updating,\nno changes saved", {
-                        closeOnBrowserNavigation: false }
-                    );
+                    sap.m.MessageToast.show(i18nResBundle.getText("TicketDetails.StartTicketError"), {
+                        closeOnBrowserNavigation: false
+                    });
                     if (!oEventBus) {
                         oEventBus = sap.ui.getCore().getEventBus();
                     }
@@ -180,19 +190,20 @@ sap.ui.define([
          * @private
          */
         onPressCloseTicket : function () {
+            var i18nResBundle = this.getView().getModel("i18n").getResourceBundle();
             //Set button as unclickable
             if (oCloseTicketButton === undefined) {
                 oCloseTicketButton = this.getView().byId("closeTicketButton");
             }
             oCloseTicketButton.setEnabled(false);
             //Confirm selection
-            if (confirm("Ticket close date cannot be changed after ticket is closed. Continue?") == true) {
+            if (confirm(this.getView().getModel("i18n").getResourceBundle().getText("TicketDetails.CloseTicketConfirm")) === true) {
                 //oData Service
                 var oParams = {};
-                oParams.success = function(){
-                    sap.m.MessageToast.show("Ticket Closed!", {
-                        closeOnBrowserNavigation: false }
-                    );
+                oParams.success = function() {
+                    sap.m.MessageToast.show(i18nResBundle.getText("TicketDetails.CloseTicketSuccess"), {
+                        closeOnBrowserNavigation: false
+                    });
                     if (!oEventBus) {
                         oEventBus = sap.ui.getCore().getEventBus();
                     }
@@ -201,10 +212,10 @@ sap.ui.define([
                     oEventBus.publish("ticketDetailsChannel", "updateFields");
                     oEventBus.publish("ticketEditChannel", "updateFields");
                 };
-                oParams.error = function(){
-                    sap.m.MessageToast.show("Error occured when updating,\nno changes saved", {
-                        closeOnBrowserNavigation: false }
-                    );
+                oParams.error = function() {
+                    sap.m.MessageToast.show(i18nResBundle.getText("TicketDetails.CloseTicketError"), {
+                        closeOnBrowserNavigation: false
+                    });
                     if (!oEventBus) {
                         oEventBus = sap.ui.getCore().getEventBus();
                     }
@@ -249,8 +260,9 @@ sap.ui.define([
             //Context data
             var currUser = "STU0000002"; // TODO: GET USER FROM CONTEXT
             if (userCommentText === "" || currentTicketId === "" || currUser === "") {
-                sap.m.MessageToast.show("Something went wrong. Please try again later.", {
-                    closeOnBrowserNavigation: false });
+                sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("TicketDetails.Comments.Validation"), {
+					closeOnBrowserNavigation: false
+				});
             } else {
                 //Define defaults
                 var defaultCommentId = "X"; // Req'd for create, but a new id is generated in hdbprocedure from hdbsequence
@@ -272,17 +284,20 @@ sap.ui.define([
          */
 		addNewComment : function(commentsJSO) {
             var oParams = {};
-            oParams.success = function(){
-                sap.m.MessageToast.show("Comment posted!");
+            var i18nResBundle = this.getView().getModel("i18n").getResourceBundle();
+            oParams.success = function() {
+                sap.m.MessageToast.show(i18nResBundle.getText("TicketDetails.Comments.Success"), {
+					closeOnBrowserNavigation: false
+				});
                 if (!oEventBus) {
                     oEventBus = sap.ui.getCore().getEventBus();
                 }
                 oEventBus.publish("ticketDetailsChannel", "updateFields");
             };
-            oParams.error = function(){
-                sap.m.MessageToast.show("Error occured when posting comment", {
-                    closeOnBrowserNavigation: false }
-                );
+            oParams.error = function() {
+                sap.m.MessageToast.show(i18nResBundle.getText("TicketDetails.Comments.Error"), {
+					closeOnBrowserNavigation: false
+				});
             };
             oParams.bMerge = true;
             this.getView().getModel().create("/CreateComment", commentsJSO, oParams );
@@ -313,7 +328,7 @@ sap.ui.define([
          * @private
          */
 		openQuickView : function (oCommentModel, oSenderDomRef) {
-			this.createPopover(oCommentModel);
+			this.createPopover();
 			this._oQuickView.setModel(oCommentModel);
 			// delay because addDependent will do a async rerendering and the actionSheet will immediately close without it.
 			jQuery.sap.delayedCall(10, this, function () {
